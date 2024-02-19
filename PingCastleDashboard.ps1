@@ -109,8 +109,8 @@ New-Html -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
             $old = ($comp | Where-Object {$_.SideIndicator -eq '=>'}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
             $new = ($comp | Where-Object {$_.SideIndicator -eq '<='}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
         
-            New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex 0 -PreContent 'The following risk rules have been solved since the last reports (improvement)'
-            New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex 0 -PreContent 'The following risk rules have been discovered since the last reports (deterioration)'
+            New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex 0
+            New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex 0
         
         }
 
