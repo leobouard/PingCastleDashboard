@@ -1,0 +1,1382 @@
+<HealthcheckData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<EngineVersion>2.9.0.0 Beta</EngineVersion>
+<GenerationDate>2021-02-25T17:42:35.2390914+02:00</GenerationDate>
+<Level>Normal</Level>
+<MaturityLevel>1</MaturityLevel>
+<DomainFQDN>test.mysmartlogon.com</DomainFQDN>
+<NetBIOSName>TEST</NetBIOSName>
+<ForestFQDN>test.mysmartlogon.com</ForestFQDN>
+<DomainCreation>2012-03-03T18:12:40</DomainCreation>
+<DomainSid>S-1-5-21-4005144719-3948538632-2546531719</DomainSid>
+<DomainFunctionalLevel>4</DomainFunctionalLevel>
+<ForestFunctionalLevel>4</ForestFunctionalLevel>
+<SchemaVersion>47</SchemaVersion>
+<SchemaInternalVersion>3</SchemaInternalVersion>
+<IsRecycleBinEnabled>true</IsRecycleBinEnabled>
+<SchemaLastChanged>2019-03-22T22:12:38+01:00</SchemaLastChanged>
+<NumberOfDC>2</NumberOfDC>
+<GlobalScore>100</GlobalScore>
+<StaleObjectsScore>46</StaleObjectsScore>
+<PrivilegiedGroupScore>100</PrivilegiedGroupScore>
+<TrustScore>25</TrustScore>
+<AnomalyScore>59</AnomalyScore>
+<Trusts>
+<HealthCheckTrustData>
+<TrustPartner>mil</TrustPartner>
+<TrustAttributes>1</TrustAttributes>
+<TrustDirection>2</TrustDirection>
+<TrustType>3</TrustType>
+<CreationDate>2014-06-09T12:49:20</CreationDate>
+<IsActive>false</IsActive>
+</HealthCheckTrustData>
+<HealthCheckTrustData>
+<TrustPartner>test4.mysmartlogon.com</TrustPartner>
+<TrustAttributes>8</TrustAttributes>
+<TrustDirection>1</TrustDirection>
+<TrustType>2</TrustType>
+<CreationDate>2019-04-06T21:53:36</CreationDate>
+<IsActive>false</IsActive>
+<SID>S-1-5-21-11-22-55</SID>
+</HealthCheckTrustData>
+</Trusts>
+<DomainControllers>
+<HealthcheckDomainController>
+<DCName>WIN-PGAHI2ECI8E</DCName>
+<CreationDate>2012-03-03T18:17:15</CreationDate>
+<StartupTime>2020-04-12T16:00:12.3156137+02:00</StartupTime>
+<LastComputerLogonDate>2020-08-25T17:41:43.4470004+02:00</LastComputerLogonDate>
+<DistinguishedName>CN=WIN-PGAHI2ECI8E,OU=Domain Controllers,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<OperatingSystem>Windows 2008</OperatingSystem>
+<OwnerSID>S-1-5-21-4005144719-3948538632-2546531719-512</OwnerSID>
+<OwnerName>TEST\Domain Admins</OwnerName>
+<HasNullSession>true</HasNullSession>
+<SupportSMB1>true</SupportSMB1>
+<SMB1SecurityMode>None</SMB1SecurityMode>
+<SupportSMB2OrSMB3>true</SupportSMB2OrSMB3>
+<SMB2SecurityMode>SmbSigningEnabled SmbSigningRequired</SMB2SecurityMode>
+<RemoteSpoolerDetected>false</RemoteSpoolerDetected>
+<IP>
+<string>192.168.0.25</string>
+</IP>
+<FSMO>
+<string>PDC</string>
+<string>RID pool manager</string>
+<string>Infrastructure master</string>
+<string>Schema master</string>
+<string>Domain naming Master</string>
+</FSMO>
+<LDAPSProtocols>
+<string>Ssl2</string>
+<string>Ssl3</string>
+<string>Tls</string>
+</LDAPSProtocols>
+<PwdLastSet>2020-08-25T17:41:43.7122009+02:00</PwdLastSet>
+<Delegations>
+<delegation Delegate="ADIANT-VIRTUAL-" DelegateSid="S-1-5-21-4005144719-3948538632-2546531719-1133" DelegationType="msDS_Allowed_To_Delegate_To"/>
+</Delegations>
+<RODC>false</RODC>
+<SYSVOLOverwrite>false</SYSVOLOverwrite>
+</HealthcheckDomainController>
+<HealthcheckDomainController>
+<DCName>ADIANT-A7B9AAC6</DCName>
+<CreationDate>2013-04-01T10:10:33</CreationDate>
+<StartupTime>0001-01-01T00:00:00</StartupTime>
+<LastComputerLogonDate>2018-11-09T07:29:04.7776954+01:00</LastComputerLogonDate>
+<DistinguishedName>CN=ADIANT-A7B9AAC6,CN=Computers,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<OperatingSystem>Windows XP</OperatingSystem>
+<OwnerSID>S-1-5-21-4005144719-3948538632-2546531719-500</OwnerSID>
+<OwnerName>TEST\Administrator</OwnerName>
+<HasNullSession>false</HasNullSession>
+<SupportSMB1>false</SupportSMB1>
+<SMB1SecurityMode>NotTested</SMB1SecurityMode>
+<SupportSMB2OrSMB3>false</SupportSMB2OrSMB3>
+<SMB2SecurityMode>NotTested</SMB2SecurityMode>
+<RemoteSpoolerDetected>false</RemoteSpoolerDetected>
+<IP/>
+<PwdLastSet>2018-11-09T07:29:04.8088954+01:00</PwdLastSet>
+<RegistrationProblem>InvalidUserAccount NoConfiguration</RegistrationProblem>
+<RODC>false</RODC>
+<SYSVOLOverwrite>false</SYSVOLOverwrite>
+</HealthcheckDomainController>
+</DomainControllers>
+<Sites>
+<HealthcheckSite>
+<SiteName>Default-First-Site-Name</SiteName>
+<Description>description</Description>
+<Location>paris</Location>
+<Networks>
+<string>192.168.0.0/24</string>
+</Networks>
+</HealthcheckSite>
+</Sites>
+<PreWindows2000AnonymousAccess>true</PreWindows2000AnonymousAccess>
+<PreWindows2000NoDefault>true</PreWindows2000NoDefault>
+<DsHeuristicsAnonymousAccess>false</DsHeuristicsAnonymousAccess>
+<DsHeuristicsAdminSDExMaskModified>false</DsHeuristicsAdminSDExMaskModified>
+<DsHeuristicsDoListObject>false</DsHeuristicsDoListObject>
+<DsHeuristicsAllowAnonNSPI>false</DsHeuristicsAllowAnonNSPI>
+<UsingNTFRSForSYSVOL>false</UsingNTFRSForSYSVOL>
+<RiskRules>
+<HealthcheckRiskRule>
+<Points>45</Points>
+<Category>PrivilegedAccounts</Category>
+<Model>ACLCheck</Model>
+<RiskId>P-DelegationGPOData</RiskId>
+<Rationale>Number of GPO items that can be modified by any user: 3</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>30</Points>
+<Category>Anomalies</Category>
+<Model>PassTheCredential</Model>
+<RiskId>A-SmartCardRequired</RiskId>
+<Rationale>Number of account(s) using a smart card whose password is not changed: 1</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>25</Points>
+<Category>PrivilegedAccounts</Category>
+<Model>ControlPath</Model>
+<RiskId>P-ControlPathIndirectEveryone</RiskId>
+<Rationale>Everyone can take control of a key domain object by abusing targeted permissions.</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>20</Points>
+<Category>Trusts</Category>
+<Model>TrustInactive</Model>
+<RiskId>T-Inactive</RiskId>
+<Rationale>At least one inactive trust has been found: 2</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>15</Points>
+<Category>StaleObjects</Category>
+<Model>ObjectConfig</Model>
+<RiskId>S-C-PrimaryGroup</RiskId>
+<Rationale>Presence of wrong primary group for computers: 1</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>15</Points>
+<Category>StaleObjects</Category>
+<Model>VulnerabilityManagement</Model>
+<RiskId>S-DC-NotUpdated</RiskId>
+<Rationale>Number of DC not updated = 1</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>10</Points>
+<Category>Anomalies</Category>
+<Model>WeakPassword</Model>
+<RiskId>A-MinPwdLen</RiskId>
+<Rationale>Policy where the password length is less than 8 characters: 2</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>10</Points>
+<Category>PrivilegedAccounts</Category>
+<Model>AccountTakeOver</Model>
+<RiskId>P-AdminPwdTooOld</RiskId>
+<Rationale>Number of admin with a password older than 3 years: 5</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>5</Points>
+<Category>StaleObjects</Category>
+<Model>InactiveUserOrComputer</Model>
+<RiskId>S-DC-Inactive</RiskId>
+<Rationale>Number of DC inactive: 1</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>10</Points>
+<Category>Anomalies</Category>
+<Model>CertificateTakeOver</Model>
+<RiskId>A-DCLdapsProtocol</RiskId>
+<Rationale>At least one DC uses a weak SSL protocol for server side purposes.</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>10</Points>
+<Category>PrivilegedAccounts</Category>
+<Model>IrreversibleChange</Model>
+<RiskId>P-SchemaAdmin</RiskId>
+<Rationale>The group Schema Admins is not empty: 2 account(s)</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>5</Points>
+<Category>PrivilegedAccounts</Category>
+<Model>ACLCheck</Model>
+<RiskId>P-DNSAdmin</RiskId>
+<Rationale>Number of members of the Dns Admins group: 1</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>5</Points>
+<Category>PrivilegedAccounts</Category>
+<Model>AccountTakeOver</Model>
+<RiskId>P-Kerberoasting</RiskId>
+<Rationale>At least one member of an admin group is vulnerable to the kerberoast attack.</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>5</Points>
+<Category>PrivilegedAccounts</Category>
+<Model>RODC</Model>
+<RiskId>P-RODCAllowedGroup</RiskId>
+<Rationale>The Allowed RODC Password Replication Group group is not empty</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>5</Points>
+<Category>PrivilegedAccounts</Category>
+<Model>RODC</Model>
+<RiskId>P-RODCDeniedGroup</RiskId>
+<Rationale>The Denied RODC Password Replication Group group has some of its default members missing</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>5</Points>
+<Category>StaleObjects</Category>
+<Model>ObsoleteOS</Model>
+<RiskId>S-DC-2008</RiskId>
+<Rationale>Presence of Windows 2008 as DC = 1</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>5</Points>
+<Category>Anomalies</Category>
+<Model>NetworkSniffing</Model>
+<RiskId>A-LMHashAuthorized</RiskId>
+<Rationale>At least one policy has been found where the LM hash can be used [1]</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>5</Points>
+<Category>StaleObjects</Category>
+<Model>ObjectConfig</Model>
+<RiskId>S-NoPreAuthAdmin</RiskId>
+<Rationale>Number of admin accounts which do not require kerberos pre-authentication: 1</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>5</Points>
+<Category>Trusts</Category>
+<Model>SIDHistory</Model>
+<RiskId>S-Domain$$$</RiskId>
+<Rationale>The SIDHistory auditing group is present: SID History creation is enabled</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>2</Points>
+<Category>Anomalies</Category>
+<Model>Reconnaissance</Model>
+<RiskId>A-PreWin2000Other</RiskId>
+<Rationale>At least one user, computer or group has been added as a member to the PreWin2000 compatible group</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>1</Points>
+<Category>Anomalies</Category>
+<Model>CertificateTakeOver</Model>
+<RiskId>A-WeakRSARootCert2</RiskId>
+<Rationale>At least one trusted certificate found has a relatively weak RSA key [4]</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>1</Points>
+<Category>Anomalies</Category>
+<Model>CertificateTakeOver</Model>
+<RiskId>A-SHA1IntermediateCert</RiskId>
+<Rationale>At least one trusted INTERMEDIATE certificate found has a SHA1 signature [6]</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>1</Points>
+<Category>StaleObjects</Category>
+<Model>ObsoleteOS</Model>
+<RiskId>S-OS-Win7</RiskId>
+<Rationale>Presence of Windows 7 = 1</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>0</Points>
+<Category>Anomalies</Category>
+<Model>CertificateTakeOver</Model>
+<RiskId>A-SHA1RootCert</RiskId>
+<Rationale>At least one trusted ROOT certificate found has a SHA1 signature [11]</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>0</Points>
+<Category>Anomalies</Category>
+<Model>PasswordRetrieval</Model>
+<RiskId>A-UnixPwd</RiskId>
+<Rationale>At least one user has an attribute set which is known to potentially contains a password</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>0</Points>
+<Category>Anomalies</Category>
+<Model>PassTheCredential</Model>
+<RiskId>A-ProtectedUsers</RiskId>
+<Rationale>The Protected Users group doesn't exist on the domain.</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>0</Points>
+<Category>PrivilegedAccounts</Category>
+<Model>AdminControl</Model>
+<RiskId>P-OperatorsEmpty</RiskId>
+<Rationale>1 operator group(s) are not empty</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>0</Points>
+<Category>Anomalies</Category>
+<Model>WeakPassword</Model>
+<RiskId>A-NoServicePolicy</RiskId>
+<Rationale>No password policy for service account found (MinimumPasswordLength>=20)</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>0</Points>
+<Category>Anomalies</Category>
+<Model>Audit</Model>
+<RiskId>A-AuditPowershell</RiskId>
+<Rationale>The powershell audit configuration is not fully enabled.</Rationale>
+</HealthcheckRiskRule>
+<HealthcheckRiskRule>
+<Points>0</Points>
+<Category>Anomalies</Category>
+<Model>Reconnaissance</Model>
+<RiskId>A-NoNetSessionHardening</RiskId>
+<Rationale>No GPO has been found which implements NetCease</Rationale>
+</HealthcheckRiskRule>
+</RiskRules>
+<UserAccountData>
+<Number>24</Number>
+<NumberEnabled>22</NumberEnabled>
+<NumberDisabled>2</NumberDisabled>
+<NumberActive>3</NumberActive>
+<NumberInactive>19</NumberInactive>
+<NumberLocked>0</NumberLocked>
+<NumberPwdNeverExpires>4</NumberPwdNeverExpires>
+<NumberSidHistory>3</NumberSidHistory>
+<ListDomainSidHistory>
+<HealthcheckSIDHistoryData>
+<DomainSid>S-1-5-18</DomainSid>
+<FriendlyName>S-1-5-18</FriendlyName>
+<FirstDate>2013-03-31T11:33:16</FirstDate>
+<LastDate>2013-03-31T11:33:16</LastDate>
+<Count>1</Count>
+<DangerousSID>true</DangerousSID>
+</HealthcheckSIDHistoryData>
+<HealthcheckSIDHistoryData>
+<DomainSid>S-1-5-21-4005144719-3948538632-2546531719</DomainSid>
+<FriendlyName>test.mysmartlogon.com</FriendlyName>
+<NetBIOSName>TEST</NetBIOSName>
+<FirstDate>2016-03-28T10:40:52</FirstDate>
+<LastDate>2016-03-28T10:40:52</LastDate>
+<Count>2</Count>
+<DangerousSID>true</DangerousSID>
+</HealthcheckSIDHistoryData>
+</ListDomainSidHistory>
+<NumberPwdNotRequired>0</NumberPwdNotRequired>
+<NumberBadPrimaryGroup>0</NumberBadPrimaryGroup>
+<NumberDesEnabled>0</NumberDesEnabled>
+<NumberTrustedToAuthenticateForDelegation>0</NumberTrustedToAuthenticateForDelegation>
+<NumberReversibleEncryption>0</NumberReversibleEncryption>
+<NumberDuplicate>0</NumberDuplicate>
+<NumberNoPreAuth>1</NumberNoPreAuth>
+</UserAccountData>
+<ComputerAccountData>
+<Number>9</Number>
+<NumberEnabled>9</NumberEnabled>
+<NumberDisabled>0</NumberDisabled>
+<NumberActive>3</NumberActive>
+<NumberInactive>6</NumberInactive>
+<NumberLocked>0</NumberLocked>
+<NumberPwdNeverExpires>2</NumberPwdNeverExpires>
+<NumberSidHistory>0</NumberSidHistory>
+<ListDomainSidHistory/>
+<NumberPwdNotRequired>0</NumberPwdNotRequired>
+<NumberBadPrimaryGroup>1</NumberBadPrimaryGroup>
+<NumberDesEnabled>0</NumberDesEnabled>
+<NumberTrustedToAuthenticateForDelegation>1</NumberTrustedToAuthenticateForDelegation>
+<NumberReversibleEncryption>0</NumberReversibleEncryption>
+<NumberDuplicate>0</NumberDuplicate>
+<NumberNoPreAuth>0</NumberNoPreAuth>
+</ComputerAccountData>
+<OperatingSystem>
+<HealthcheckOSData>
+<OperatingSystem>Windows XP</OperatingSystem>
+<NumberOfOccurence>0</NumberOfOccurence>
+<data>
+<Number>2</Number>
+<NumberEnabled>2</NumberEnabled>
+<NumberDisabled>0</NumberDisabled>
+<NumberActive>0</NumberActive>
+<NumberInactive>2</NumberInactive>
+<NumberLocked>0</NumberLocked>
+<NumberPwdNeverExpires>0</NumberPwdNeverExpires>
+<NumberSidHistory>0</NumberSidHistory>
+<NumberPwdNotRequired>0</NumberPwdNotRequired>
+<NumberBadPrimaryGroup>1</NumberBadPrimaryGroup>
+<NumberDesEnabled>0</NumberDesEnabled>
+<NumberTrustedToAuthenticateForDelegation>0</NumberTrustedToAuthenticateForDelegation>
+<NumberReversibleEncryption>0</NumberReversibleEncryption>
+<NumberDuplicate>0</NumberDuplicate>
+<NumberNoPreAuth>0</NumberNoPreAuth>
+</data>
+</HealthcheckOSData>
+<HealthcheckOSData>
+<OperatingSystem>Windows 7</OperatingSystem>
+<NumberOfOccurence>1</NumberOfOccurence>
+<data>
+<Number>3</Number>
+<NumberEnabled>3</NumberEnabled>
+<NumberDisabled>0</NumberDisabled>
+<NumberActive>1</NumberActive>
+<NumberInactive>2</NumberInactive>
+<NumberLocked>0</NumberLocked>
+<NumberPwdNeverExpires>0</NumberPwdNeverExpires>
+<NumberSidHistory>0</NumberSidHistory>
+<NumberPwdNotRequired>0</NumberPwdNotRequired>
+<NumberBadPrimaryGroup>0</NumberBadPrimaryGroup>
+<NumberDesEnabled>0</NumberDesEnabled>
+<NumberTrustedToAuthenticateForDelegation>0</NumberTrustedToAuthenticateForDelegation>
+<NumberReversibleEncryption>0</NumberReversibleEncryption>
+<NumberDuplicate>0</NumberDuplicate>
+<NumberNoPreAuth>0</NumberNoPreAuth>
+</data>
+</HealthcheckOSData>
+<HealthcheckOSData>
+<OperatingSystem>Windows 10</OperatingSystem>
+<NumberOfOccurence>1</NumberOfOccurence>
+<data>
+<Number>1</Number>
+<NumberEnabled>1</NumberEnabled>
+<NumberDisabled>0</NumberDisabled>
+<NumberActive>1</NumberActive>
+<NumberInactive>0</NumberInactive>
+<NumberLocked>0</NumberLocked>
+<NumberPwdNeverExpires>0</NumberPwdNeverExpires>
+<NumberSidHistory>0</NumberSidHistory>
+<NumberPwdNotRequired>0</NumberPwdNotRequired>
+<NumberBadPrimaryGroup>0</NumberBadPrimaryGroup>
+<NumberDesEnabled>0</NumberDesEnabled>
+<NumberTrustedToAuthenticateForDelegation>0</NumberTrustedToAuthenticateForDelegation>
+<NumberReversibleEncryption>0</NumberReversibleEncryption>
+<NumberDuplicate>0</NumberDuplicate>
+<NumberNoPreAuth>0</NumberNoPreAuth>
+</data>
+</HealthcheckOSData>
+<HealthcheckOSData>
+<OperatingSystem>Windows 2008</OperatingSystem>
+<NumberOfOccurence>1</NumberOfOccurence>
+<data>
+<Number>1</Number>
+<NumberEnabled>1</NumberEnabled>
+<NumberDisabled>0</NumberDisabled>
+<NumberActive>1</NumberActive>
+<NumberInactive>0</NumberInactive>
+<NumberLocked>0</NumberLocked>
+<NumberPwdNeverExpires>0</NumberPwdNeverExpires>
+<NumberSidHistory>0</NumberSidHistory>
+<NumberPwdNotRequired>0</NumberPwdNotRequired>
+<NumberBadPrimaryGroup>0</NumberBadPrimaryGroup>
+<NumberDesEnabled>0</NumberDesEnabled>
+<NumberTrustedToAuthenticateForDelegation>1</NumberTrustedToAuthenticateForDelegation>
+<NumberReversibleEncryption>0</NumberReversibleEncryption>
+<NumberDuplicate>0</NumberDuplicate>
+<NumberNoPreAuth>0</NumberNoPreAuth>
+</data>
+</HealthcheckOSData>
+<HealthcheckOSData>
+<OperatingSystem>OperatingSystem not set</OperatingSystem>
+<NumberOfOccurence>0</NumberOfOccurence>
+<data>
+<Number>1</Number>
+<NumberEnabled>1</NumberEnabled>
+<NumberDisabled>0</NumberDisabled>
+<NumberActive>0</NumberActive>
+<NumberInactive>1</NumberInactive>
+<NumberLocked>0</NumberLocked>
+<NumberPwdNeverExpires>1</NumberPwdNeverExpires>
+<NumberSidHistory>0</NumberSidHistory>
+<NumberPwdNotRequired>0</NumberPwdNotRequired>
+<NumberBadPrimaryGroup>0</NumberBadPrimaryGroup>
+<NumberDesEnabled>0</NumberDesEnabled>
+<NumberTrustedToAuthenticateForDelegation>0</NumberTrustedToAuthenticateForDelegation>
+<NumberReversibleEncryption>0</NumberReversibleEncryption>
+<NumberDuplicate>0</NumberDuplicate>
+<NumberNoPreAuth>0</NumberNoPreAuth>
+</data>
+</HealthcheckOSData>
+<HealthcheckOSData>
+<OperatingSystem>Ubuntu Desktop Linux</OperatingSystem>
+<NumberOfOccurence>0</NumberOfOccurence>
+<data>
+<Number>1</Number>
+<NumberEnabled>1</NumberEnabled>
+<NumberDisabled>0</NumberDisabled>
+<NumberActive>0</NumberActive>
+<NumberInactive>1</NumberInactive>
+<NumberLocked>0</NumberLocked>
+<NumberPwdNeverExpires>1</NumberPwdNeverExpires>
+<NumberSidHistory>0</NumberSidHistory>
+<NumberPwdNotRequired>0</NumberPwdNotRequired>
+<NumberBadPrimaryGroup>0</NumberBadPrimaryGroup>
+<NumberDesEnabled>0</NumberDesEnabled>
+<NumberTrustedToAuthenticateForDelegation>0</NumberTrustedToAuthenticateForDelegation>
+<NumberReversibleEncryption>0</NumberReversibleEncryption>
+<NumberDuplicate>0</NumberDuplicate>
+<NumberNoPreAuth>0</NumberNoPreAuth>
+</data>
+</HealthcheckOSData>
+</OperatingSystem>
+<GPOInfo>
+<GPOInfo>
+<GPOName>Default Domain Policy</GPOName>
+<GPOId>{31B2F340-016D-11D2-945F-00C04FB984F9}</GPOId>
+<IsDisabled>false</IsDisabled>
+<AppliedTo>
+<string>DC=test,DC=mysmartlogon,DC=com</string>
+</AppliedTo>
+</GPOInfo>
+<GPOInfo>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<IsDisabled>false</IsDisabled>
+<AppliedTo>
+<string>OU=Domain Controllers,DC=test,DC=mysmartlogon,DC=com</string>
+</AppliedTo>
+</GPOInfo>
+<GPOInfo>
+<GPOName>test nfc 2</GPOName>
+<GPOId>{962E2E78-ED9A-4A07-A9D4-072340EC6578}</GPOId>
+<IsDisabled>false</IsDisabled>
+<AppliedTo/>
+</GPOInfo>
+<GPOInfo>
+<GPOName>Test GPO site</GPOName>
+<GPOId>{59C59FC3-6DCA-4659-9842-E9C490088449}</GPOId>
+<IsDisabled>false</IsDisabled>
+<AppliedTo/>
+</GPOInfo>
+<GPOInfo>
+<GPOName>Banned Login for admin</GPOName>
+<GPOId>{DFED016B-4D37-46B7-B0E8-D597D9CC5A98}</GPOId>
+<IsDisabled>false</IsDisabled>
+<AppliedTo>
+<string>OU=Banned Login for Admin,DC=test,DC=mysmartlogon,DC=com</string>
+</AppliedTo>
+</GPOInfo>
+<GPOInfo>
+<GPOName>Audit_Varonis</GPOName>
+<GPOId>{1205BF4F-3897-4A21-BDBD-F66EE9D404A5}</GPOId>
+<IsDisabled>false</IsDisabled>
+<AppliedTo>
+<string>OU=Domain Controllers,DC=test,DC=mysmartlogon,DC=com</string>
+</AppliedTo>
+</GPOInfo>
+</GPOInfo>
+<LoginScript>
+<HealthcheckLoginScriptData>
+<LoginScript>None</LoginScript>
+<NumberOfOccurence>22</NumberOfOccurence>
+<Delegation/>
+</HealthcheckLoginScriptData>
+</LoginScript>
+<LastADBackup>9999-12-31T23:59:59.9999999</LastADBackup>
+<LAPSInstalled>2019-03-22T21:12:37</LAPSInstalled>
+<KrbtgtLastChangeDate>2019-03-10T18:21:24+01:00</KrbtgtLastChangeDate>
+<KrbtgtLastVersion>3</KrbtgtLastVersion>
+<ExchangePrivEscVulnerable>false</ExchangePrivEscVulnerable>
+<AdminLastLoginDate>2020-03-02T18:58:06.670308+01:00</AdminLastLoginDate>
+<GPPPassword>
+<GPPPassword>
+<UserName>administrator</UserName>
+<Other>NewName:adiant-admin</Other>
+<Password>vletoux</Password>
+<Changed>2016-04-02T19:40:14</Changed>
+<Type>groups.xml</Type>
+<GPOName>test nfc 2</GPOName>
+<GPOId>{962E2E78-ED9A-4A07-A9D4-072340EC6578}</GPOId>
+</GPPPassword>
+<GPPPassword>
+<UserName>adiant</UserName>
+<Other>Path:test</Other>
+<Password>vletoux</Password>
+<Changed>2016-04-02T19:39:33</Changed>
+<Type>drives.xml</Type>
+<GPOName>test nfc 2</GPOName>
+<GPOId>{962E2E78-ED9A-4A07-A9D4-072340EC6578}</GPOId>
+</GPPPassword>
+<GPPPassword>
+<UserName>test</UserName>
+<Password>test</Password>
+<Changed>2016-04-02T20:21:02</Changed>
+<Type>groups.xml</Type>
+<GPOName>test nfc 2</GPOName>
+<GPOId>{962E2E78-ED9A-4A07-A9D4-072340EC6578}</GPOId>
+</GPPPassword>
+</GPPPassword>
+<GPPFileDeployed/>
+<GPOAuditSimple/>
+<GPOAuditAdvanced>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce9242-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce9240-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce9241-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce9236-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce9237-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce9235-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce922d-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce922b-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce9216-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce9215-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce921b-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce9227-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce922f-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>1</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce9230-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce9228-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<SubCategory>0cce9211-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+<GPOAuditAdvancedData>
+<GPOName>Default Domain Policy</GPOName>
+<GPOId>{31B2F340-016D-11D2-945F-00C04FB984F9}</GPOId>
+<SubCategory>0cce9215-69ae-11d9-bed3-505054503030</SubCategory>
+<Value>3</Value>
+</GPOAuditAdvancedData>
+</GPOAuditAdvanced>
+<GPPPasswordPolicy>
+<GPPSecurityPolicy>
+<Properties>
+<GPPSecurityPolicyProperty>
+<Property>MinimumPasswordAge</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>MaximumPasswordAge</Property>
+<Value>-1</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>MinimumPasswordLength</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>PasswordComplexity</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+</Properties>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+</GPPSecurityPolicy>
+<GPPSecurityPolicy>
+<Properties>
+<GPPSecurityPolicyProperty>
+<Property>MinimumPasswordAge</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>MaximumPasswordAge</Property>
+<Value>-1</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>MinimumPasswordLength</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>PasswordComplexity</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>PasswordHistorySize</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>LockoutBadCount</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>ClearTextPassword</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+</Properties>
+<GPOName>Default Domain Policy</GPOName>
+<GPOId>{31B2F340-016D-11D2-945F-00C04FB984F9}</GPOId>
+</GPPSecurityPolicy>
+<GPPSecurityPolicy>
+<Properties>
+<GPPSecurityPolicyProperty>
+<Property>MinimumPasswordAge</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>MaximumPasswordAge</Property>
+<Value>-1</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>MinimumPasswordLength</Property>
+<Value>1</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>PasswordComplexity</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+</Properties>
+<GPOName>test nfc 2</GPOName>
+<GPOId>{962E2E78-ED9A-4A07-A9D4-072340EC6578}</GPOId>
+</GPPSecurityPolicy>
+</GPPPasswordPolicy>
+<GPOLsaPolicy>
+<GPPSecurityPolicy>
+<Properties>
+<GPPSecurityPolicyProperty>
+<Property>LSAAnonymousNameLookup</Property>
+<Value>1</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>EnableSecuritySignature</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+</Properties>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+</GPPSecurityPolicy>
+<GPPSecurityPolicy>
+<Properties>
+<GPPSecurityPolicyProperty>
+<Property>recoveryconsole_securitylevel</Property>
+<Value>1</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>LDAPClientIntegrity</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>NoLMHash</Property>
+<Value>0</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>EnableMulticast</Property>
+<Value>1</Value>
+</GPPSecurityPolicyProperty>
+</Properties>
+<GPOName>Default Domain Policy</GPOName>
+<GPOId>{31B2F340-016D-11D2-945F-00C04FB984F9}</GPOId>
+</GPPSecurityPolicy>
+</GPOLsaPolicy>
+<GPOScreenSaverPolicy>
+<GPPSecurityPolicy>
+<Properties>
+<GPPSecurityPolicyProperty>
+<Property>ScreenSaveTimeOut</Property>
+<Value>90000</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>ScreenSaveActive</Property>
+<Value>1</Value>
+</GPPSecurityPolicyProperty>
+<GPPSecurityPolicyProperty>
+<Property>ScreenSaverIsSecure</Property>
+<Value>1</Value>
+</GPPSecurityPolicyProperty>
+</Properties>
+<GPOName>test nfc 2</GPOName>
+<GPOId>{962E2E78-ED9A-4A07-A9D4-072340EC6578}</GPOId>
+</GPPSecurityPolicy>
+</GPOScreenSaverPolicy>
+<GPOEventForwarding/>
+<GPODelegation>
+<GPODelegationData>
+<GPOName>Test GPO site</GPOName>
+<GPOId>{59C59FC3-6DCA-4659-9842-E9C490088449}</GPOId>
+<Item>\\WIN-PGAHI2ECI8E.test.mysmartlogon.com\sysvol\test.mysmartlogon.com\Policies\{59C59FC3-6DCA-4659-9842-E9C490088449}</Item>
+<Account>Everyone</Account>
+<Right>FullControl</Right>
+</GPODelegationData>
+<GPODelegationData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<Item>\\WIN-PGAHI2ECI8E.test.mysmartlogon.com\sysvol\test.mysmartlogon.com\Policies\{6AC1786C-016F-11D2-945F-00C04fB984F9}\GPT.INI</Item>
+<Account>Authenticated Users</Account>
+<Right>FullControl</Right>
+</GPODelegationData>
+<GPODelegationData>
+<GPOName>Default Domain Controllers Policy</GPOName>
+<GPOId>{6AC1786C-016F-11D2-945F-00C04fB984F9}</GPOId>
+<Item>\\WIN-PGAHI2ECI8E.test.mysmartlogon.com\sysvol\test.mysmartlogon.com\Policies\{6AC1786C-016F-11D2-945F-00C04fB984F9}\MACHINE\Registry.pol</Item>
+<Account>Authenticated Users</Account>
+<Right>FullControl</Right>
+</GPODelegationData>
+</GPODelegation>
+<TrustedCertificates>
+<HealthcheckCertificateData>
+<Source>GPO:Default Domain Policy;Machine</Source>
+<Store>Root</Store>
+<Certificate>MIIENjCCAx6gAwIBAgIBATANBgkqhkiG9w0BAQUFADBvMQswCQYDVQQGEwJTRTEUMBIGA1UEChMLQWRkVHJ1c3QgQUIxJjAkBgNVBAsTHUFkZFRydXN0IEV4dGVybmFsIFRUUCBOZXR3b3JrMSIwIAYDVQQDExlBZGRUcnVzdCBFeHRlcm5hbCBDQSBSb290MB4XDTAwMDUzMDEwNDgzOFoXDTIwMDUzMDEwNDgzOFowbzELMAkGA1UEBhMCU0UxFDASBgNVBAoTC0FkZFRydXN0IEFCMSYwJAYDVQQLEx1BZGRUcnVzdCBFeHRlcm5hbCBUVFAgTmV0d29yazEiMCAGA1UEAxMZQWRkVHJ1c3QgRXh0ZXJuYWwgQ0EgUm9vdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALf3GjPm8gAELTngTlvtH7xsD821+iO2zt6bETOXpClMfZOfvUq8k+0DGuOPz+VtUFrWlymUWoCwSXrbLpX9uMq/NzgtHj6RQa1wVsfwTz/oMp50ysiQVOnGXw94nZpAPA6sYapeFI+eh6FqUNzXmk6vBbOmcZSccbNQYArHE504B4YCqOmoaSYYkKtMsE8jqzpPhNjfzp/haW+710LXa0Tkx63ubUFfclpxCDezeWWkWaCUN/cALw3CknLa0Dhy2xSoRcRdKn23tNbE7qzNE0S3ySvdQwAl+mG5aWpYIxG3pzOPVnVZ9c0p10a3CitlttNCbxWyuHv77+ldU9U0WicCAwEAAaOB3DCB2TAdBgNVHQ4EFgQUrb2YejS0Jvf6xCZU7wO94CTLVBowCwYDVR0PBAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wgZkGA1UdIwSBkTCBjoAUrb2YejS0Jvf6xCZU7wO94CTLVBqhc6RxMG8xCzAJBgNVBAYTAlNFMRQwEgYDVQQKEwtBZGRUcnVzdCBBQjEmMCQGA1UECxMdQWRkVHJ1c3QgRXh0ZXJuYWwgVFRQIE5ldHdvcmsxIjAgBgNVBAMTGUFkZFRydXN0IEV4dGVybmFsIENBIFJvb3SCAQEwDQYJKoZIhvcNAQEFBQADggEBALCb4IUlwtYj4g+WBpKdQZic2YR5gdkeWxQHIzZlj7DYd7usQWxHYINRsPkyPef89iYTx4AWpb9a/IfPeHmJIZriTAcKhjW88t5RxNKWt9x+Tu5w/Rw56wwCURQtjr0W4MHfRnXnJK3s9EK0hZNwEGe6nQY1ShjTK3rMUUKhemPR5ruhxSvCNr4TDea9Y355e6cJDUCrat2PisP29owaQgVR1EX1n6diIWgVIEM8med8vSTYqZEXc4g/VhsxOBi0cQ+azcgOno4uG+GMmIPLHzHxREzGBHNJdmAPx/i9F4BrLunMTA5amnkPIAou1Z5jJh5VkpTYghdae9C8x49OhgQ=</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>GPO:Default Domain Policy;Machine</Source>
+<Store>Root</Store>
+<Certificate>MIIDjjCCAnagAwIBAgIIKv++n6Lw6YcwDQYJKoZIhvcNAQEFBQAwKDELMAkGA1UEBhMCQkUxGTAXBgNVBAMTEEJlbGdpdW0gUm9vdCBDQTIwHhcNMDcxMDA0MTAwMDAwWhcNMjExMjE1MDgwMDAwWjAoMQswCQYDVQQGEwJCRTEZMBcGA1UEAxMQQmVsZ2l1bSBSb290IENBMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMZzQh6S/3UPi790hqc/7bIYLS2X+an7mEoj39WN4IzGMhwWLQdC1i22bi+n9fzGhYJdld61IgDMqFNAn68KNaJ6x+HK92AQZw6nUHMXU5WfIp8MXW+2QbyM69odRr2nlL/zGsvU+40OHjPIltfsjFPekx40HopQcSZYtF3CiInaYNKJIT/e1wEYNm7hLHADBGXvmAYrXR5i3FVr/mZkIV/4L+HXmymvb82fqgxG0YjFnaKVn6w/Fa7yYd/vw2uaItgscf1YHewApDgglVrH1Tdjuk+bqv5WRi5j2Qsj1Yr6tSPwiRuhFA0m2kHwOI8w7QUmecFLTqG4flVSOmlGhHUCAwEAAaOBuzCBuDAOBgNVHQ8BAf8EBAMCAQYwDwYDVR0TAQH/BAUwAwEB/zBCBgNVHSAEOzA5MDcGBWA4CQEBMC4wLAYIKwYBBQUHAgEWIGh0dHA6Ly9yZXBvc2l0b3J5LmVpZC5iZWxnaXVtLmJlMB0GA1UdDgQWBBSFiuv0xbu+DlkDlN7WgAEV4xCcOTARBglghkgBhvhCAQEEBAMCAAcwHwYDVR0jBBgwFoAUhYrr9MW7vg5ZA5Te1oABFeMQnDkwDQYJKoZIhvcNAQEFBQADggEBAFHYhd27V2/MoGy1oyCcUwnzSgEMdL8rs5qauhjyC4isHLMzr87lEwEnkoRYmhC598wUkmt0FoqW6FHvv/pKJaeJtmMrXZRY0c8RcrYeuTlBFk0pvDVTC9rejg7NqZV3JcqUWumyaa7YwBO+mPyWnIR/VRPmPIfjvCCkpDZoa01gZhz5v6yAlGYuuUGK02XThIAC71AdXkbc98m6tTR8KvPG2F9fVJ3bTc0R5/0UAoNmXsimABKgX77OFP67H6dh96tK8QYUn8pJQsKpvO2FsauBQeYNxUJpU4c5nUwfAA4+Bw11V0SoU7Q2dmSZ3G7rPUZuFF1eR1ONeE3gJ7uOhXY=</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>GPO:Default Domain Policy;Machine</Source>
+<Store>Root</Store>
+<Certificate>MIIFCTCCA3GgAwIBAgIJALVifL1Z0JhoMA0GCSqGSIb3DQEBBQUAMFUxCzAJBgNVBAYTAkRFMRYwFAYDVQQKEw1NYXNrVGVjaCBHbWJIMRYwFAYDVQQLEw1UZXN0IERpdmlzaW9uMRYwFAYDVQQDEw1NYXNrVGVjaCBDU0NBMB4XDTE0MDIxMzE0MzA0MVoXDTE5MDExNjE0MzA0MVowVTELMAkGA1UEBhMCREUxFjAUBgNVBAoTDU1hc2tUZWNoIEdtYkgxFjAUBgNVBAsTDVRlc3QgRGl2aXNpb24xFjAUBgNVBAMTDU1hc2tUZWNoIENTQ0EwggGiMA0GCSqGSIb3DQEBAQUAA4IBjwAwggGKAoIBgQDuFWmsVBpgG/jpQTuvTYOXVhPdOP9YsTaeNO6MYWLYnfQR6mwp/1c+YB7HV/n64v5fKwVuSP+w0A8PhFHqX4YLKN4x0+JTxDd1bxPKHuT9d45+5ZODNLRRjPN/sXYPkGWrUHCSJeFxZAD/IXXagLAkPgmRfXA4BdmUzF1+5c92TFSuuYqpN2QgMthY49399OHoRvaSviSlM8BlfTiUZdTqWqx9EOWQH35qqP5jDDe2IFhmMrd957w91y0h+Fv406T207EtWHRvc+GK6tIXkgdztWrL01Z1VI0KqGZLD+JZHP+54nlazhgXbK9KkyKkMyitWka64W7RJ4HXLwC4zVdobXMZrrH/UO2hHyIr7hqu+3HZe35Tu8QIXYm4xgCt5ujpUmzTkBanTV7JY9C+h5t4OnmcrWpZ3OC9JXGJ+gwg4LyapqIIWdP0r+bsDIfLOw+cr5t3nhAJSuTYN4pKqlcldPeI7XxM44rEiwTOgjlpU3KLWpC/mYbT4QWdfmlUjHMCAwEAAaOB2zCB2DAdBgNVHQ4EFgQU9cpKGY6Zo2Du3PtKqaBADr+VulYwgYUGA1UdIwR+MHyAFPXKShmOmaNg7tz7SqmgQA6/lbpWoVmkVzBVMQswCQYDVQQGEwJERTEWMBQGA1UEChMNTWFza1RlY2ggR21iSDEWMBQGA1UECxMNVGVzdCBEaXZpc2lvbjEWMBQGA1UEAxMNTWFza1RlY2ggQ1NDQYIJALVifL1Z0JhoMAwGA1UdEwQFMAMBAf8wCwYDVR0PBAQDAgEGMAkGA1UdEQQCMAAwCQYDVR0SBAIwADANBgkqhkiG9w0BAQUFAAOCAYEALrmXrr3CyxnQq4+gZwS0yzxUgRFtS5KBb/Qv1DP7yIqp31un++LwKc4uMyLrUdmEDXTWioIj+NH1rymespPkJaV/wa+jsqjb6Ynz0E8Ds5uXV1fMU0yOgQAri2eBQ1MWJgpzbs3+CiFHtGgAKT4+u9Q8rf8vSHS3lIdu98I0UEexxYGnnMYTUf4D9SobcFtxLcy7ztd/dhymZWO4c/2lpD87jHvUDBDTP4W8NIJHUJ3B6BDG7a9DjPR1qjpuzE81uO6qWE441mAbqqoPffvEdk4753rSORyckf67r9tPSvJQjdCK3qG/1wjL9KQmfqpkewIpVdOthaj4qSPS/gy8l1u03yYQfzf9DGrScictSTcdgxUiqj2axZtWZvojRRPwb2S2XqobE8flTNCHxUh+LWlCtifNbVmU9pt4XzPLf2nZOK9vmi217lImUi7q+i2fmIleIeXaqzBFV4meaj+z9MCaB0NpXh18zAYXodNtA9peeRuNVk/s26+HkphO+jEC</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>GPO:Default Domain Policy;Machine</Source>
+<Store>Root</Store>
+<Certificate>MIIDrjCCApagAwIBAgIQWBZMglvxDZ5KE0MaGaD0OTANBgkqhkiG9w0BAQUFADBWMRMwEQYKCZImiZPyLGQBGRYDY29tMRwwGgYKCZImiZPyLGQBGRYMbXlzbWFydGxvZ29uMRQwEgYKCZImiZPyLGQBGRYEdGVzdDELMAkGA1UEAxMCQ0EwHhcNMTUxMDAzMDczNDA2WhcNMzAxMDAyMDc0NDA0WjBWMRMwEQYKCZImiZPyLGQBGRYDY29tMRwwGgYKCZImiZPyLGQBGRYMbXlzbWFydGxvZ29uMRQwEgYKCZImiZPyLGQBGRYEdGVzdDELMAkGA1UEAxMCQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDwQCAKaHDs9JvkUN+8YgJBOnNmKF1tC0lV7E3gKqBu45+tbGyZ/sr4yhpvfCRNDR6I70yzLmfzGqCApLkbN/HJIyawCOu97YwirUCbkcQfsg8rTpvoNme60dXDmBv8l2v+absZXRWug0luNwZlyI5HlhtvbFNIdXyO5H1MqfXaswq4fEXKVZt614mF3nEZH8LFnY3nc4t+uEXSNyyH/NOxaJeF3H/ZBHndK/VcKlfzmSMaKxy0JUJh3jBeg1lbPayzd/MqsBl2f19GovL0x6rqF8yW+EZYKM4MFrA/fDAwpLrhsz6V/zqel5HiEfdKzFhyXH1Zm0ATR/Lpl0hAZXbXAgMBAAGjeDB2MAsGA1UdDwQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRip+4+wM6L77HN+UamJLIFX4nnnTASBgkrBgEEAYI3FQEEBQIDAQABMCMGCSsGAQQBgjcVAgQWBBRagUE3w+8lkDe2g8eyhFWvBN5XbzANBgkqhkiG9w0BAQUFAAOCAQEA1jKZPvUVDt+1Q79Ll3sx8d0quPAjkhtGmLA0sIXmOYt6O8w8TnRHVT9hFu8SODcqJa4e+EBSVp+VkuT2hqvuFguXbzue0W3veZUzm+Bs1+nQm8MeS9mij6Cdmi3yf872qrgoBcUdl/cWyUSbHbWBZYoEcTZto5Kw4AjJatKNOAHclGdgvumzk6Jf4xuFwhYgO6Z1r/KjA7EHxcga7yK0GiQMBb+4oTiZLsj++fxNfLg99G/1gOOvsB6ATQJUnyXEcsmYIn5GDykLOGxMamU9UWVhTl/nSZdZruq1cV49QOdaRH5/jtF8nVnp7oAB4/1uGkReuCy/laV2+XHatSNUbQ==</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>GPO:Default Domain Policy;Machine</Source>
+<Store>Root</Store>
+<Certificate>MIIDjTCCAnWgAwIBAgIJAMUougkLJkz3MA0GCSqGSIb3DQEBBQUAMF0xDDAKBgNVBAsMA1BLSTEMMAoGA1UECwwDRG9EMRgwFgYDVQQKDA9VLlMuIEdvdmVybm1lbnQxCzAJBgNVBAYTAlVTMRgwFgYDVQQDDA9ET0QgRU1BSUwgQ0EtMjkwHhcNMTQwNTAxMDcwODIxWhcNNDEwOTE1MDcwODIxWjBdMQwwCgYDVQQLDANQS0kxDDAKBgNVBAsMA0RvRDEYMBYGA1UECgwPVS5TLiBHb3Zlcm5tZW50MQswCQYDVQQGEwJVUzEYMBYGA1UEAwwPRE9EIEVNQUlMIENBLTI5MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvhSRUtRtTIcGwywKDK03pWBDvoeTpLli8vluONC1aJsPzMD11/pYqEfvJk/TtS4sgPVoDkZL7STTirXWbBh/S766yNfMvIPxAud+oGWxTW+36XQrz1eEsZLIxkWJV2c7r2hQlU86sv/VzIE0lJ/XAh8mAYQlxmBmbvXJSHVvLmZ+Qi6owtNdSYrT4hrA0mxHtDkanm5oPs+gqHrgObyGEyfQvksLEGYtNxiL5bFiQP5s/8FjR2cQdfcFLlg1ykDjQ+cLvSI0R8x81kBhbJxBz2B7SdSFLk2ZqyuY1xCGvQWXZE9+NrPqF8jkqC+VSs2tqqOGfiPoEfNba0w0kHu2WQIDAQABo1AwTjAdBgNVHQ4EFgQUOopza6rlvSRTB/R+88gpD338v6kwHwYDVR0jBBgwFoAUOopza6rlvSRTB/R+88gpD338v6kwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOCAQEAPniLWFjcEy05Vbb1FrzDj7eu0VWZ1PmYr+kN24uEzp7TqyRCY8/IPvl50bsJz6wxImmFu8wg1TLhgyWoG6HrRsVZ5RHY5hfEc4i6optc22OVwDswI9ojk8gslBx9Z/BZNRYGWZweqDpTjNN2V38I0ocn1rvaWHKU5waG85WJH4fgBgRvq3IwuQm2dGTo/XJYVTmwIT8LyLe6V0jCnjKw7pIWuhe6R/wzxSxkE+Mw6qWJB258ZHAVysfo/y9IfPcw/NimqAGeXuW+SQl4g2Y7d3VSGJYQCsSmQC+lHz/aycJP7JPmR+l5OoJyTNDnl38iTs6c5uiLSNOJ6WPESfx11Q==</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>GPO:Default Domain Policy;Machine</Source>
+<Store>CA</Store>
+<Certificate>MIID4DCCAsigAwIBAgIQEOg9ijVfXAL6R4+Ww+I8tjANBgkqhkiG9w0BAQUFADAoMQswCQYDVQQGEwJCRTEZMBcGA1UEAxMQQmVsZ2l1bSBSb290IENBMjAeFw0wNzEwMDQxMjAwMDBaFw0xNDA2MDQxMjAwMDBaMDUxCzAJBgNVBAYTAkJFMRUwEwYDVQQDEwxGb3JlaWduZXIgQ0ExDzANBgNVBAUTBjIwMDgwNDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAIq/4rXBXgV30ZgwG3Iy9lsn7RosjOZ+nh3EyFPD/30lgDYjryi8B5OmYU3MYUAe0eIWmM+BidvF9ctMIg5du8NhnDIJEZbmyip2e6dfJqo3GEqI5FeUo6eAgCUWhOw03PsZbBTB3FHlRnZkF8q4UoUsCd11GRsgs2rEpGvAzCnHyVYyD+9lgdN13PnlKbHiY6yXHNA0ToBv+g2jOCoAL1j2tm9sXSRGStJ7IkygjbRoKTC4ezE+cUInGzD3q6Hc9bOIr4ZFMgF3SVxJjva0li6G/RSOw9JwIO5fpSqhGzBDkCk4sOlZlkBpcuV4ZvtZBNYEeXYCcUq43Pw5hZBj1E8CAwEAAaOB+DCB9TAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBADBDBgNVHSAEPDA6MDgGBmA4CQEBBzAuMCwGCCsGAQUFBwIBFiBodHRwOi8vcmVwb3NpdG9yeS5laWQuYmVsZ2l1bS5iZTAdBgNVHQ4EFgQUkwdVYv6mdjTcNX+vp3D1CzxAAJ8wNwYDVR0fBDAwLjAsoCqgKIYmaHR0cDovL2NybC5laWQuYmVsZ2l1bS5iZS9iZWxnaXVtMi5jcmwwEQYJYIZIAYb4QgEBBAQDAgAHMB8GA1UdIwQYMBaAFIWK6/TFu74OWQOU3taAARXjEJw5MA0GCSqGSIb3DQEBBQUAA4IBAQBjTf2DW5lCbJq4/TkZ/ax2H7F27TYlVbWmINsd082meGwiobbf+QrF4T7km/f1UDqWr/9yWl1ltgGEuXoVknxqfwX6aAAoCKUWvVr/xJitb7qKHh5UotEstNH3jYlqTKNhQjNmnRDBCZ0VWF4pY2vCNB6PH9c+eJEao0rT4dnx8UCto4T4UETs4637C8THQBjslwvJJsNh6itrZTrk4G/F2F16e3pxgEfAGDpvxb6qiuuWva5aHqgQm0n5AFAisMtwJvky2Sdo+y7mOC3Do+RIg5I/9RN6zoHhw1EpHxaSYC5kn6mmeA6RxTHrNCFfZYFmkj/4nDOifkkZY5fV0hdv</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>GPO:Default Domain Policy;Machine</Source>
+<Store>CA</Store>
+<Certificate>MIIEhDCCA2ygAwIBAgIQQhrylAmEGR9SCkvGJCanSzANBgkqhkiG9w0BAQUFADBvMQswCQYDVQQGEwJTRTEUMBIGA1UEChMLQWRkVHJ1c3QgQUIxJjAkBgNVBAsTHUFkZFRydXN0IEV4dGVybmFsIFRUUCBOZXR3b3JrMSIwIAYDVQQDExlBZGRUcnVzdCBFeHRlcm5hbCBDQSBSb290MB4XDTA1MDYwNzA4MDkxMFoXDTIwMDUzMDEwNDgzOFowgZUxCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJVVDEXMBUGA1UEBxMOU2FsdCBMYWtlIENpdHkxHjAcBgNVBAoTFVRoZSBVU0VSVFJVU1QgTmV0d29yazEhMB8GA1UECxMYaHR0cDovL3d3dy51c2VydHJ1c3QuY29tMR0wGwYDVQQDExRVVE4tVVNFUkZpcnN0LU9iamVjdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAM6qgT+jo2F4qjEAVZURnicPHxzfOpuCaDDASmEd8S8O+r5596Uj71VRloTN2+O5bj4x2AogZ8f02b+U60cEPgLOKqJdhwQJ9jCdGIqXsqoc/EHSoTbL+z2RuufZcDX65OeQw5ujm9M89RKZd7G3CeBo5hy485RjiGpq/gt2yb70IuRnuasaXnfBhQfdDWy/7gbHd2pBnqcP1/vulBe3/IW+pKvEHDHd17bR5PDv3xaPslKT16HUiaEHLr/hARJCHhrh2JU022R5KP+6LhHC5ehbkkj7RwvCbNqtMoNB86XlQXD9ZZBt+vpRxPm9lisZBCzTbafc8H9vg2XiaquHhnUCAwEAAaOB9DCB8TAfBgNVHSMEGDAWgBStvZh6NLQm9/rEJlTvA73gJMtUGjAdBgNVHQ4EFgQU2u1kdBScFDyr3ZmpvVsoTYs8ydgwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wEQYDVR0gBAowCDAGBgRVHSAAMEQGA1UdHwQ9MDswOaA3oDWGM2h0dHA6Ly9jcmwudXNlcnRydXN0LmNvbS9BZGRUcnVzdEV4dGVybmFsQ0FSb290LmNybDA1BggrBgEFBQcBAQQpMCcwJQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnVzZXJ0cnVzdC5jb20wDQYJKoZIhvcNAQEFBQADggEBAE1CL6bBiusHgJBYRoz4GTlmKjxaLG3P1NmHVY15CxKIe0CP1cf4S41VFmOtt1fcOyu908FPHgOHS0Sb4+JARSbzJkkraoTxVHrUQtr802q7Zn7Knurpu9wHx8OSToM8gUmfktUyCepJLqERcZo20sVOaLbLDhslFq9s3l122B9ysZMmhhfbGN6vRenf+5ivFBjtpF72iZRF8FUESt3/J90GSkD2tLzx5A+ZArv9XQ4uKMG+O18aP5cQhLwWPtijnGMdZstcX9o+8w8KCTUi29vAPwD55g1dZ9H9oB4DK9lA977Mh2ZUgKajuPUZYtXSJrGYJu6ay0SnRVqBlRUa9VE=</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>GPO:Default Domain Policy;Machine</Source>
+<Store>CA</Store>
+<Certificate>MIIE5zCCA8+gAwIBAgIQEHCdT/VUCNcwYAHY6pF1uzANBgkqhkiG9w0BAQUFADCBlTELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAlVUMRcwFQYDVQQHEw5TYWx0IExha2UgQ2l0eTEeMBwGA1UEChMVVGhlIFVTRVJUUlVTVCBOZXR3b3JrMSEwHwYDVQQLExhodHRwOi8vd3d3LnVzZXJ0cnVzdC5jb20xHTAbBgNVBAMTFFVUTi1VU0VSRmlyc3QtT2JqZWN0MB4XDTExMDgyNDAwMDAwMFoXDTIwMDUzMDEwNDgzOFowezELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQxITAfBgNVBAMTGENPTU9ETyBDb2RlIFNpZ25pbmcgQ0EgMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMv456fo8ZcoQGiAN9LIP46SipI3h0eA6kyZz275FUe97nX0RKzQw9RN9xnA0zxNwUe5WWUWk4zZCoSbn+j2amNY/l/c0X9LUZ8AHACHVCAHV6CCyS+YrzOKu3uAIiVqbK/CLGx5E72jKkjWtY5hVelr6D2AvxQDhRiOfkzpwhmIc5Jyzfr/UE3LLKZ7GnOxAJAs2TLi+/2slUI27DTFE1NossGfQJ/ae8idYmyTokLXeZ+XTzFbUCGhq6/ZHLLOdb5bLFYAJI0RwXUf8P7Slf7w4TEjGGfAWxP9WpiUlP//WQIfAKzm8fL6OnOzHUL8VHXPUTEv49uB2XcjKk9ZziMCAwEAAaOCAUowggFGMB8GA1UdIwQYMBaAFNrtZHQUnBQ8q92Zqb1bKE2LPMnYMB0GA1UdDgQWBBQexbEsfYfaAmh8JbwMB4Q/ts/e8TAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBADATBgNVHSUEDDAKBggrBgEFBQcDAzARBgNVHSAECjAIMAYGBFUdIAAwQgYDVR0fBDswOTA3oDWgM4YxaHR0cDovL2NybC51c2VydHJ1c3QuY29tL1VUTi1VU0VSRmlyc3QtT2JqZWN0LmNybDB0BggrBgEFBQcBAQRoMGYwPQYIKwYBBQUHMAKGMWh0dHA6Ly9jcnQudXNlcnRydXN0LmNvbS9VVE5BZGRUcnVzdE9iamVjdF9DQS5jcnQwJQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnVzZXJ0cnVzdC5jb20wDQYJKoZIhvcNAQEFBQADggEBAJWJd5NoAV582S03B5BdWkJeDGS0NrUP9qvVOSfeIkakSRxmS0YZWS55SQP2nJLfbVA1XAyRLmADWdDxZPdpCfZ+/us0s22xv2aco7oxeLmHNWE9kjEb7/TontasRfoMNjyAZ7u97y7CkOE9cS87wbBYfkXDUnEDB/bzOU2LNiEbAd/Z2l4r6w6XgB5EHFCI9cYSM0qoTaWNL5QMe8a/mizDMs29jCcm8OEwA1AGgrz0O7ODdQbG77ru04D4Usasy3nyOJ57sJJYQpEFyJYhrblLFoEUafE3sP4099yw35f1QxCbdo+0ZfXonxO3HqxvxGmKX7o8YX5eSYYjEy6vFUg=</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>GPO:Default Domain Controllers Policy;Machine</Source>
+<Store>Root</Store>
+<Certificate>MIICpDCCAYwCCQCvX1dxp53lPjANBgkqhkiG9w0BAQsFADAUMRIwEAYDVQQDDAlsb2NhbGhvc3QwHhcNMTcxMDE2MTk0NjI4WhcNMTgxMDE2MTk0NjI4WjAUMRIwEAYDVQQDDAlsb2NhbGhvc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCbGJ1aMyQCCo8CnKN8qpjwTQiCtojYL8amNVXx9vOePer92imKYXJ4Ng/hVVV82pCaXF84VgvcrezH9Wwy9qAIbQmAfp081SbrAj0TZvWah2rJlVlnaeWZwRlRxzV8qaOr+6A1prucdQQef19maTBCQNA2Pji9kWvfrli+ClwM2DgASv9F2iC0fjAZagM98htXQ0apdqP/klQSD67BXVCgJFt1a/5j4/o6vB1tCV2fUat1rXW2En5RC/3jdL9ErWSkbT4tbHIk4m+EtB/Peugt9jTFT6eZ4kKwP+0mANJGC9iwZpyWd38gBpFNSIaLAccf+EeNpIs+c21uke9kpq3fAgMBAAEwDQYJKoZIhvcNAQELBQADggEBADZBh7oh7WedPcbKIKqDZpk1GGV/Z9BYywft+kyutGhNYpX00gJBV7sYiCaLqpJMR+POGuLV4FcuSiVzlPXvYKme4nL8JemGrmLd9JnCddMETiAdZ9Z4RizHj0jyle94ceWIhtletyt1tg7AfkRP6vUV69Mb0e1ieyOWPvAScAFMmlQ+QNG8bNL9+iVGtfsbEOX/ptuB/EnxtO/37ACqf0UeKczWC9rpRB7CtRzOLOmFS8aANGrd+lAp0TBkteOBhlmW6066qDL6cZBiL14ytOcU5LhfmcX6lrwUefOlLH/J8pLFb1g5NJxTooC17CFP/55Tab0Z1JER7FpVsNDAPGM=</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>GPO:Default Domain Controllers Policy;Machine</Source>
+<Store>Root</Store>
+<Certificate>MIICpTCCAYwCCQCEcnuDiu6k0DANBgkqhkiG9w0BAQsFADAUMRIwEAYDVQQDDAlsb2NhbGhvc3QwHhcNMTcxMDE2MTk0NjEwWhcNMTgxMDE2MTk0NjEwWjAUMRIwEAYDVQQDDAlsb2NhbGhvc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQGpxaaH24+yow+C3/jdoVTCke8nsEsl4YW4qyDExqX2BIWf5Z7eVKCvfA5yiIAK1xk7tzGlvx4RcNehxmkw1B6j6yHe33uK9dQqkcNPcgRblu/VfLGCMB3cwmln5VCOmriJmG1X6Dff5w+Z/DfEmPQ8F8O5sGTPcERD16Az4DqCFpeqvzD7Ke59M7N2eWWokFjjs5dUvTocAH0oojsM+nn51xGsbkxLT3ewY0sezWhZGvA8fVO2Kl8tkRY9TvT48mgxrkYe2F7F94jFEj/8Esh0IP3P6h0bSlLDUhgk+zmYNIc5tiqYbY52siibwuuLwG0TgUeFG4OgcYPSEFWfkGMhAgMBAAEwDQYJKoZIhvcNAQELBQADggECAAGZiTHt6HgdyDjR9aH9O5oNvtmTPf6tJtKhIu1VEnWjxpXK35Dzmw5AvSSL4EVB/nAYx63eonfI4BLM3YOPLFzrIJn6LE37LMug90vCz8zPOChWR7HTgroLyh3O2nPjvJL/SuoBya6gOwKg6gqF4Kmc4Q3BAY8QiDnQP3pIxF46WKq+r6/QqILuZRE9W7SwjTBP1jKmVztM3tyL9kVl7RbRA9/ovXHlEfkN7lJqqYKMZvJZPsxm6VJQRsW1rl55bI8Vqys2DOnxNm01jtxuMVukAWEj4J8ExCKnd5EhRO/fbOfbwUVythhIsevkdXUC3PiZhDcK+CgePbJmeM8KehS3</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>NTLMStore</Source>
+<Store>NTLMStore</Store>
+<Certificate>MIIDrjCCApagAwIBAgIQWBZMglvxDZ5KE0MaGaD0OTANBgkqhkiG9w0BAQUFADBWMRMwEQYKCZImiZPyLGQBGRYDY29tMRwwGgYKCZImiZPyLGQBGRYMbXlzbWFydGxvZ29uMRQwEgYKCZImiZPyLGQBGRYEdGVzdDELMAkGA1UEAxMCQ0EwHhcNMTUxMDAzMDczNDA2WhcNMzAxMDAyMDc0NDA0WjBWMRMwEQYKCZImiZPyLGQBGRYDY29tMRwwGgYKCZImiZPyLGQBGRYMbXlzbWFydGxvZ29uMRQwEgYKCZImiZPyLGQBGRYEdGVzdDELMAkGA1UEAxMCQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDwQCAKaHDs9JvkUN+8YgJBOnNmKF1tC0lV7E3gKqBu45+tbGyZ/sr4yhpvfCRNDR6I70yzLmfzGqCApLkbN/HJIyawCOu97YwirUCbkcQfsg8rTpvoNme60dXDmBv8l2v+absZXRWug0luNwZlyI5HlhtvbFNIdXyO5H1MqfXaswq4fEXKVZt614mF3nEZH8LFnY3nc4t+uEXSNyyH/NOxaJeF3H/ZBHndK/VcKlfzmSMaKxy0JUJh3jBeg1lbPayzd/MqsBl2f19GovL0x6rqF8yW+EZYKM4MFrA/fDAwpLrhsz6V/zqel5HiEfdKzFhyXH1Zm0ATR/Lpl0hAZXbXAgMBAAGjeDB2MAsGA1UdDwQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRip+4+wM6L77HN+UamJLIFX4nnnTASBgkrBgEEAYI3FQEEBQIDAQABMCMGCSsGAQQBgjcVAgQWBBRagUE3w+8lkDe2g8eyhFWvBN5XbzANBgkqhkiG9w0BAQUFAAOCAQEA1jKZPvUVDt+1Q79Ll3sx8d0quPAjkhtGmLA0sIXmOYt6O8w8TnRHVT9hFu8SODcqJa4e+EBSVp+VkuT2hqvuFguXbzue0W3veZUzm+Bs1+nQm8MeS9mij6Cdmi3yf872qrgoBcUdl/cWyUSbHbWBZYoEcTZto5Kw4AjJatKNOAHclGdgvumzk6Jf4xuFwhYgO6Z1r/KjA7EHxcga7yK0GiQMBb+4oTiZLsj++fxNfLg99G/1gOOvsB6ATQJUnyXEcsmYIn5GDykLOGxMamU9UWVhTl/nSZdZruq1cV49QOdaRH5/jtF8nVnp7oAB4/1uGkReuCy/laV2+XHatSNUbQ==</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>NTLMStore</Source>
+<Store>NTLMStore</Store>
+<Certificate>MIIFCTCCA3GgAwIBAgIJALVifL1Z0JhoMA0GCSqGSIb3DQEBBQUAMFUxCzAJBgNVBAYTAkRFMRYwFAYDVQQKEw1NYXNrVGVjaCBHbWJIMRYwFAYDVQQLEw1UZXN0IERpdmlzaW9uMRYwFAYDVQQDEw1NYXNrVGVjaCBDU0NBMB4XDTE0MDIxMzE0MzA0MVoXDTE5MDExNjE0MzA0MVowVTELMAkGA1UEBhMCREUxFjAUBgNVBAoTDU1hc2tUZWNoIEdtYkgxFjAUBgNVBAsTDVRlc3QgRGl2aXNpb24xFjAUBgNVBAMTDU1hc2tUZWNoIENTQ0EwggGiMA0GCSqGSIb3DQEBAQUAA4IBjwAwggGKAoIBgQDuFWmsVBpgG/jpQTuvTYOXVhPdOP9YsTaeNO6MYWLYnfQR6mwp/1c+YB7HV/n64v5fKwVuSP+w0A8PhFHqX4YLKN4x0+JTxDd1bxPKHuT9d45+5ZODNLRRjPN/sXYPkGWrUHCSJeFxZAD/IXXagLAkPgmRfXA4BdmUzF1+5c92TFSuuYqpN2QgMthY49399OHoRvaSviSlM8BlfTiUZdTqWqx9EOWQH35qqP5jDDe2IFhmMrd957w91y0h+Fv406T207EtWHRvc+GK6tIXkgdztWrL01Z1VI0KqGZLD+JZHP+54nlazhgXbK9KkyKkMyitWka64W7RJ4HXLwC4zVdobXMZrrH/UO2hHyIr7hqu+3HZe35Tu8QIXYm4xgCt5ujpUmzTkBanTV7JY9C+h5t4OnmcrWpZ3OC9JXGJ+gwg4LyapqIIWdP0r+bsDIfLOw+cr5t3nhAJSuTYN4pKqlcldPeI7XxM44rEiwTOgjlpU3KLWpC/mYbT4QWdfmlUjHMCAwEAAaOB2zCB2DAdBgNVHQ4EFgQU9cpKGY6Zo2Du3PtKqaBADr+VulYwgYUGA1UdIwR+MHyAFPXKShmOmaNg7tz7SqmgQA6/lbpWoVmkVzBVMQswCQYDVQQGEwJERTEWMBQGA1UEChMNTWFza1RlY2ggR21iSDEWMBQGA1UECxMNVGVzdCBEaXZpc2lvbjEWMBQGA1UEAxMNTWFza1RlY2ggQ1NDQYIJALVifL1Z0JhoMAwGA1UdEwQFMAMBAf8wCwYDVR0PBAQDAgEGMAkGA1UdEQQCMAAwCQYDVR0SBAIwADANBgkqhkiG9w0BAQUFAAOCAYEALrmXrr3CyxnQq4+gZwS0yzxUgRFtS5KBb/Qv1DP7yIqp31un++LwKc4uMyLrUdmEDXTWioIj+NH1rymespPkJaV/wa+jsqjb6Ynz0E8Ds5uXV1fMU0yOgQAri2eBQ1MWJgpzbs3+CiFHtGgAKT4+u9Q8rf8vSHS3lIdu98I0UEexxYGnnMYTUf4D9SobcFtxLcy7ztd/dhymZWO4c/2lpD87jHvUDBDTP4W8NIJHUJ3B6BDG7a9DjPR1qjpuzE81uO6qWE441mAbqqoPffvEdk4753rSORyckf67r9tPSvJQjdCK3qG/1wjL9KQmfqpkewIpVdOthaj4qSPS/gy8l1u03yYQfzf9DGrScictSTcdgxUiqj2axZtWZvojRRPwb2S2XqobE8flTNCHxUh+LWlCtifNbVmU9pt4XzPLf2nZOK9vmi217lImUi7q+i2fmIleIeXaqzBFV4meaj+z9MCaB0NpXh18zAYXodNtA9peeRuNVk/s26+HkphO+jEC</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>NTLMStore</Source>
+<Store>NTLMStore</Store>
+<Certificate>MIIDjjCCAnagAwIBAgIIKv++n6Lw6YcwDQYJKoZIhvcNAQEFBQAwKDELMAkGA1UEBhMCQkUxGTAXBgNVBAMTEEJlbGdpdW0gUm9vdCBDQTIwHhcNMDcxMDA0MTAwMDAwWhcNMjExMjE1MDgwMDAwWjAoMQswCQYDVQQGEwJCRTEZMBcGA1UEAxMQQmVsZ2l1bSBSb290IENBMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMZzQh6S/3UPi790hqc/7bIYLS2X+an7mEoj39WN4IzGMhwWLQdC1i22bi+n9fzGhYJdld61IgDMqFNAn68KNaJ6x+HK92AQZw6nUHMXU5WfIp8MXW+2QbyM69odRr2nlL/zGsvU+40OHjPIltfsjFPekx40HopQcSZYtF3CiInaYNKJIT/e1wEYNm7hLHADBGXvmAYrXR5i3FVr/mZkIV/4L+HXmymvb82fqgxG0YjFnaKVn6w/Fa7yYd/vw2uaItgscf1YHewApDgglVrH1Tdjuk+bqv5WRi5j2Qsj1Yr6tSPwiRuhFA0m2kHwOI8w7QUmecFLTqG4flVSOmlGhHUCAwEAAaOBuzCBuDAOBgNVHQ8BAf8EBAMCAQYwDwYDVR0TAQH/BAUwAwEB/zBCBgNVHSAEOzA5MDcGBWA4CQEBMC4wLAYIKwYBBQUHAgEWIGh0dHA6Ly9yZXBvc2l0b3J5LmVpZC5iZWxnaXVtLmJlMB0GA1UdDgQWBBSFiuv0xbu+DlkDlN7WgAEV4xCcOTARBglghkgBhvhCAQEEBAMCAAcwHwYDVR0jBBgwFoAUhYrr9MW7vg5ZA5Te1oABFeMQnDkwDQYJKoZIhvcNAQEFBQADggEBAFHYhd27V2/MoGy1oyCcUwnzSgEMdL8rs5qauhjyC4isHLMzr87lEwEnkoRYmhC598wUkmt0FoqW6FHvv/pKJaeJtmMrXZRY0c8RcrYeuTlBFk0pvDVTC9rejg7NqZV3JcqUWumyaa7YwBO+mPyWnIR/VRPmPIfjvCCkpDZoa01gZhz5v6yAlGYuuUGK02XThIAC71AdXkbc98m6tTR8KvPG2F9fVJ3bTc0R5/0UAoNmXsimABKgX77OFP67H6dh96tK8QYUn8pJQsKpvO2FsauBQeYNxUJpU4c5nUwfAA4+Bw11V0SoU7Q2dmSZ3G7rPUZuFF1eR1ONeE3gJ7uOhXY=</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>NTLMStore</Source>
+<Store>NTLMStore</Store>
+<Certificate>MIIE5zCCA8+gAwIBAgIQEHCdT/VUCNcwYAHY6pF1uzANBgkqhkiG9w0BAQUFADCBlTELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAlVUMRcwFQYDVQQHEw5TYWx0IExha2UgQ2l0eTEeMBwGA1UEChMVVGhlIFVTRVJUUlVTVCBOZXR3b3JrMSEwHwYDVQQLExhodHRwOi8vd3d3LnVzZXJ0cnVzdC5jb20xHTAbBgNVBAMTFFVUTi1VU0VSRmlyc3QtT2JqZWN0MB4XDTExMDgyNDAwMDAwMFoXDTIwMDUzMDEwNDgzOFowezELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQxITAfBgNVBAMTGENPTU9ETyBDb2RlIFNpZ25pbmcgQ0EgMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMv456fo8ZcoQGiAN9LIP46SipI3h0eA6kyZz275FUe97nX0RKzQw9RN9xnA0zxNwUe5WWUWk4zZCoSbn+j2amNY/l/c0X9LUZ8AHACHVCAHV6CCyS+YrzOKu3uAIiVqbK/CLGx5E72jKkjWtY5hVelr6D2AvxQDhRiOfkzpwhmIc5Jyzfr/UE3LLKZ7GnOxAJAs2TLi+/2slUI27DTFE1NossGfQJ/ae8idYmyTokLXeZ+XTzFbUCGhq6/ZHLLOdb5bLFYAJI0RwXUf8P7Slf7w4TEjGGfAWxP9WpiUlP//WQIfAKzm8fL6OnOzHUL8VHXPUTEv49uB2XcjKk9ZziMCAwEAAaOCAUowggFGMB8GA1UdIwQYMBaAFNrtZHQUnBQ8q92Zqb1bKE2LPMnYMB0GA1UdDgQWBBQexbEsfYfaAmh8JbwMB4Q/ts/e8TAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBADATBgNVHSUEDDAKBggrBgEFBQcDAzARBgNVHSAECjAIMAYGBFUdIAAwQgYDVR0fBDswOTA3oDWgM4YxaHR0cDovL2NybC51c2VydHJ1c3QuY29tL1VUTi1VU0VSRmlyc3QtT2JqZWN0LmNybDB0BggrBgEFBQcBAQRoMGYwPQYIKwYBBQUHMAKGMWh0dHA6Ly9jcnQudXNlcnRydXN0LmNvbS9VVE5BZGRUcnVzdE9iamVjdF9DQS5jcnQwJQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnVzZXJ0cnVzdC5jb20wDQYJKoZIhvcNAQEFBQADggEBAJWJd5NoAV582S03B5BdWkJeDGS0NrUP9qvVOSfeIkakSRxmS0YZWS55SQP2nJLfbVA1XAyRLmADWdDxZPdpCfZ+/us0s22xv2aco7oxeLmHNWE9kjEb7/TontasRfoMNjyAZ7u97y7CkOE9cS87wbBYfkXDUnEDB/bzOU2LNiEbAd/Z2l4r6w6XgB5EHFCI9cYSM0qoTaWNL5QMe8a/mizDMs29jCcm8OEwA1AGgrz0O7ODdQbG77ru04D4Usasy3nyOJ57sJJYQpEFyJYhrblLFoEUafE3sP4099yw35f1QxCbdo+0ZfXonxO3HqxvxGmKX7o8YX5eSYYjEy6vFUg=</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>NTLMStore</Source>
+<Store>NTLMStore</Store>
+<Certificate>MIIDjTCCAnWgAwIBAgIJAMUougkLJkz3MA0GCSqGSIb3DQEBBQUAMF0xDDAKBgNVBAsMA1BLSTEMMAoGA1UECwwDRG9EMRgwFgYDVQQKDA9VLlMuIEdvdmVybm1lbnQxCzAJBgNVBAYTAlVTMRgwFgYDVQQDDA9ET0QgRU1BSUwgQ0EtMjkwHhcNMTQwNTAxMDcwODIxWhcNNDEwOTE1MDcwODIxWjBdMQwwCgYDVQQLDANQS0kxDDAKBgNVBAsMA0RvRDEYMBYGA1UECgwPVS5TLiBHb3Zlcm5tZW50MQswCQYDVQQGEwJVUzEYMBYGA1UEAwwPRE9EIEVNQUlMIENBLTI5MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvhSRUtRtTIcGwywKDK03pWBDvoeTpLli8vluONC1aJsPzMD11/pYqEfvJk/TtS4sgPVoDkZL7STTirXWbBh/S766yNfMvIPxAud+oGWxTW+36XQrz1eEsZLIxkWJV2c7r2hQlU86sv/VzIE0lJ/XAh8mAYQlxmBmbvXJSHVvLmZ+Qi6owtNdSYrT4hrA0mxHtDkanm5oPs+gqHrgObyGEyfQvksLEGYtNxiL5bFiQP5s/8FjR2cQdfcFLlg1ykDjQ+cLvSI0R8x81kBhbJxBz2B7SdSFLk2ZqyuY1xCGvQWXZE9+NrPqF8jkqC+VSs2tqqOGfiPoEfNba0w0kHu2WQIDAQABo1AwTjAdBgNVHQ4EFgQUOopza6rlvSRTB/R+88gpD338v6kwHwYDVR0jBBgwFoAUOopza6rlvSRTB/R+88gpD338v6kwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOCAQEAPniLWFjcEy05Vbb1FrzDj7eu0VWZ1PmYr+kN24uEzp7TqyRCY8/IPvl50bsJz6wxImmFu8wg1TLhgyWoG6HrRsVZ5RHY5hfEc4i6optc22OVwDswI9ojk8gslBx9Z/BZNRYGWZweqDpTjNN2V38I0ocn1rvaWHKU5waG85WJH4fgBgRvq3IwuQm2dGTo/XJYVTmwIT8LyLe6V0jCnjKw7pIWuhe6R/wzxSxkE+Mw6qWJB258ZHAVysfo/y9IfPcw/NimqAGeXuW+SQl4g2Y7d3VSGJYQCsSmQC+lHz/aycJP7JPmR+l5OoJyTNDnl38iTs6c5uiLSNOJ6WPESfx11Q==</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>NTLMStore</Source>
+<Store>NTLMStore</Store>
+<Certificate>MIIENjCCAx6gAwIBAgIBATANBgkqhkiG9w0BAQUFADBvMQswCQYDVQQGEwJTRTEUMBIGA1UEChMLQWRkVHJ1c3QgQUIxJjAkBgNVBAsTHUFkZFRydXN0IEV4dGVybmFsIFRUUCBOZXR3b3JrMSIwIAYDVQQDExlBZGRUcnVzdCBFeHRlcm5hbCBDQSBSb290MB4XDTAwMDUzMDEwNDgzOFoXDTIwMDUzMDEwNDgzOFowbzELMAkGA1UEBhMCU0UxFDASBgNVBAoTC0FkZFRydXN0IEFCMSYwJAYDVQQLEx1BZGRUcnVzdCBFeHRlcm5hbCBUVFAgTmV0d29yazEiMCAGA1UEAxMZQWRkVHJ1c3QgRXh0ZXJuYWwgQ0EgUm9vdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALf3GjPm8gAELTngTlvtH7xsD821+iO2zt6bETOXpClMfZOfvUq8k+0DGuOPz+VtUFrWlymUWoCwSXrbLpX9uMq/NzgtHj6RQa1wVsfwTz/oMp50ysiQVOnGXw94nZpAPA6sYapeFI+eh6FqUNzXmk6vBbOmcZSccbNQYArHE504B4YCqOmoaSYYkKtMsE8jqzpPhNjfzp/haW+710LXa0Tkx63ubUFfclpxCDezeWWkWaCUN/cALw3CknLa0Dhy2xSoRcRdKn23tNbE7qzNE0S3ySvdQwAl+mG5aWpYIxG3pzOPVnVZ9c0p10a3CitlttNCbxWyuHv77+ldU9U0WicCAwEAAaOB3DCB2TAdBgNVHQ4EFgQUrb2YejS0Jvf6xCZU7wO94CTLVBowCwYDVR0PBAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wgZkGA1UdIwSBkTCBjoAUrb2YejS0Jvf6xCZU7wO94CTLVBqhc6RxMG8xCzAJBgNVBAYTAlNFMRQwEgYDVQQKEwtBZGRUcnVzdCBBQjEmMCQGA1UECxMdQWRkVHJ1c3QgRXh0ZXJuYWwgVFRQIE5ldHdvcmsxIjAgBgNVBAMTGUFkZFRydXN0IEV4dGVybmFsIENBIFJvb3SCAQEwDQYJKoZIhvcNAQEFBQADggEBALCb4IUlwtYj4g+WBpKdQZic2YR5gdkeWxQHIzZlj7DYd7usQWxHYINRsPkyPef89iYTx4AWpb9a/IfPeHmJIZriTAcKhjW88t5RxNKWt9x+Tu5w/Rw56wwCURQtjr0W4MHfRnXnJK3s9EK0hZNwEGe6nQY1ShjTK3rMUUKhemPR5ruhxSvCNr4TDea9Y355e6cJDUCrat2PisP29owaQgVR1EX1n6diIWgVIEM8med8vSTYqZEXc4g/VhsxOBi0cQ+azcgOno4uG+GMmIPLHzHxREzGBHNJdmAPx/i9F4BrLunMTA5amnkPIAou1Z5jJh5VkpTYghdae9C8x49OhgQ=</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>NTLMStore</Source>
+<Store>NTLMStore</Store>
+<Certificate>MIIEhDCCA2ygAwIBAgIQQhrylAmEGR9SCkvGJCanSzANBgkqhkiG9w0BAQUFADBvMQswCQYDVQQGEwJTRTEUMBIGA1UEChMLQWRkVHJ1c3QgQUIxJjAkBgNVBAsTHUFkZFRydXN0IEV4dGVybmFsIFRUUCBOZXR3b3JrMSIwIAYDVQQDExlBZGRUcnVzdCBFeHRlcm5hbCBDQSBSb290MB4XDTA1MDYwNzA4MDkxMFoXDTIwMDUzMDEwNDgzOFowgZUxCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJVVDEXMBUGA1UEBxMOU2FsdCBMYWtlIENpdHkxHjAcBgNVBAoTFVRoZSBVU0VSVFJVU1QgTmV0d29yazEhMB8GA1UECxMYaHR0cDovL3d3dy51c2VydHJ1c3QuY29tMR0wGwYDVQQDExRVVE4tVVNFUkZpcnN0LU9iamVjdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAM6qgT+jo2F4qjEAVZURnicPHxzfOpuCaDDASmEd8S8O+r5596Uj71VRloTN2+O5bj4x2AogZ8f02b+U60cEPgLOKqJdhwQJ9jCdGIqXsqoc/EHSoTbL+z2RuufZcDX65OeQw5ujm9M89RKZd7G3CeBo5hy485RjiGpq/gt2yb70IuRnuasaXnfBhQfdDWy/7gbHd2pBnqcP1/vulBe3/IW+pKvEHDHd17bR5PDv3xaPslKT16HUiaEHLr/hARJCHhrh2JU022R5KP+6LhHC5ehbkkj7RwvCbNqtMoNB86XlQXD9ZZBt+vpRxPm9lisZBCzTbafc8H9vg2XiaquHhnUCAwEAAaOB9DCB8TAfBgNVHSMEGDAWgBStvZh6NLQm9/rEJlTvA73gJMtUGjAdBgNVHQ4EFgQU2u1kdBScFDyr3ZmpvVsoTYs8ydgwDgYDVR0PAQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wEQYDVR0gBAowCDAGBgRVHSAAMEQGA1UdHwQ9MDswOaA3oDWGM2h0dHA6Ly9jcmwudXNlcnRydXN0LmNvbS9BZGRUcnVzdEV4dGVybmFsQ0FSb290LmNybDA1BggrBgEFBQcBAQQpMCcwJQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnVzZXJ0cnVzdC5jb20wDQYJKoZIhvcNAQEFBQADggEBAE1CL6bBiusHgJBYRoz4GTlmKjxaLG3P1NmHVY15CxKIe0CP1cf4S41VFmOtt1fcOyu908FPHgOHS0Sb4+JARSbzJkkraoTxVHrUQtr802q7Zn7Knurpu9wHx8OSToM8gUmfktUyCepJLqERcZo20sVOaLbLDhslFq9s3l122B9ysZMmhhfbGN6vRenf+5ivFBjtpF72iZRF8FUESt3/J90GSkD2tLzx5A+ZArv9XQ4uKMG+O18aP5cQhLwWPtijnGMdZstcX9o+8w8KCTUi29vAPwD55g1dZ9H9oB4DK9lA977Mh2ZUgKajuPUZYtXSJrGYJu6ay0SnRVqBlRUa9VE=</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>NTLMStore</Source>
+<Store>NTLMStore</Store>
+<Certificate>MIIE0DCCA7igAwIBAgIQc1eMcW2zlVMTffMJcxir/jANBgkqhkiG9w0BAQUFADCBlTELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAlVUMRcwFQYDVQQHEw5TYWx0IExha2UgQ2l0eTEeMBwGA1UEChMVVGhlIFVTRVJUUlVTVCBOZXR3b3JrMSEwHwYDVQQLExhodHRwOi8vd3d3LnVzZXJ0cnVzdC5jb20xHTAbBgNVBAMTFFVUTi1VU0VSRmlyc3QtT2JqZWN0MB4XDTExMDQyNzAwMDAwMFoXDTIwMDUzMDEwNDgzOFoweTELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQxHzAdBgNVBAMTFkNPTU9ETyBDb2RlIFNpZ25pbmcgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCV4zPrBjKZoyL0U0BrUF9eO8AqDn6Uubmb+uFe5wqcdD7WjF9+OKJHa6AeC8D9B+8QvEzbK9uWJtE8Ug4+K47eEtJmmoxIilY4y11wbrNoj5vnl7BgvbucR30A2L9IJGF+E4ThagbcaXQtZbJclsI5301QcYhQWyFnjXSbcwUot4YfBSbCgA4YR7ENXX4Zy0K/qbbDNlv4XNfP60KwRMxKin2osM+DL66I3N5eRE68n9NcMYR29n6em3e844GkXt1A4OivnEJb+cmOZaWR6u4nHN+Yt7BKWDWV/rA6c0Z+VkWx1cCclu3AbviUnLvvJsHLbd0eZ5F6ecl8CGZ22EW5AgMBAAGjggE1MIIBMTAfBgNVHSMEGDAWgBTa7WR0FJwUPKvdmam9WyhNizzJ2DAdBgNVHQ4EFgQUICUjFxG/0A2g5yu8ntWaQglPKsUwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQAwEQYDVR0gBAowCDAGBgRVHSAAMEIGA1UdHwQ7MDkwN6A1oDOGMWh0dHA6Ly9jcmwudXNlcnRydXN0LmNvbS9VVE4tVVNFUkZpcnN0LU9iamVjdC5jcmwwdAYIKwYBBQUHAQEEaDBmMD0GCCsGAQUFBzAChjFodHRwOi8vY3J0LnVzZXJ0cnVzdC5jb20vVVROQWRkVHJ1c3RPYmplY3RfQ0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0GCSqGSIb3DQEBBQUAA4IBAQCzlfJAw9PEpH9SnmCuiMPhTsV/zWV+jO8VLl8w8LsYM3gyRZ4DFX+daIu8QWfgAyufAzy1K9ZOV3wgRXOXTKGwB+lP042MJeoaiDUw/mKUASq6HNXYFgQWqTTcDuMFyJKcQcSC5vFmrD08HdDxLuSWihL9fgNK5vRZoG6Z0unEDWLWqztra8IcztXYZo/kbj8Bdcs3jG1KWZXK6GiejZwowTnBaQf9j6+chJ0LTvLSmfXUqBcJFsYXqGfaUBoh6nXPJT67vIEiFATpO7EukTqsnCO8hzsezq4ls6GxgwDvLsPe28VxxS8v+bCFv2DUdfhpL2t+o69azpTybNDgJNbG</Certificate>
+</HealthcheckCertificateData>
+<HealthcheckCertificateData>
+<Source>NTLMStore</Source>
+<Store>NTLMStore</Store>
+<Certificate>MIIDhzCCAm+gAwIBAgIQQLlGKT/4GqtNUekC8wck4DANBgkqhkiG9w0BAQUFADBWMRMwEQYKCZImiZPyLGQBGRYDY29tMRwwGgYKCZImiZPyLGQBGRYMbXlzbWFydGxvZ29uMRQwEgYKCZImiZPyLGQBGRYEdGVzdDELMAkGA1UEAxMCQ0EwHhcNMTIwMzAzMTgyMTM3WhcNMjcwMzAzMTgzMTM1WjBWMRMwEQYKCZImiZPyLGQBGRYDY29tMRwwGgYKCZImiZPyLGQBGRYMbXlzbWFydGxvZ29uMRQwEgYKCZImiZPyLGQBGRYEdGVzdDELMAkGA1UEAxMCQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDQLU9IHvhVQpEwY6RO1y6bUsKMQrHwV41uXab4VekkizpsNLpokr6NHxJ8CxgjCkNwq4+dcbbamAS4NtmyS5Zx9gh0sL1ySmwYSUIIEOVNajJIuC8isLCoD4m2JoEjsbweDGbKaeqL/ltQJzkO96cbafq6+mpj0XY/G4UG2D7c/kId1lwT/sFlbQQJNzweSKEuPzGEdveQ+hEuvwOZLcY2FHPIa42bMkN45mJaO+iI5LVPAqnTDpmNupkTgRZF6HenWgYW0cbiCWXhqxZtsxcoOHeK84adiZ5l5/H+brjjr79Nw5gPWDsOMxE9UrG1e1UOUHwsTpq47TPmAh0IozJnAgMBAAGjUTBPMAsGA1UdDwQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRCTBuvimU7MigKELW7KqgeKZY/BzAQBgkrBgEEAYI3FQEEAwIBADANBgkqhkiG9w0BAQUFAAOCAQEAWem3g/aVGgTcn/tjMPy0V6Dsw8YKGdJYJVGCs5rEepQ9ELgOXiAi1ReIFiKFmdhILBCUgocrDygq9wXsf5igaPaRXp3d/mmbO+lvGnJEA9VyEgf9CNcscb+TTusuvE3qKccI2hfl8bopdKmWquD7Ui8V1RjE6GD5X96ll3hJ1WVlaFpnT9oCGn/j0z1NKeznJZwikbxibYIsXeGgmC6tnYyymTVDwu8bQub/YOpUmZ4dnT5Yffi+KTBYnYG28JoKgX2CS8xE0A1Z71WPJLAziMf3rsI7GuwzXLYaRuiaagGBKvhx+aUP1PbsJ5c3ihsz2YKZM7dfymmX0jPxEiuMTw==</Certificate>
+</HealthcheckCertificateData>
+</TrustedCertificates>
+<PrivilegedGroups>
+<HealthCheckGroupData>
+<GroupName>Account Operators</GroupName>
+<DistinguishedName>CN=Account Operators,CN=Builtin,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<NumberOfMember>1</NumberOfMember>
+<NumberOfMemberDisabled>0</NumberOfMemberDisabled>
+<NumberOfMemberPwdNotRequired>0</NumberOfMemberPwdNotRequired>
+<NumberOfMemberPwdNeverExpires>0</NumberOfMemberPwdNeverExpires>
+<NumberOfMemberLocked>0</NumberOfMemberLocked>
+<NumberOfMemberInactive>1</NumberOfMemberInactive>
+<NumberOfMemberActive>0</NumberOfMemberActive>
+<NumberOfMemberEnabled>1</NumberOfMemberEnabled>
+<NumberOfMemberCanBeDelegated>1</NumberOfMemberCanBeDelegated>
+<NumberOfExternalMember>0</NumberOfExternalMember>
+<NumberOfSmartCardRequired>0</NumberOfSmartCardRequired>
+<NumberOfServiceAccount>0</NumberOfServiceAccount>
+<NumberOfMemberInProtectedUsers>0</NumberOfMemberInProtectedUsers>
+</HealthCheckGroupData>
+<HealthCheckGroupData>
+<GroupName>Administrators</GroupName>
+<DistinguishedName>CN=Administrators,CN=Builtin,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<NumberOfMember>6</NumberOfMember>
+<NumberOfMemberDisabled>1</NumberOfMemberDisabled>
+<NumberOfMemberPwdNotRequired>0</NumberOfMemberPwdNotRequired>
+<NumberOfMemberPwdNeverExpires>1</NumberOfMemberPwdNeverExpires>
+<NumberOfMemberLocked>0</NumberOfMemberLocked>
+<NumberOfMemberInactive>3</NumberOfMemberInactive>
+<NumberOfMemberActive>2</NumberOfMemberActive>
+<NumberOfMemberEnabled>5</NumberOfMemberEnabled>
+<NumberOfMemberCanBeDelegated>4</NumberOfMemberCanBeDelegated>
+<NumberOfExternalMember>0</NumberOfExternalMember>
+<NumberOfSmartCardRequired>1</NumberOfSmartCardRequired>
+<NumberOfServiceAccount>1</NumberOfServiceAccount>
+<NumberOfMemberInProtectedUsers>0</NumberOfMemberInProtectedUsers>
+</HealthCheckGroupData>
+<HealthCheckGroupData>
+<GroupName>Backup Operators</GroupName>
+<DistinguishedName>CN=Backup Operators,CN=Builtin,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<NumberOfMember>0</NumberOfMember>
+<NumberOfMemberDisabled>0</NumberOfMemberDisabled>
+<NumberOfMemberPwdNotRequired>0</NumberOfMemberPwdNotRequired>
+<NumberOfMemberPwdNeverExpires>0</NumberOfMemberPwdNeverExpires>
+<NumberOfMemberLocked>0</NumberOfMemberLocked>
+<NumberOfMemberInactive>0</NumberOfMemberInactive>
+<NumberOfMemberActive>0</NumberOfMemberActive>
+<NumberOfMemberEnabled>0</NumberOfMemberEnabled>
+<NumberOfMemberCanBeDelegated>0</NumberOfMemberCanBeDelegated>
+<NumberOfExternalMember>0</NumberOfExternalMember>
+<NumberOfSmartCardRequired>0</NumberOfSmartCardRequired>
+<NumberOfServiceAccount>0</NumberOfServiceAccount>
+<NumberOfMemberInProtectedUsers>0</NumberOfMemberInProtectedUsers>
+</HealthCheckGroupData>
+<HealthCheckGroupData>
+<GroupName>Certificate Operators</GroupName>
+<DistinguishedName>CN=Cryptographic Operators,CN=Builtin,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<NumberOfMember>0</NumberOfMember>
+<NumberOfMemberDisabled>0</NumberOfMemberDisabled>
+<NumberOfMemberPwdNotRequired>0</NumberOfMemberPwdNotRequired>
+<NumberOfMemberPwdNeverExpires>0</NumberOfMemberPwdNeverExpires>
+<NumberOfMemberLocked>0</NumberOfMemberLocked>
+<NumberOfMemberInactive>0</NumberOfMemberInactive>
+<NumberOfMemberActive>0</NumberOfMemberActive>
+<NumberOfMemberEnabled>0</NumberOfMemberEnabled>
+<NumberOfMemberCanBeDelegated>0</NumberOfMemberCanBeDelegated>
+<NumberOfExternalMember>0</NumberOfExternalMember>
+<NumberOfSmartCardRequired>0</NumberOfSmartCardRequired>
+<NumberOfServiceAccount>0</NumberOfServiceAccount>
+<NumberOfMemberInProtectedUsers>0</NumberOfMemberInProtectedUsers>
+</HealthCheckGroupData>
+<HealthCheckGroupData>
+<GroupName>Certificate Publishers</GroupName>
+<DistinguishedName>CN=Cert Publishers,CN=Users,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<NumberOfMember>0</NumberOfMember>
+<NumberOfMemberDisabled>0</NumberOfMemberDisabled>
+<NumberOfMemberPwdNotRequired>0</NumberOfMemberPwdNotRequired>
+<NumberOfMemberPwdNeverExpires>0</NumberOfMemberPwdNeverExpires>
+<NumberOfMemberLocked>0</NumberOfMemberLocked>
+<NumberOfMemberInactive>0</NumberOfMemberInactive>
+<NumberOfMemberActive>0</NumberOfMemberActive>
+<NumberOfMemberEnabled>0</NumberOfMemberEnabled>
+<NumberOfMemberCanBeDelegated>0</NumberOfMemberCanBeDelegated>
+<NumberOfExternalMember>0</NumberOfExternalMember>
+<NumberOfSmartCardRequired>0</NumberOfSmartCardRequired>
+<NumberOfServiceAccount>0</NumberOfServiceAccount>
+<NumberOfMemberInProtectedUsers>0</NumberOfMemberInProtectedUsers>
+</HealthCheckGroupData>
+<HealthCheckGroupData>
+<GroupName>Dns Admins</GroupName>
+<DistinguishedName>CN=DnsAdmins,CN=Users,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<NumberOfMember>1</NumberOfMember>
+<NumberOfMemberDisabled>0</NumberOfMemberDisabled>
+<NumberOfMemberPwdNotRequired>0</NumberOfMemberPwdNotRequired>
+<NumberOfMemberPwdNeverExpires>0</NumberOfMemberPwdNeverExpires>
+<NumberOfMemberLocked>0</NumberOfMemberLocked>
+<NumberOfMemberInactive>1</NumberOfMemberInactive>
+<NumberOfMemberActive>0</NumberOfMemberActive>
+<NumberOfMemberEnabled>1</NumberOfMemberEnabled>
+<NumberOfMemberCanBeDelegated>1</NumberOfMemberCanBeDelegated>
+<NumberOfExternalMember>0</NumberOfExternalMember>
+<NumberOfSmartCardRequired>0</NumberOfSmartCardRequired>
+<NumberOfServiceAccount>0</NumberOfServiceAccount>
+<NumberOfMemberInProtectedUsers>0</NumberOfMemberInProtectedUsers>
+</HealthCheckGroupData>
+<HealthCheckGroupData>
+<GroupName>Domain Administrators</GroupName>
+<DistinguishedName>CN=Domain Admins,CN=Users,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<NumberOfMember>5</NumberOfMember>
+<NumberOfMemberDisabled>1</NumberOfMemberDisabled>
+<NumberOfMemberPwdNotRequired>0</NumberOfMemberPwdNotRequired>
+<NumberOfMemberPwdNeverExpires>1</NumberOfMemberPwdNeverExpires>
+<NumberOfMemberLocked>0</NumberOfMemberLocked>
+<NumberOfMemberInactive>2</NumberOfMemberInactive>
+<NumberOfMemberActive>2</NumberOfMemberActive>
+<NumberOfMemberEnabled>4</NumberOfMemberEnabled>
+<NumberOfMemberCanBeDelegated>3</NumberOfMemberCanBeDelegated>
+<NumberOfExternalMember>0</NumberOfExternalMember>
+<NumberOfSmartCardRequired>1</NumberOfSmartCardRequired>
+<NumberOfServiceAccount>1</NumberOfServiceAccount>
+<NumberOfMemberInProtectedUsers>0</NumberOfMemberInProtectedUsers>
+</HealthCheckGroupData>
+<HealthCheckGroupData>
+<GroupName>Enterprise Administrators</GroupName>
+<DistinguishedName>CN=Enterprise Admins,CN=Users,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<NumberOfMember>1</NumberOfMember>
+<NumberOfMemberDisabled>0</NumberOfMemberDisabled>
+<NumberOfMemberPwdNotRequired>0</NumberOfMemberPwdNotRequired>
+<NumberOfMemberPwdNeverExpires>1</NumberOfMemberPwdNeverExpires>
+<NumberOfMemberLocked>0</NumberOfMemberLocked>
+<NumberOfMemberInactive>0</NumberOfMemberInactive>
+<NumberOfMemberActive>1</NumberOfMemberActive>
+<NumberOfMemberEnabled>1</NumberOfMemberEnabled>
+<NumberOfMemberCanBeDelegated>0</NumberOfMemberCanBeDelegated>
+<NumberOfExternalMember>0</NumberOfExternalMember>
+<NumberOfSmartCardRequired>0</NumberOfSmartCardRequired>
+<NumberOfServiceAccount>0</NumberOfServiceAccount>
+<NumberOfMemberInProtectedUsers>0</NumberOfMemberInProtectedUsers>
+</HealthCheckGroupData>
+<HealthCheckGroupData>
+<GroupName>Print Operators</GroupName>
+<DistinguishedName>CN=Print Operators,CN=Builtin,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<NumberOfMember>3</NumberOfMember>
+<NumberOfMemberDisabled>0</NumberOfMemberDisabled>
+<NumberOfMemberPwdNotRequired>0</NumberOfMemberPwdNotRequired>
+<NumberOfMemberPwdNeverExpires>3</NumberOfMemberPwdNeverExpires>
+<NumberOfMemberLocked>0</NumberOfMemberLocked>
+<NumberOfMemberInactive>2</NumberOfMemberInactive>
+<NumberOfMemberActive>1</NumberOfMemberActive>
+<NumberOfMemberEnabled>3</NumberOfMemberEnabled>
+<NumberOfMemberCanBeDelegated>3</NumberOfMemberCanBeDelegated>
+<NumberOfExternalMember>0</NumberOfExternalMember>
+<NumberOfSmartCardRequired>0</NumberOfSmartCardRequired>
+<NumberOfServiceAccount>0</NumberOfServiceAccount>
+<NumberOfMemberInProtectedUsers>0</NumberOfMemberInProtectedUsers>
+</HealthCheckGroupData>
+<HealthCheckGroupData>
+<GroupName>Replicator</GroupName>
+<DistinguishedName>CN=Replicator,CN=Builtin,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<NumberOfMember>0</NumberOfMember>
+<NumberOfMemberDisabled>0</NumberOfMemberDisabled>
+<NumberOfMemberPwdNotRequired>0</NumberOfMemberPwdNotRequired>
+<NumberOfMemberPwdNeverExpires>0</NumberOfMemberPwdNeverExpires>
+<NumberOfMemberLocked>0</NumberOfMemberLocked>
+<NumberOfMemberInactive>0</NumberOfMemberInactive>
+<NumberOfMemberActive>0</NumberOfMemberActive>
+<NumberOfMemberEnabled>0</NumberOfMemberEnabled>
+<NumberOfMemberCanBeDelegated>0</NumberOfMemberCanBeDelegated>
+<NumberOfExternalMember>0</NumberOfExternalMember>
+<NumberOfSmartCardRequired>0</NumberOfSmartCardRequired>
+<NumberOfServiceAccount>0</NumberOfServiceAccount>
+<NumberOfMemberInProtectedUsers>0</NumberOfMemberInProtectedUsers>
+</HealthCheckGroupData>
+<HealthCheckGroupData>
+<GroupName>Schema Administrators</GroupName>
+<DistinguishedName>CN=Schema Admins,CN=Users,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<NumberOfMember>2</NumberOfMember>
+<NumberOfMemberDisabled>0</NumberOfMemberDisabled>
+<NumberOfMemberPwdNotRequired>0</NumberOfMemberPwdNotRequired>
+<NumberOfMemberPwdNeverExpires>1</NumberOfMemberPwdNeverExpires>
+<NumberOfMemberLocked>0</NumberOfMemberLocked>
+<NumberOfMemberInactive>0</NumberOfMemberInactive>
+<NumberOfMemberActive>2</NumberOfMemberActive>
+<NumberOfMemberEnabled>2</NumberOfMemberEnabled>
+<NumberOfMemberCanBeDelegated>1</NumberOfMemberCanBeDelegated>
+<NumberOfExternalMember>0</NumberOfExternalMember>
+<NumberOfSmartCardRequired>0</NumberOfSmartCardRequired>
+<NumberOfServiceAccount>1</NumberOfServiceAccount>
+<NumberOfMemberInProtectedUsers>0</NumberOfMemberInProtectedUsers>
+</HealthCheckGroupData>
+<HealthCheckGroupData>
+<GroupName>Server Operators</GroupName>
+<DistinguishedName>CN=Server Operators,CN=Builtin,DC=test,DC=mysmartlogon,DC=com</DistinguishedName>
+<NumberOfMember>0</NumberOfMember>
+<NumberOfMemberDisabled>0</NumberOfMemberDisabled>
+<NumberOfMemberPwdNotRequired>0</NumberOfMemberPwdNotRequired>
+<NumberOfMemberPwdNeverExpires>0</NumberOfMemberPwdNeverExpires>
+<NumberOfMemberLocked>0</NumberOfMemberLocked>
+<NumberOfMemberInactive>0</NumberOfMemberInactive>
+<NumberOfMemberActive>0</NumberOfMemberActive>
+<NumberOfMemberEnabled>0</NumberOfMemberEnabled>
+<NumberOfMemberCanBeDelegated>0</NumberOfMemberCanBeDelegated>
+<NumberOfExternalMember>0</NumberOfExternalMember>
+<NumberOfSmartCardRequired>0</NumberOfSmartCardRequired>
+<NumberOfServiceAccount>0</NumberOfServiceAccount>
+<NumberOfMemberInProtectedUsers>0</NumberOfMemberInProtectedUsers>
+</HealthCheckGroupData>
+</PrivilegedGroups>
+<AdminSDHolderNotOKCount>0</AdminSDHolderNotOKCount>
+<UnixPasswordUsersCount>1</UnixPasswordUsersCount>
+<SmartCardNotOKCount>1</SmartCardNotOKCount>
+<DomainControllerWithNullSessionCount>1</DomainControllerWithNullSessionCount>
+<SIDHistoryAuditingGroupPresent>true</SIDHistoryAuditingGroupPresent>
+<MachineAccountQuota>10</MachineAccountQuota>
+<DnsZones/>
+<PasswordDistribution>
+<Dist HigherBound="0" Value="2"/>
+<Dist HigherBound="92" Value="1"/>
+<Dist HigherBound="2" Value="1"/>
+<Dist HigherBound="5109" Value="3"/>
+<Dist HigherBound="53" Value="1"/>
+<Dist HigherBound="17" Value="1"/>
+<Dist HigherBound="16" Value="1"/>
+</PasswordDistribution>
+<AzureADSSOLastPwdChange>0001-01-01T00:00:00</AzureADSSOLastPwdChange>
+<AzureADSSOVersion>0</AzureADSSOVersion>
+<PrivilegedDistributionLastLogon>
+<Dist HigherBound="0" Value="1"/>
+<Dist HigherBound="5" Value="1"/>
+<Dist HigherBound="16" Value="1"/>
+<Dist HigherBound="7" Value="1"/>
+<Dist HigherBound="1" Value="1"/>
+</PrivilegedDistributionLastLogon>
+<PrivilegedDistributionPwdLastSet>
+<Dist HigherBound="53" Value="1"/>
+<Dist HigherBound="5109" Value="3"/>
+<Dist HigherBound="92" Value="1"/>
+<Dist HigherBound="0" Value="1"/>
+<Dist HigherBound="16" Value="1"/>
+<Dist HigherBound="17" Value="1"/>
+<Dist HigherBound="2" Value="1"/>
+</PrivilegedDistributionPwdLastSet>
+<ControlPaths>
+<Data>
+<data Name="S-1-5-32-548" Description="Account Operators" Typology="PrivilegedAccount" ObjectRisk="High">
+<NumberOfDirectUserMembers>1</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-21-4005144719-3948538632-2546531719-500" Description="Administrator" Typology="PrivilegedAccount" ObjectRisk="Critical">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>1</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-32-544" Description="Administrators" Typology="PrivilegedAccount" ObjectRisk="Critical">
+<NumberOfDirectUserMembers>6</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>1</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-32-551" Description="Backup Operators" Typology="PrivilegedAccount" ObjectRisk="High">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="CN=Builtin,DC=test,DC=mysmartlogon,DC=com" Description="Builtin OU" Typology="Infrastructure" ObjectRisk="Medium">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-32-569" Description="Certificate Operators" Typology="PrivilegedAccount" ObjectRisk="Medium">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-21-4005144719-3948538632-2546531719-517" Description="Certificate Publishers" Typology="PrivilegedAccount" ObjectRisk="Other" CriticalObjectFound="true">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>1</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>1</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=test,DC=mysmartlogon,DC=com" Description="Certificate store" Typology="Infrastructure" ObjectRisk="Medium">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="CN=Computers,DC=test,DC=mysmartlogon,DC=com" Description="Computers container" Typology="Infrastructure" ObjectRisk="Medium">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-21-4005144719-3948538632-2546531719-1102" Description="Dns Admins" Typology="PrivilegedAccount" ObjectRisk="Medium">
+<NumberOfDirectUserMembers>1</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-21-4005144719-3948538632-2546531719-512" Description="Domain Administrators" Typology="PrivilegedAccount" ObjectRisk="Critical">
+<NumberOfDirectUserMembers>5</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>2</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-21-4005144719-3948538632-2546531719-516" Description="Domain Controllers" Typology="Infrastructure" ObjectRisk="Critical" CriticalObjectFound="true">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>2</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>2</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-21-4005144719-3948538632-2546531719" Description="Domain Root" Typology="Infrastructure" ObjectRisk="Medium" CriticalObjectFound="true">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>1</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-21-4005144719-3948538632-2546531719-519" Description="Enterprise Administrators" Typology="PrivilegedAccount" ObjectRisk="Critical">
+<NumberOfDirectUserMembers>1</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-21-4005144719-3948538632-2546531719-498" Description="Enterprise Read Only Domain Controllers" Typology="Infrastructure" ObjectRisk="Other">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-21-4005144719-3948538632-2546531719-520" Description="Group Policy Creator Owners" Typology="Infrastructure" ObjectRisk="Medium">
+<NumberOfDirectUserMembers>1</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-21-4005144719-3948538632-2546531719-502" Description="Krbtgt account" Typology="Infrastructure" ObjectRisk="Medium">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-32-550" Description="Print Operators" Typology="PrivilegedAccount" ObjectRisk="Medium">
+<NumberOfDirectUserMembers>3</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-21-4005144719-3948538632-2546531719-521" Description="Read Only Domain Controllers" Typology="Infrastructure" ObjectRisk="Medium">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-32-552" Description="Replicator" Typology="PrivilegedAccount" ObjectRisk="Medium">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-21-4005144719-3948538632-2546531719-518" Description="Schema Administrators" Typology="PrivilegedAccount" ObjectRisk="Critical">
+<NumberOfDirectUserMembers>2</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>1</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="S-1-5-32-549" Description="Server Operators" Typology="PrivilegedAccount" ObjectRisk="High">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+<data Name="CN=Users,DC=test,DC=mysmartlogon,DC=com" Description="Users container" Typology="Infrastructure" ObjectRisk="Medium">
+<NumberOfDirectUserMembers>0</NumberOfDirectUserMembers>
+<NumberOfDirectComputerMembers>0</NumberOfDirectComputerMembers>
+<NumberOfIndirectMembers>0</NumberOfIndirectMembers>
+<NumberOfDeletedObjects>0</NumberOfDeletedObjects>
+<Dependancies/>
+</data>
+</Data>
+<Dependancies/>
+<AnomalyAnalysis>
+<CompromiseGraphAnomalyAnalysisData ObjectRisk="Critical" NumberOfObjectsScreened="6" NumberOfObjectsWithIndirect="5" MaximumIndirectNumber="2" MaximumDirectIndirectRatio="50" CriticalObjectFound="true"/>
+<CompromiseGraphAnomalyAnalysisData ObjectRisk="High" NumberOfObjectsScreened="3" NumberOfObjectsWithIndirect="0" MaximumIndirectNumber="0" MaximumDirectIndirectRatio="0"/>
+<CompromiseGraphAnomalyAnalysisData ObjectRisk="Medium" NumberOfObjectsScreened="12" NumberOfObjectsWithIndirect="1" MaximumIndirectNumber="1" MaximumDirectIndirectRatio="0" CriticalObjectFound="true"/>
+<CompromiseGraphAnomalyAnalysisData ObjectRisk="Other" NumberOfObjectsScreened="2" NumberOfObjectsWithIndirect="1" MaximumIndirectNumber="1" MaximumDirectIndirectRatio="0" CriticalObjectFound="true"/>
+</AnomalyAnalysis>
+<GlobalScore>0</GlobalScore>
+<StaleObjectsScore>0</StaleObjectsScore>
+<PrivilegiedGroupScore>0</PrivilegiedGroupScore>
+<TrustScore>0</TrustScore>
+<AnomalyScore>0</AnomalyScore>
+</ControlPaths>
+</HealthcheckData>
