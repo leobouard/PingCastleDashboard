@@ -85,10 +85,10 @@ New-Html -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
         $scores = $reports[0].Scores
 
         New-HTMLSection {
-            New-HTMLGage -Label 'Anomalies' -MinValue 0 -MaxValue 100 -Value $scores.Anomaly -BackgroundGaugageColor '#8adf4a'
-            New-HTMLGage -Label 'Privileged Accounts' -MinValue 0 -MaxValue 100 -Value $scores.PrivilegiedGroup -BackgroundGaugageColor '#f9d929'
-            New-HTMLGage -Label 'Stale Objects' -MinValue 0 -MaxValue 100 -Value $scores.StaleObjects -BackgroundGaugageColor '#f5701f'
-            New-HTMLGage -Label 'Trusts' -MinValue 0 -MaxValue 100 -Value $scores.Trust -BackgroundGaugageColor '#e73731'
+            New-HTMLGage -Label 'Anomalies' -MinValue 0 -MaxValue 100 -Value $scores.Anomaly
+            New-HTMLGage -Label 'Privileged Accounts' -MinValue 0 -MaxValue 100 -Value $scores.PrivilegiedGroup
+            New-HTMLGage -Label 'Stale Objects' -MinValue 0 -MaxValue 100 -Value $scores.StaleObjects
+            New-HTMLGage -Label 'Trusts' -MinValue 0 -MaxValue 100 -Value $scores.Trust
         }
         
     }
@@ -107,8 +107,8 @@ New-Html -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
             $old = ($comp | Where-Object {$_.SideIndicator -eq '=>'}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
             $new = ($comp | Where-Object {$_.SideIndicator -eq '<='}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
         
-            New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex 0
-            New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex 0
+            New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex 0 -Description 'The following risk rules have been resolved since the last report (improvement)'
+            New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex 0 -Description 'The following risk rules have been discovered since the last report (deterioration)'
         
         }
 
@@ -116,39 +116,3 @@ New-Html -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
     }
 
 }
-
-
-
-
-
-<#
-($reports.RiskRules.Points | Measure-Object -Sum).Sum
-(($reports.RiskRules | Where-Object {$_.Category -eq 'Anomalies'}).Points | Measure-Object -Sum).Sum
-(($reports.RiskRules | Where-Object {$_.Category -eq 'PrivilegedAccounts'}).Points | Measure-Object -Sum).Sum
-(($reports.RiskRules | Where-Object {$_.Category -eq 'StaleObjects'}).Points | Measure-Object -Sum).Sum
-(($reports.RiskRules | Where-Object {$_.Category -eq 'Trusts'}).Points | Measure-Object -Sum).Sum
-
-Dashboard -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' {
-    Section -Invisible {
-        Panel -Invisible {
-            Chart -Title 'Evolution of the cumulated points' {
-                ChartAxisX -Name 'aoû. 20','sept. 20'
-                ChartLine -Name 'Total' -Value 766,694
-                ChartLine -Name 'Anomalies' -Value 184,184
-                ChartLine -Name 'PrivilegedAccounts' -Value 360,300
-                ChartLine -Name 'StaleObjects' -Value 97,90
-                ChartLine -Name 'Trusts' -Value 125,120
-            }
-        }
-    }
-    Section -Invisible {
-        Panel -Invisible {
-            Chart -Title 'Incidents Reported vs Solved' -TitleAlignment center {
-                ChartAxisX -Name 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'
-                ChartLine -Name 'Incidents per month' -Value 10, 41, 35, 51, 49, 62, 69, 91, 148
-                ChartLine -Name 'Incidents per month resolved' -Value 5, 10, 20, 31, 49, 62, 69, 91, 148
-            }
-        }
-    }
-}
-#>
