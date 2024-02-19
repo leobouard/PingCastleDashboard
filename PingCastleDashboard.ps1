@@ -14,6 +14,13 @@ $reports = $xmlFiles | ForEach-Object {
     [PSCustomObject]@{
         Domain    = $domain
         Date      = $date
+        Scores    = [PSCustomObject]@{
+            Global           = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/GlobalScore').Node.'#text'
+            StaleObjects     = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/StaleObjectsScore').Node.'#text'
+            PrivilegiedGroup = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/PrivilegiedGroupScore').Node.'#text'
+            Trust            = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/TrustScore').Node.'#text'
+            Anomaly          = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/AnomalyScore').Node.'#text'
+        }
         RiskRules = $riskRules | ForEach-Object {
             [PSCustomObject]@{
                 Points    = [int]($_.Points)
@@ -74,6 +81,17 @@ New-Html -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
 
     # Initial situation
     New-HtmlTab -Name 'Initial situation' {
+
+        New-HTMLSection {
+            New-HTMLPannel {
+                New-HTMLGage -Label 'Anomalies' -MinValue 0 -MaxValue 100 -Value $_.Scores.Anomaly -BackgroundGaugageColor '#8adf4a'
+                New-HTMLGage -Label 'Privileged Accounts' -MinValue 0 -MaxValue 100 -Value $_.Scores.PrivilegiedGroup -BackgroundGaugageColor '#f9d929'
+            }
+            New-HTMLPannel {
+                New-HTMLGage -Label 'Stale Objects' -MinValue 0 -MaxValue 100 -Value $_.Scores.StaleObjects -BackgroundGaugageColor '#f5701f'
+                New-HTMLGage -Label 'Trusts' -MinValue 0 -MaxValue 100 -Value $_.Scores.Trust -BackgroundGaugageColor '#e73731'
+            }
+        }
         
     }
 
@@ -91,8 +109,8 @@ New-Html -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
             $old = ($comp | Where-Object {$_.SideIndicator -eq '=>'}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
             $new = ($comp | Where-Object {$_.SideIndicator -eq '<='}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
         
-            New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex 0 -HideFooter
-            New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex 0 -HideFooter
+            New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex 0 -PreContent 'The following risk rules have been solved since the last reports (improvement)'
+            New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex 0 -PreContent 'The following risk rules have been discovered since the last reports (deterioration)'
         
         }
 
