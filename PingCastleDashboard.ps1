@@ -14,15 +14,22 @@ $reports = $xmlFiles | ForEach-Object {
     [PSCustomObject]@{
         Domain    = $domain
         Date      = $date
-        RiskRules = $riskRules
+        RiskRules = $riskRules | ForEach-Object {
+            [PSCustomObject]@{
+                Points    = [int]($_.Points)
+                Category  = $_.Category
+                Model     = $_.Model
+                RiskId    = $_.RiskId
+                Rationale = $_.Rationale
+            }
+        }
     }
     
 }
 
 $reports = $reports | Sort-Object Date
 
-
-Dashboard -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
+New-Html -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
 
     # Main page
     New-HtmlTab -Name 'Main page' {
@@ -34,15 +41,31 @@ Dashboard -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
         $chartLineStale = $reports | ForEach-Object { (($_.RiskRules | Where-Object {$_.Category -eq 'StaleObjects'}).Points | Measure-Object -Sum).Sum }
         $chartLineTrust = $reports | ForEach-Object { (($_.RiskRules | Where-Object {$_.Category -eq 'Trusts'}).Points | Measure-Object -Sum).Sum }
 
-        New-HTMLChart -Title 'Evolution of the cumulated points' {
-            New-ChartAxisX -Name $chartAxisX
-            New-ChartLine -Value $chartLineTotal -Name 'Total'
-            New-ChartLine -Value $chartLineAnoma -Name 'Anomalies'
-            New-ChartLine -Value $chartLinePrivi -Name 'PrivilegedAccounts'
-            New-ChartLine -Value $chartLineStale -Name 'StaleObjects'
-            New-ChartLine -Value $chartLineTrust -Name 'Trusts'
+        New-HtmlSection {
+            New-HTMLChart -Title 'Evolution of the cumulated points' {
+                New-ChartAxisX -Name $chartAxisX
+                New-ChartLine -Value $chartLineTotal -Name 'Total'
+            }
         }
-        
+        New-HtmlSection {
+            New-HTMLChart -Title 'Anomalies' {
+                New-ChartAxisX -Name $chartAxisX
+                New-ChartLine -Value $chartLineAnoma -Name 'Anomalies'
+            }
+            New-HTMLChart -Title 'PrivilegedAccounts' {
+                New-ChartAxisX -Name $chartAxisX
+                New-ChartLine -Value $chartLinePrivi -Name 'PrivilegedAccounts'
+            }
+            New-HTMLChart -Title 'StaleObjects' {
+                New-ChartAxisX -Name $chartAxisX
+                New-ChartLine -Value $chartLineStale -Name 'StaleObjects'
+            }
+            New-HTMLChart -Title 'Trusts' {
+                New-ChartAxisX -Name $chartAxisX
+                New-ChartLine -Value $chartLineTrust -Name 'Trusts'
+            }
+        }
+
     }
 
     # Initial situation
