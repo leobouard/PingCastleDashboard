@@ -19,11 +19,29 @@ $reports = $xmlFiles | ForEach-Object {
     
 }
 
-$comp = Compare-Object -ReferenceObject $reports[0].RiskRules -DifferenceObject $reports[1].RiskRules
-# Issues/misconfiguration that have been solved
-$old = ($comp | Where-Object {$_.SideIndicator -eq '=>'}).InputObject
-# New issues or misconfiguration found
-$new = ($comp | Where-Object {$_.SideIndicator -eq '<='}).InputObject
+$reports = $reports | Sort-Object Date
+
+
+Dashboard -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
+
+    $i = 0
+    $reports | Select-Object -Skip 1 | ForEach-Object {
+
+        $currentReport  = $_
+        $previousReport = $reports[$i] 
+
+        # Comparison between current report and previous one
+        $comp = Compare-Object -ReferenceObject $previousReport.RiskRules -DifferenceObject $currentReport.RiskRules
+        $old = ($comp | Where-Object {$_.SideIndicator -eq '=>'}).InputObject # RiskRules resolved
+        $new = ($comp | Where-Object {$_.SideIndicator -eq '<='}).InputObject # New riskRules found
+    
+        Table -DataTable $old -DefaultSortIndex 1,2 -HideFooter
+        Table -DataTable $new -DefaultSortIndex 1,2 -HideFooter
+
+        $i++
+    }
+
+}
 
 
 

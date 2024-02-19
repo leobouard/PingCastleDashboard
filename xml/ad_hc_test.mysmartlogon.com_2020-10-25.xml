@@ -1,6 +1,6 @@
 <HealthcheckData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <EngineVersion>2.9.0.0 Beta</EngineVersion>
-<GenerationDate>2020-08-25T17:42:35.2390914+02:00</GenerationDate>
+<GenerationDate>2020-10-25T17:42:35.2390914+02:00</GenerationDate>
 <Level>Normal</Level>
 <MaturityLevel>1</MaturityLevel>
 <DomainFQDN>test.mysmartlogon.com</DomainFQDN>
@@ -203,13 +203,6 @@
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>15</Points>
-<Category>PrivilegedAccounts</Category>
-<Model>ACLCheck</Model>
-<RiskId>P-RecoveryModeUnprotected</RiskId>
-<Rationale>At least one GPO grant the right to get in the recovery mode without being admin</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>15</Points>
 <Category>StaleObjects</Category>
 <Model>ObjectConfig</Model>
 <RiskId>S-C-PrimaryGroup</RiskId>
@@ -259,13 +252,6 @@
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>10</Points>
-<Category>StaleObjects</Category>
-<Model>Provisioning</Model>
-<RiskId>S-DCRegistration</RiskId>
-<Rationale>Number of DC with a configuration issue: 1</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>10</Points>
 <Category>PrivilegedAccounts</Category>
 <Model>ACLCheck</Model>
 <RiskId>P-DCOwner</RiskId>
@@ -294,13 +280,6 @@
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>10</Points>
-<Category>Anomalies</Category>
-<Model>Audit</Model>
-<RiskId>A-AuditDC</RiskId>
-<Rationale>The audit policy on domain controllers does not collect key events.</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>10</Points>
 <Category>StaleObjects</Category>
 <Model>OldAuthenticationProtocols</Model>
 <RiskId>S-SMB-v1</RiskId>
@@ -326,13 +305,6 @@
 <Model>AccountTakeOver</Model>
 <RiskId>P-Kerberoasting</RiskId>
 <Rationale>At least one member of an admin group is vulnerable to the kerberoast attack.</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>5</Points>
-<Category>Anomalies</Category>
-<Model>Reconnaissance</Model>
-<RiskId>A-PreWin2000Anonymous</RiskId>
-<Rationale>The group Everyone and/or Anonymous is present in the Pre-Windows 2000 group.</Rationale>
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>5</Points>
@@ -368,13 +340,6 @@
 <Model>ObjectConfig</Model>
 <RiskId>S-NoPreAuthAdmin</RiskId>
 <Rationale>Number of admin accounts which do not require kerberos pre-authentication: 1</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>5</Points>
-<Category>StaleObjects</Category>
-<Model>ObsoleteOS</Model>
-<RiskId>S-OS-2008</RiskId>
-<Rationale>Presence of Windows 2008 = 1</Rationale>
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>5</Points>
