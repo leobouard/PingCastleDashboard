@@ -24,6 +24,33 @@ $reports = $reports | Sort-Object Date
 
 Dashboard -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
 
+    # Main page
+    New-HtmlTab -Name 'Main page' {
+
+        $chartAxisX = $reports | ForEach-Object { Get-Date $_.date -Format 'yyyy-MM-dd HH:mm' }
+        $chartLineTotal = $reports | ForEach-Object { ($_.RiskRules.Points | Measure-Object -Sum).Sum }
+        $chartLineAnoma = $reports | ForEach-Object { (($_.RiskRules | Where-Object {$_.Category -eq 'Anomalies'}).Points | Measure-Object -Sum).Sum }
+        $chartLinePrivi = $reports | ForEach-Object { (($_.RiskRules | Where-Object {$_.Category -eq 'PrivilegedAccounts'}).Points | Measure-Object -Sum).Sum }
+        $chartLineStale = $reports | ForEach-Object { (($_.RiskRules | Where-Object {$_.Category -eq 'StaleObjects'}).Points | Measure-Object -Sum).Sum }
+        $chartLineTrust = $reports | ForEach-Object { (($_.RiskRules | Where-Object {$_.Category -eq 'Trusts'}).Points | Measure-Object -Sum).Sum }
+
+        New-HTMLChart -Title 'Evolution of the cumulated points' {
+            New-ChartAxisX -Name $chartAxisX
+            New-ChartLine -Value $chartLineTotal -Name 'Total'
+            New-ChartLine -Value $chartLineAnoma -Name 'Anomalies'
+            New-ChartLine -Value $chartLinePrivi -Name 'PrivilegedAccounts'
+            New-ChartLine -Value $chartLineStale -Name 'StaleObjects'
+            New-ChartLine -Value $chartLineTrust -Name 'Trusts'
+        }
+        
+    }
+
+    # Initial situation
+    New-HtmlTab -Name 'Initial situation' {
+        
+    }
+
+    # Create a new tab for all other reports
     $i = 0
     $reports | Select-Object -Skip 1 | ForEach-Object {
 
@@ -37,8 +64,8 @@ Dashboard -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
             $old = ($comp | Where-Object {$_.SideIndicator -eq '=>'}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
             $new = ($comp | Where-Object {$_.SideIndicator -eq '<='}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
         
-            New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex 1,2 -HideFooter
-            New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex 1,2 -HideFooter
+            New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex Points -HideFooter
+            New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex Points -HideFooter
         
         }
 

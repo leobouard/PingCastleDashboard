@@ -17,11 +17,14 @@ Pour l'instant je me sert du `README.md` comme une liste des trucs à faire 😊
   - Courbe avec l'évolution du nombre de points au total et sur chaque catégorie
 2. Report #01
   - Informations en bref : numéro de version, date de l'audit, etc
+  - Evolution et points gagnés entre le dernier rapport et la situation initiale
+3. Report #02 à #999
+  - Informations en bref : numéro de version, date de l'audit, etc
   - Camembert avec la répartition des points entre les différentes catégories
   - Diagramme en barres qui montre l'évolution de chaque catégorie par rapport au rapport précédent
   - Tableau avec les points d'améliorations depuis le dernier rapport
   - Tableau avec les nouveaux points d'attention
-  - Tableau de tous les points restant
+  - Tableau de tous les points restants
 
 ## Liens utiles et inspirations
 
