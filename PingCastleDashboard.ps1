@@ -83,14 +83,14 @@ New-Html -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
     New-HtmlTab -Name 'Initial situation' {
 
         $scores = $reports[0].Scores
-
         New-HTMLSection {
             New-HTMLGage -Label 'Anomalies' -MinValue 0 -MaxValue 100 -Value $scores.Anomaly
             New-HTMLGage -Label 'Privileged Accounts' -MinValue 0 -MaxValue 100 -Value $scores.PrivilegiedGroup
             New-HTMLGage -Label 'Stale Objects' -MinValue 0 -MaxValue 100 -Value $scores.StaleObjects
             New-HTMLGage -Label 'Trusts' -MinValue 0 -MaxValue 100 -Value $scores.Trust
         }
-        
+        New-HTMLTable -Title 'Comparison with latest report' -DataTable $reports[0].RiskRules,$reports[-1].RiskRules -Compare -HighlightDifferences
+        New-HTMLTable -Title 'All risk rules' -DataTable $reports[0].RiskRules -DefaultSortIndex 0
     }
 
     # Create a new tab for all other reports
@@ -100,15 +100,40 @@ New-Html -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
         New-HtmlTab -Name (Get-Date $_.date -Format 'yyyy-MM-dd HH:mm') {
 
             $currentReport  = $_
-            $previousReport = $reports[$i] 
+            $previousReport = $reports[$i]
+
+            New-HtmlSection {
+                New-HtmlChart -Title 'Anomalies' {
+                    New-ChartBarOptions -Vertical
+                    New-ChartBar -Name 'Previous' -Value $previousReport.Scores.Anomaly
+                    New-ChartBar -Name 'Current' -Value $currentReport.Scores.Anomaly 
+                }
+                New-HtmlChart -Title 'Privileged Accounts' {
+                    New-ChartBarOptions -Vertical
+                    New-ChartBar -Name 'Previous' -Value $previousReport.Scores.PrivilegiedGroup
+                    New-ChartBar -Name 'Current' -Value $currentReport.Scores.PrivilegiedGroup 
+                }
+                New-HtmlChart -Title 'Stale Objects' {
+                    New-ChartBarOptions -Vertical
+                    New-ChartBar -Name 'Previous' -Value $previousReport.Scores.StaleObjects
+                    New-ChartBar -Name 'Current' -Value $currentReport.Scores.StaleObjects 
+                }
+                New-HtmlChart -Title 'Trusts' {
+                    New-ChartBarOptions -Vertical
+                    New-ChartBar -Name 'Previous' -Value $previousReport.Scores.Trust
+                    New-ChartBar -Name 'Current' -Value $currentReport.Scores.Trust 
+                }
+            }
 
             # Comparison between current report and previous one
             $comp = Compare-Object -ReferenceObject $previousReport.RiskRules -DifferenceObject $currentReport.RiskRules
             $old = ($comp | Where-Object {$_.SideIndicator -eq '=>'}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
             $new = ($comp | Where-Object {$_.SideIndicator -eq '<='}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
         
-            New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex 0 -Description 'The following risk rules have been resolved since the last report (improvement)'
-            New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex 0 -Description 'The following risk rules have been discovered since the last report (deterioration)'
+            # The following risk rules have been resolved since the last report (improvement)
+            New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex 0
+            # The following risk rules have been discovered since the last report (deterioration)
+            New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex 0
         
         }
 
