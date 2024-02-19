@@ -48,7 +48,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
 
     $domain = $_
     $domainReports = $reports | Where-Object { $_.Domain -eq $domain }
-    New-HTML -Name 'PingCastle dashboard' -FilePath ".\output\dashboard_$domain.html" -Encoding UTF8 -Author 'Léo Bouard' -Show {
+    New-HTML -Name 'PingCastle dashboard' -FilePath ".\output\dashboard_$domain.html" -Encoding UTF8 -Author 'Léo Bouard' -DateFormat 'yyyy-MM-dd HH:mm:ss' -Show {
         
         # Header
         New-HTMLHeader -HTMLContent { $ExecutionContext.InvokeCommand.ExpandString([string](Get-Content -Path '.\html\header.html')) }
@@ -67,6 +67,13 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                     $lastAppearance = ($domainReports | Where-Object { $_.RiskRules.RiskId -eq $riskId })[-1].Date
                     $allRiskRules | Where-Object { $_.RiskId -eq $riskId } | Select-Object *, @{Name = 'LastAppearance'; Expression = { $lastAppearance } }
                 }
+
+                <# $scoreRecap = $domainReports | Select-Object Date,
+                    @{N='Global';E={$_.Scores.Global}},
+                    @{N='Anomalies';E={$_.Scores.Anomaly}},
+                    @{N='PrivilegedAccounts';E={$_.Scores.PrivilegiedGroup}},
+                    @{N='StaleObjects';E={$_.Scores.StaleObjects}},
+                    @{N='Trusts';E={$_.Scores.Trust}} #>
 
                 $chartAxisX = $domainReports | ForEach-Object { Get-Date $_.date -Format 'yyyy-MM-dd HH:mm' }
                 $chartLineTotal = $domainReports | ForEach-Object { ($_.RiskRules.Points | Measure-Object -Sum).Sum }
@@ -111,7 +118,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                 New-HTMLSection -HeaderText 'Remediations' {
                     New-HTMLPanel {
                         New-HTMLHeading h3 -HeadingText 'All risks solved'
-                        New-HTMLTable -DataTable $riskSolvedSince -DefaultSortIndex 1
+                        New-HTMLTable -DataTable $riskSolvedSince -DefaultSortIndex 0 -DefaultSortOrder Descending
                     }
                 }
             }
@@ -177,18 +184,18 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                         New-HTMLPanel {
                             # The following risk rules have been resolved since the last report (improvement)
                             New-HTMLHeading h3 -HeadingText 'Risk rules resolved'
-                            New-HTMLTable -DataTable $riskSolved -DefaultSortIndex 1 -HideButtons
+                            New-HTMLTable -DataTable $riskSolved -DefaultSortIndex 0 -DefaultSortOrder Descending -HideButtons
                         }
                         New-HTMLPanel {
                             # The following risk rules have been discovered since the last report (deterioration)
                             New-HTMLHeading h3 -HeadingText 'New risk rules triggered'
-                            New-HTMLTable -DataTable $riskNew -DefaultSortIndex 1 -HideButtons
+                            New-HTMLTable -DataTable $riskNew -DefaultSortIndex 0 -DefaultSortOrder Descending -HideButtons
                         }
                     }
 
                     # Show all risk rules
                     New-HTMLSection -HeaderText 'All current risk rules' {
-                        New-HTMLTable -DataTable $currentReport.RiskRules -DefaultSortIndex 1
+                        New-HTMLTable -DataTable $currentReport.RiskRules -DefaultSortIndex 0 -DefaultSortOrder Descending
                     }
                 }
             }
