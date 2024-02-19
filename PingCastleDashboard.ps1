@@ -42,27 +42,31 @@ New-Html -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
         $chartLineTrust = $reports | ForEach-Object { (($_.RiskRules | Where-Object {$_.Category -eq 'Trusts'}).Points | Measure-Object -Sum).Sum }
 
         New-HtmlSection {
-            New-HTMLChart -Title 'Evolution of the cumulated points' {
+            New-HTMLChart -Title 'Total cumulated points' {
                 New-ChartAxisX -Name $chartAxisX
-                New-ChartLine -Value $chartLineTotal -Name 'Total'
+                New-ChartLine -Value $chartLineTotal -Name 'Point(s)'
             }
         }
         New-HtmlSection {
-            New-HTMLChart -Title 'Anomalies' {
-                New-ChartAxisX -Name $chartAxisX
-                New-ChartLine -Value $chartLineAnoma -Name 'Anomalies'
+            New-HTMLPanel {
+                New-HTMLChart -Title 'Anomalies' {
+                    New-ChartAxisX -Name $chartAxisX
+                    New-ChartLine -Value $chartLineAnoma -Name 'Point(s)'
+                }
+                New-HTMLChart -Title 'Privileged Accounts' {
+                    New-ChartAxisX -Name $chartAxisX
+                    New-ChartLine -Value $chartLinePrivi -Name 'Point(s)'
+                }
             }
-            New-HTMLChart -Title 'PrivilegedAccounts' {
-                New-ChartAxisX -Name $chartAxisX
-                New-ChartLine -Value $chartLinePrivi -Name 'PrivilegedAccounts'
-            }
-            New-HTMLChart -Title 'StaleObjects' {
-                New-ChartAxisX -Name $chartAxisX
-                New-ChartLine -Value $chartLineStale -Name 'StaleObjects'
-            }
-            New-HTMLChart -Title 'Trusts' {
-                New-ChartAxisX -Name $chartAxisX
-                New-ChartLine -Value $chartLineTrust -Name 'Trusts'
+            New-HTMLPanel {
+                New-HTMLChart -Title 'Stale Objects' {
+                    New-ChartAxisX -Name $chartAxisX
+                    New-ChartLine -Value $chartLineStale -Name 'Point(s)'
+                }
+                New-HTMLChart -Title 'Trusts' {
+                    New-ChartAxisX -Name $chartAxisX
+                    New-ChartLine -Value $chartLineTrust -Name 'Point(s)'
+                }
             }
         }
 
@@ -87,8 +91,8 @@ New-Html -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
             $old = ($comp | Where-Object {$_.SideIndicator -eq '=>'}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
             $new = ($comp | Where-Object {$_.SideIndicator -eq '<='}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
         
-            New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex Points -HideFooter
-            New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex Points -HideFooter
+            New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex 0 -HideFooter
+            New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex 0 -HideFooter
         
         }
 
