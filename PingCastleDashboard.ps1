@@ -27,16 +27,20 @@ Dashboard -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
     $i = 0
     $reports | Select-Object -Skip 1 | ForEach-Object {
 
-        $currentReport  = $_
-        $previousReport = $reports[$i] 
+        New-HtmlTab -Name (Get-Date $_.date -Format 'yyyy-MM-dd HH:mm') {
 
-        # Comparison between current report and previous one
-        $comp = Compare-Object -ReferenceObject $previousReport.RiskRules -DifferenceObject $currentReport.RiskRules
-        $old = ($comp | Where-Object {$_.SideIndicator -eq '=>'}).InputObject # RiskRules resolved
-        $new = ($comp | Where-Object {$_.SideIndicator -eq '<='}).InputObject # New riskRules found
-    
-        Table -DataTable $old -DefaultSortIndex 1,2 -HideFooter
-        Table -DataTable $new -DefaultSortIndex 1,2 -HideFooter
+            $currentReport  = $_
+            $previousReport = $reports[$i] 
+
+            # Comparison between current report and previous one
+            $comp = Compare-Object -ReferenceObject $previousReport.RiskRules -DifferenceObject $currentReport.RiskRules
+            $old = ($comp | Where-Object {$_.SideIndicator -eq '=>'}).InputObject
+            $new = ($comp | Where-Object {$_.SideIndicator -eq '<='}).InputObject
+        
+            New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex 1,2 -HideFooter
+            New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex 1,2 -HideFooter
+        
+        }
 
         $i++
     }
