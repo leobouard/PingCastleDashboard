@@ -1,6 +1,6 @@
 <HealthcheckData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <EngineVersion>2.9.0.0 Beta</EngineVersion>
-<GenerationDate>2020-10-25T17:42:35.2390914+02:00</GenerationDate>
+<GenerationDate>2020-11-25T17:42:35.2390914+02:00</GenerationDate>
 <Level>Normal</Level>
 <MaturityLevel>1</MaturityLevel>
 <DomainFQDN>test.mysmartlogon.com</DomainFQDN>
@@ -16,9 +16,9 @@
 <SchemaLastChanged>2019-03-22T22:12:38+01:00</SchemaLastChanged>
 <NumberOfDC>2</NumberOfDC>
 <GlobalScore>100</GlobalScore>
-<StaleObjectsScore>82</StaleObjectsScore>
+<StaleObjectsScore>72</StaleObjectsScore>
 <PrivilegiedGroupScore>100</PrivilegiedGroupScore>
-<TrustScore>100</TrustScore>
+<TrustScore>75</TrustScore>
 <AnomalyScore>100</AnomalyScore>
 <Trusts>
 <HealthCheckTrustData>
@@ -134,13 +134,6 @@
 <HealthcheckRiskRule>
 <Points>50</Points>
 <Category>Trusts</Category>
-<Model>SIDFiltering</Model>
-<RiskId>T-SIDFiltering</RiskId>
-<Rationale>Number of trusts without SID Filtering: 1</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>50</Points>
-<Category>Trusts</Category>
 <Model>SIDHistory</Model>
 <RiskId>T-SIDHistorySameDomain</RiskId>
 <Rationale>Account(s) with SID History matching the domain = 2</Rationale>
@@ -183,13 +176,6 @@
 <HealthcheckRiskRule>
 <Points>25</Points>
 <Category>PrivilegedAccounts</Category>
-<Model>DelegationCheck</Model>
-<RiskId>P-DelegationDCa2d2</RiskId>
-<Rationale>Number of DC with a contrained delegation: 1</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>25</Points>
-<Category>PrivilegedAccounts</Category>
 <Model>ControlPath</Model>
 <RiskId>P-ControlPathIndirectEveryone</RiskId>
 <Rationale>Everyone can take control of a key domain object by abusing targeted permissions.</Rationale>
@@ -223,13 +209,6 @@
 <Rationale>Number of DC not updated = 1</Rationale>
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
-<Points>15</Points>
-<Category>PrivilegedAccounts</Category>
-<Model>DelegationCheck</Model>
-<RiskId>P-UnkownDelegation</RiskId>
-<Rationale>Presence of unknown account in delegation: 1</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
 <Points>10</Points>
 <Category>Anomalies</Category>
 <Model>Reconnaissance</Model>
@@ -252,13 +231,6 @@
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>10</Points>
-<Category>PrivilegedAccounts</Category>
-<Model>ACLCheck</Model>
-<RiskId>P-DCOwner</RiskId>
-<Rationale>1 domain controller(s) have been found where the owner is not the Domain Admins group or the Enterprise Admins group</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>10</Points>
 <Category>Anomalies</Category>
 <Model>CertificateTakeOver</Model>
 <RiskId>A-DCLdapsProtocol</RiskId>
@@ -277,13 +249,6 @@
 <Model>Provisioning</Model>
 <RiskId>S-ADRegistration</RiskId>
 <Rationale>Non-admin users can add up to 10 computer(s) to a domain</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>10</Points>
-<Category>StaleObjects</Category>
-<Model>OldAuthenticationProtocols</Model>
-<RiskId>S-SMB-v1</RiskId>
-<Rationale>SMB v1 activated on 1 DC</Rationale>
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>5</Points>

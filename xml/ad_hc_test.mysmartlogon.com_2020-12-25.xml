@@ -1,6 +1,6 @@
 <HealthcheckData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <EngineVersion>2.9.0.0 Beta</EngineVersion>
-<GenerationDate>2020-10-25T17:42:35.2390914+02:00</GenerationDate>
+<GenerationDate>2020-12-25T17:42:35.2390914+02:00</GenerationDate>
 <Level>Normal</Level>
 <MaturityLevel>1</MaturityLevel>
 <DomainFQDN>test.mysmartlogon.com</DomainFQDN>
@@ -16,9 +16,9 @@
 <SchemaLastChanged>2019-03-22T22:12:38+01:00</SchemaLastChanged>
 <NumberOfDC>2</NumberOfDC>
 <GlobalScore>100</GlobalScore>
-<StaleObjectsScore>82</StaleObjectsScore>
+<StaleObjectsScore>66</StaleObjectsScore>
 <PrivilegiedGroupScore>100</PrivilegiedGroupScore>
-<TrustScore>100</TrustScore>
+<TrustScore>75</TrustScore>
 <AnomalyScore>100</AnomalyScore>
 <Trusts>
 <HealthCheckTrustData>
@@ -119,24 +119,10 @@
 <RiskRules>
 <HealthcheckRiskRule>
 <Points>60</Points>
-<Category>PrivilegedAccounts</Category>
-<Model>PrivilegeControl</Model>
-<RiskId>P-PrivilegeEveryone</RiskId>
-<Rationale>Number of privileges granted by GPO to any user: 4</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>60</Points>
 <Category>Anomalies</Category>
 <Model>PasswordRetrieval</Model>
 <RiskId>A-PwdGPO</RiskId>
 <Rationale>Number of password(s) found in GPO: 3</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>50</Points>
-<Category>Trusts</Category>
-<Model>SIDFiltering</Model>
-<RiskId>T-SIDFiltering</RiskId>
-<Rationale>Number of trusts without SID Filtering: 1</Rationale>
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>50</Points>
@@ -161,13 +147,6 @@
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>30</Points>
-<Category>PrivilegedAccounts</Category>
-<Model>DelegationCheck</Model>
-<RiskId>P-DelegationEveryone</RiskId>
-<Rationale>Presence of delegation where anybody can act: 2</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>30</Points>
 <Category>Anomalies</Category>
 <Model>PassTheCredential</Model>
 <RiskId>A-SmartCardRequired</RiskId>
@@ -179,13 +158,6 @@
 <Model>ACLCheck</Model>
 <RiskId>P-DelegationLoginScript</RiskId>
 <Rationale>Number of login scripts that can be modified by any user: 2</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>25</Points>
-<Category>PrivilegedAccounts</Category>
-<Model>DelegationCheck</Model>
-<RiskId>P-DelegationDCa2d2</RiskId>
-<Rationale>Number of DC with a contrained delegation: 1</Rationale>
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>25</Points>
@@ -223,13 +195,6 @@
 <Rationale>Number of DC not updated = 1</Rationale>
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
-<Points>15</Points>
-<Category>PrivilegedAccounts</Category>
-<Model>DelegationCheck</Model>
-<RiskId>P-UnkownDelegation</RiskId>
-<Rationale>Presence of unknown account in delegation: 1</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
 <Points>10</Points>
 <Category>Anomalies</Category>
 <Model>Reconnaissance</Model>
@@ -252,13 +217,6 @@
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>10</Points>
-<Category>PrivilegedAccounts</Category>
-<Model>ACLCheck</Model>
-<RiskId>P-DCOwner</RiskId>
-<Rationale>1 domain controller(s) have been found where the owner is not the Domain Admins group or the Enterprise Admins group</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>10</Points>
 <Category>Anomalies</Category>
 <Model>CertificateTakeOver</Model>
 <RiskId>A-DCLdapsProtocol</RiskId>
@@ -277,13 +235,6 @@
 <Model>Provisioning</Model>
 <RiskId>S-ADRegistration</RiskId>
 <Rationale>Non-admin users can add up to 10 computer(s) to a domain</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>10</Points>
-<Category>StaleObjects</Category>
-<Model>OldAuthenticationProtocols</Model>
-<RiskId>S-SMB-v1</RiskId>
-<Rationale>SMB v1 activated on 1 DC</Rationale>
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>5</Points>
@@ -343,13 +294,6 @@
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>5</Points>
-<Category>StaleObjects</Category>
-<Model>InactiveUserOrComputer</Model>
-<RiskId>S-DC-Inactive</RiskId>
-<Rationale>Number of DC inactive: 1</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>5</Points>
 <Category>Trusts</Category>
 <Model>SIDHistory</Model>
 <RiskId>S-Domain$$$</RiskId>
@@ -375,13 +319,6 @@
 <Model>CertificateTakeOver</Model>
 <RiskId>A-SHA1IntermediateCert</RiskId>
 <Rationale>At least one trusted INTERMEDIATE certificate found has a SHA1 signature [6]</Rationale>
-</HealthcheckRiskRule>
-<HealthcheckRiskRule>
-<Points>1</Points>
-<Category>StaleObjects</Category>
-<Model>ObjectConfig</Model>
-<RiskId>S-PwdNeverExpires</RiskId>
-<Rationale>Number of accounts which has never-expiring passwords: 4</Rationale>
 </HealthcheckRiskRule>
 <HealthcheckRiskRule>
 <Points>1</Points>
