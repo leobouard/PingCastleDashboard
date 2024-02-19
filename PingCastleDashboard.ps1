@@ -34,8 +34,8 @@ Dashboard -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
 
             # Comparison between current report and previous one
             $comp = Compare-Object -ReferenceObject $previousReport.RiskRules -DifferenceObject $currentReport.RiskRules
-            $old = ($comp | Where-Object {$_.SideIndicator -eq '=>'}).InputObject
-            $new = ($comp | Where-Object {$_.SideIndicator -eq '<='}).InputObject
+            $old = ($comp | Where-Object {$_.SideIndicator -eq '=>'}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
+            $new = ($comp | Where-Object {$_.SideIndicator -eq '<='}).InputObject | Select-Object Points,Category,Model,RiskId,Rationale
         
             New-HTMLTable -Title 'Risk rules resolved' -DataTable $old -DefaultSortIndex 1,2 -HideFooter
             New-HTMLTable -Title 'New risk rules triggered' -DataTable $new -DefaultSortIndex 1,2 -HideFooter
