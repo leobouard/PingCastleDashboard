@@ -85,12 +85,10 @@ New-Html -Name 'PingCastle dashboard' -FilePath '.\dashboard.html' -Show {
         $scores = $reports[0].Scores
 
         New-HTMLSection {
-            New-HTMLPanel {
-                New-HTMLGage -Label 'Anomalies' -MinValue 0 -MaxValue 100 -Value $scores.Anomaly -BackgroundGaugageColor '#8adf4a'
-                New-HTMLGage -Label 'Privileged Accounts' -MinValue 0 -MaxValue 100 -Value $scores.PrivilegiedGroup -BackgroundGaugageColor '#f9d929'
-                New-HTMLGage -Label 'Stale Objects' -MinValue 0 -MaxValue 100 -Value $scores.StaleObjects -BackgroundGaugageColor '#f5701f'
-                New-HTMLGage -Label 'Trusts' -MinValue 0 -MaxValue 100 -Value $scores.Trust -BackgroundGaugageColor '#e73731'
-            }
+            New-HTMLGage -Label 'Anomalies' -MinValue 0 -MaxValue 100 -Value $scores.Anomaly -BackgroundGaugageColor '#8adf4a'
+            New-HTMLGage -Label 'Privileged Accounts' -MinValue 0 -MaxValue 100 -Value $scores.PrivilegiedGroup -BackgroundGaugageColor '#f9d929'
+            New-HTMLGage -Label 'Stale Objects' -MinValue 0 -MaxValue 100 -Value $scores.StaleObjects -BackgroundGaugageColor '#f5701f'
+            New-HTMLGage -Label 'Trusts' -MinValue 0 -MaxValue 100 -Value $scores.Trust -BackgroundGaugageColor '#e73731'
         }
         
     }
