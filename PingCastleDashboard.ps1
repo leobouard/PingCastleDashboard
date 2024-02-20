@@ -3,16 +3,16 @@
 
 $PSDefaultParameterValues = @{
     'New-HTMLSection:HeaderBackGroundColor' = '#3D3834'
-    'New-HTMLSection:HeaderTextSize' = '16'
-    'New-ChartBar:Color' = '#783CBD'
-    'New-ChartLine:Color' = '#783CBD'
-    'New-HTMLTable:HTML' = {{
-        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 1 -BackgroundColor '#fd0100'
-        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 2 -BackgroundColor '#ffa500'
-        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 3 -BackgroundColor '#f0e68c'
-        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 4 -BackgroundColor '#007bff'
-    }}
-    'New-HTMLTable*:WarningAction' = 'SilentlyContinue'
+    'New-HTMLSection:HeaderTextSize'        = '16'
+    'New-ChartBar:Color'                    = '#783CBD'
+    'New-ChartLine:Color'                   = '#783CBD'
+    'New-HTMLTable:HTML'                    = { {
+            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 1 -BackgroundColor '#fd0100'
+            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 2 -BackgroundColor '#ffa500'
+            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 3 -BackgroundColor '#f0e68c'
+            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 4 -BackgroundColor '#007bff'
+        } }
+    'New-HTMLTable*:WarningAction'          = 'SilentlyContinue'
 }
 
 $xmlFiles = Get-ChildItem -Path "$PSScriptRoot\xml" -Filter '*.xml' -Recurse
