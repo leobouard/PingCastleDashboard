@@ -3,12 +3,20 @@
 
 $PSDefaultParameterValues = @{
     'New-HTMLSection:HeaderBackGroundColor' = '#3D3834'
-    'New-HTMLSection:HeaderTextSize'        = '16'
-    'New-ChartBar:Color'                    = '#783CBD'
-    'New-ChartLine:Color'                   = '#783CBD'
+    'New-HTMLSection:HeaderTextSize' = '16'
+    'New-ChartBar:Color' = '#783CBD'
+    'New-ChartLine:Color' = '#783CBD'
+    'New-HTMLTable:HTML' = {{
+        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 1 -BackgroundColor '#fd0100'
+        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 2 -BackgroundColor '#ffa500'
+        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 3 -BackgroundColor '#f0e68c'
+        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 4 -BackgroundColor '#007bff'
+    }}
+    'New-HTMLTable*:WarningAction' = 'SilentlyContinue'
 }
 
-$xmlFiles = Get-ChildItem -Path .\xml -Filter '*.xml'
+$xmlFiles = Get-ChildItem -Path "$PSScriptRoot\xml" -Filter '*.xml' -Recurse
+$hcRules = Import-Csv -Path "$PSScriptRoot\HCRules.csv" -Delimiter ';' -Encoding utf8
 
 $reports = $xmlFiles | ForEach-Object {
 
@@ -29,11 +37,13 @@ $reports = $xmlFiles | ForEach-Object {
             Anomaly          = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/AnomalyScore').Node.'#text'
         }
         RiskRules = $riskRules | ForEach-Object {
+            $riskId = $_.RiskId
             [PSCustomObject]@{
                 Points    = [int]($_.Points)
+                Level     = ($hcRules | Where-Object { $_.RiskId -eq $riskId }).Level
                 Category  = $_.Category
                 Model     = $_.Model
-                RiskId    = $_.RiskId
+                RiskId    = $riskId
                 Rationale = $_.Rationale
             }
         }
@@ -48,10 +58,10 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
 
     $domain = $_
     $domainReports = $reports | Where-Object { $_.Domain -eq $domain }
-    New-HTML -Name 'PingCastle dashboard' -FilePath ".\output\dashboard_$domain.html" -Encoding UTF8 -Author 'Léo Bouard' -DateFormat 'yyyy-MM-dd HH:mm:ss' -Show {
+    New-HTML -Name 'PingCastle dashboard' -FilePath "$PSScriptRoot\output\dashboard_$domain.html" -Encoding UTF8 -Author 'Léo Bouard' -DateFormat 'yyyy-MM-dd HH:mm:ss' -Show {
         
         # Header
-        New-HTMLHeader -HTMLContent { $ExecutionContext.InvokeCommand.ExpandString([string](Get-Content -Path '.\html\header.html')) }
+        New-HTMLHeader -HTMLContent { $ExecutionContext.InvokeCommand.ExpandString([string](Get-Content -Path "$PSScriptRoot\html\header.html")) }
 
         # Main
         New-HTMLMain {
@@ -68,15 +78,15 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                     $allRiskRules | Where-Object { $_.RiskId -eq $riskId } | Select-Object *, @{Name = 'LastAppearance'; Expression = { $lastAppearance } }
                 }
 
-                <# $scoreRecap = $domainReports | Select-Object Date,
-                    @{N='Global';E={$_.Scores.Global}},
-                    @{N='Anomalies';E={$_.Scores.Anomaly}},
-                    @{N='PrivilegedAccounts';E={$_.Scores.PrivilegiedGroup}},
-                    @{N='StaleObjects';E={$_.Scores.StaleObjects}},
-                    @{N='Trusts';E={$_.Scores.Trust}} #>
-
                 $chartAxisX = $domainReports | ForEach-Object { Get-Date $_.date -Format 'yyyy-MM-dd HH:mm' }
+
                 $chartLineTotal = $domainReports | ForEach-Object { ($_.RiskRules.Points | Measure-Object -Sum).Sum }
+
+                $chartLineMaturity1 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 1 } | Measure-Object -Sum).Sum }
+                $chartLineMaturity2 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 2 } | Measure-Object -Sum).Sum }
+                $chartLineMaturity3 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 3 } | Measure-Object -Sum).Sum }
+                $chartLineMaturity4 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 4 } | Measure-Object -Sum).Sum }
+
                 $chartLineAnoma = $domainReports | ForEach-Object { (($_.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum }
                 $chartLinePrivi = $domainReports | ForEach-Object { (($_.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum }
                 $chartLineStale = $domainReports | ForEach-Object { (($_.RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum }
@@ -90,6 +100,27 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                     }
                 }
 
+                # Diagram for maturity level rule matching
+                New-HTMLSection -HeaderText 'Maturity rule matching' {
+                    New-HTMLPanel {
+                        New-HTMLChart {
+                            New-ChartAxisX -Name $chartAxisX
+                            New-ChartLine -Value $chartLineMaturity1 -Name 'Maturity 1' -Color '#fd0100'
+                            New-ChartLine -Value $chartLineMaturity2 -Name 'Maturity 2' -Color '#ffa500'
+                            New-ChartLine -Value $chartLineMaturity3 -Name 'Maturity 3' -Color '#f0e68c'
+                            New-ChartLine -Value $chartLineMaturity4 -Name 'Maturity 4' -Color '#007bff'
+                        }
+                    }
+                    New-HTMLPanel {
+                        New-HTMLChart {
+                            New-ChartPie -Value $chartLineMaturity1[-1] -Name 'Maturity 1' -Color '#fd0100'
+                            New-ChartPie -Value $chartLineMaturity2[-1] -Name 'Maturity 2' -Color '#ffa500'
+                            New-ChartPie -Value $chartLineMaturity3[-1] -Name 'Maturity 3' -Color '#f0e68c'
+                            New-ChartPie -Value $chartLineMaturity4[-1] -Name 'Maturity 4' -Color '#007bff'
+                        }
+                    }
+                }
+                
                 # Diagrams per category
                 New-HTMLSection -HeaderText 'Evolution per category' {
                     New-HTMLPanel {
@@ -114,11 +145,11 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                     }
                 }
 
-                # Work-in-progress
+                # Remediations
                 New-HTMLSection -HeaderText 'Remediations' {
                     New-HTMLPanel {
-                        New-HTMLHeading h3 -HeadingText 'All risks solved'
-                        New-HTMLTable -DataTable $riskSolvedSince -DefaultSortIndex 0 -DefaultSortOrder Descending
+                        New-HTMLHeading h2 -HeadingText 'All risks solved'
+                        New-HTMLTable -DataTable $riskSolvedSince -DefaultSortIndex 1
                     }
                 }
             }
@@ -145,10 +176,22 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
 
                     # Show PingCastle scores between 0 and 100 pts
                     New-HTMLSection -HeaderText 'Scores' {
-                        New-HTMLGage -Label 'Anomalies' -MinValue 0 -MaxValue 100 -Value $currentReport.Scores.Anomaly
-                        New-HTMLGage -Label 'Privileged Accounts' -MinValue 0 -MaxValue 100 -Value $currentReport.Scores.PrivilegiedGroup
-                        New-HTMLGage -Label 'Stale Objects' -MinValue 0 -MaxValue 100 -Value $currentReport.Scores.StaleObjects
-                        New-HTMLGage -Label 'Trusts' -MinValue 0 -MaxValue 100 -Value $currentReport.Scores.Trust
+                        New-HTMLPanel {
+                            New-HTMLGage -Label 'Anomalies' -MinValue 0 -MaxValue 100 -Value $currentReport.Scores.Anomaly
+                            New-HTMLText -TextBlock { 'It is about specific security control points' }
+                        }
+                        New-HTMLPanel {
+                            New-HTMLGage -Label 'Privileged Accounts' -MinValue 0 -MaxValue 100 -Value $currentReport.Scores.PrivilegiedGroup
+                            New-HTMLText -TextBlock { 'It is about administrators of the Active Directory' }
+                        }
+                        New-HTMLPanel {
+                            New-HTMLGage -Label 'Stale Objects' -MinValue 0 -MaxValue 100 -Value $currentReport.Scores.StaleObjects
+                            New-HTMLText -TextBlock { 'It is about operations related to user or computer objects' }
+                        }
+                        New-HTMLPanel {
+                            New-HTMLGage -Label 'Trusts' -MinValue 0 -MaxValue 100 -Value $currentReport.Scores.Trust
+                            New-HTMLText -TextBlock { 'It is about connections between two Active Directories' }
+                        }
                     }
 
                     # Show evolution per item between initial, previous and current report
@@ -183,25 +226,31 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                     New-HTMLSection -HeaderText 'Improvement & deterioration' {
                         New-HTMLPanel {
                             # The following risk rules have been resolved since the last report (improvement)
-                            New-HTMLHeading h3 -HeadingText 'Risk rules resolved'
-                            New-HTMLTable -DataTable $riskSolved -DefaultSortIndex 0 -DefaultSortOrder Descending -HideButtons
+                            New-HTMLSection -Invisible -AlignItems center -JustifyContent flex-start -BackgroundColor '#cfe9cf' {
+                                New-HTMLFontIcon -IconSize 20 -IconSolid check-circle -IconColor 'Green'
+                                New-HTMLHeading h2 -HeadingText 'Risk rules resolved'
+                            }
+                            New-HTMLTable -DataTable $riskSolved -DefaultSortIndex 1 -HideButtons
                         }
                         New-HTMLPanel {
                             # The following risk rules have been discovered since the last report (deterioration)
-                            New-HTMLHeading h3 -HeadingText 'New risk rules triggered'
-                            New-HTMLTable -DataTable $riskNew -DefaultSortIndex 0 -DefaultSortOrder Descending -HideButtons
+                            New-HTMLSection -Invisible -AlignItems center -JustifyContent flex-start -BackgroundColor '#ffcece' {
+                                New-HTMLFontIcon -IconSize 20 -IconSolid arrow-circle-down -IconColor 'DarkRed'
+                                New-HTMLHeading h2 -HeadingText 'New risk rules triggered'
+                            }
+                            New-HTMLTable -DataTable $riskNew -DefaultSortIndex 1 -HideButtons
                         }
                     }
 
                     # Show all risk rules
                     New-HTMLSection -HeaderText 'All current risk rules' {
-                        New-HTMLTable -DataTable $currentReport.RiskRules -DefaultSortIndex 0 -DefaultSortOrder Descending
+                        New-HTMLTable -DataTable $currentReport.RiskRules -DefaultSortIndex 1
                     }
                 }
             }
         }
 
         # Footer
-        New-HTMLFooter -HTMLContent { $ExecutionContext.InvokeCommand.ExpandString([string](Get-Content -Path '.\html\footer.html')) }
+        New-HTMLFooter -HTMLContent { $ExecutionContext.InvokeCommand.ExpandString([string](Get-Content -Path "$PSScriptRoot\html\footer.html")) }
     }
 }
