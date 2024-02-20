@@ -16,3 +16,9 @@ Basé sur des données fictives :
 - <https://github.com/EvotecIT/PSWriteHTML>
 - <https://evotec.xyz/dashimo-pswritehtml-charting-icons-and-few-other-changes/>
 - <https://evotec.xyz/dashimo-easy-table-conditional-formatting-and-more/>
+
+## Remerciements
+
+- [Thierry PLANTIVE](https://www.linkedin.com/in/thierry-plantive-764b5b93/) pour l'idée originale, les retours et les demandes d'améliorations des rapports
+- [stefan-frenchies](https://github.com/stefan-frenchies) pour le code pour la récupération des informations stockées dans les fichiers XML
+- [Vincent VUCCINO](https://www.linkedin.com/in/vincent-vuccino-7948762b/) pour le code pour la récupération des niveaux de maturité via le GitHub de PingCastle
