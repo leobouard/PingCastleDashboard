@@ -66,8 +66,8 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
         # Main
         New-HTMLMain {
 
-            # Main page tab
-            New-HTMLTab -Name 'Main page' -IconSolid home {
+            # Home tab
+            New-HTMLTab -Name 'Home' -IconSolid home {
 
                 $firstReport = $domainReports[0]
                 $lastReport = $domainReports[-1]
