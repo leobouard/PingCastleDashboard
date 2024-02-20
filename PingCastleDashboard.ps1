@@ -3,7 +3,8 @@
 
 $PSDefaultParameterValues = @{
     'New-HTMLSection:HeaderBackGroundColor' = '#3D3834'
-    'New-HTMLSection:HeaderTextSize'        = '16'
+    'New-HTMLSection:HeaderTextSize'        = 16
+    'New-HTMLSection:Margin'                = 20
     'New-ChartBar:Color'                    = '#783CBD'
     'New-ChartLine:Color'                   = '#783CBD'
     'New-HTMLTable:HTML'                    = { {
@@ -13,6 +14,9 @@ $PSDefaultParameterValues = @{
             New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 4 -BackgroundColor '#007bff'
         } }
     'New-HTMLTable*:WarningAction'          = 'SilentlyContinue'
+    'New-HTMLGage:MinValue' = 0
+    'New-HTMLGage:MaxValue' = 100
+    'New-HTMLGage:Pointer'   = $true
 }
 
 $xmlFiles = Get-ChildItem -Path "$PSScriptRoot\xml" -Filter '*.xml' -Recurse
@@ -177,20 +181,20 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                     # Show PingCastle scores between 0 and 100 pts
                     New-HTMLSection -HeaderText 'Scores' {
                         New-HTMLPanel {
-                            New-HTMLGage -Label 'Anomalies' -MinValue 0 -MaxValue 100 -Value $currentReport.Scores.Anomaly
-                            New-HTMLText -TextBlock { 'It is about specific security control points' }
+                            New-HTMLGage -Label 'Anomalies' -Value $currentReport.Scores.Anomaly
+                            New-HTMLText -Alignment center -TextBlock { 'Specific security control points' }
                         }
                         New-HTMLPanel {
-                            New-HTMLGage -Label 'Privileged Accounts' -MinValue 0 -MaxValue 100 -Value $currentReport.Scores.PrivilegiedGroup
-                            New-HTMLText -TextBlock { 'It is about administrators of the Active Directory' }
+                            New-HTMLGage -Label 'Privileged Accounts' -Value $currentReport.Scores.PrivilegiedGroup
+                            New-HTMLText -Alignment center -TextBlock { 'Administrators of the Active Directory' }
                         }
                         New-HTMLPanel {
-                            New-HTMLGage -Label 'Stale Objects' -MinValue 0 -MaxValue 100 -Value $currentReport.Scores.StaleObjects
-                            New-HTMLText -TextBlock { 'It is about operations related to user or computer objects' }
+                            New-HTMLGage -Label 'Stale Objects' -Value $currentReport.Scores.StaleObjects
+                            New-HTMLText -Alignment center -TextBlock { 'Operations related to user or computer objects' }
                         }
                         New-HTMLPanel {
-                            New-HTMLGage -Label 'Trusts' -MinValue 0 -MaxValue 100 -Value $currentReport.Scores.Trust
-                            New-HTMLText -TextBlock { 'It is about connections between two Active Directories' }
+                            New-HTMLGage -Label 'Trusts' -Value $currentReport.Scores.Trust
+                            New-HTMLText -Alignment center -TextBlock { 'Connections between two Active Directories' }
                         }
                     }
 
@@ -226,7 +230,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                     New-HTMLSection -HeaderText 'Improvement & deterioration' {
                         New-HTMLPanel {
                             # The following risk rules have been resolved since the last report (improvement)
-                            New-HTMLSection -Invisible -AlignItems center -JustifyContent flex-start -BackgroundColor '#cfe9cf' {
+                            New-HTMLSection -Invisible -Margin 0 -AlignItems center -JustifyContent flex-start -BackgroundColor '#cfe9cf' {
                                 New-HTMLFontIcon -IconSize 20 -IconSolid check-circle -IconColor 'Green'
                                 New-HTMLHeading h2 -HeadingText 'Risk rules resolved'
                             }
@@ -234,7 +238,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                         }
                         New-HTMLPanel {
                             # The following risk rules have been discovered since the last report (deterioration)
-                            New-HTMLSection -Invisible -AlignItems center -JustifyContent flex-start -BackgroundColor '#ffcece' {
+                            New-HTMLSection -Invisible -Margin 0 -AlignItems center -JustifyContent flex-start -BackgroundColor '#ffcece' {
                                 New-HTMLFontIcon -IconSize 20 -IconSolid arrow-circle-down -IconColor 'DarkRed'
                                 New-HTMLHeading h2 -HeadingText 'New risk rules triggered'
                             }
