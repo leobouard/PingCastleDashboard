@@ -12,5 +12,7 @@ Basé sur des données fictives :
 
 ## Liens utiles et inspirations
 
-- <https://evotec.xyz/dashimo-pswritehtml-charting-icons-and-few-other-changes/>
 - <https://github.com/vletoux/pingcastle>
+- <https://github.com/EvotecIT/PSWriteHTML>
+- <https://evotec.xyz/dashimo-pswritehtml-charting-icons-and-few-other-changes/>
+- <https://evotec.xyz/dashimo-easy-table-conditional-formatting-and-more/>
