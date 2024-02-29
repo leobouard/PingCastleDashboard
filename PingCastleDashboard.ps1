@@ -3,7 +3,8 @@
 
 param(
     [System.IO.DirectoryInfo]$XMLPath = "$PSScriptRoot\xml",
-    [System.IO.DirectoryInfo]$OutputPath = "$PSScriptRoot\output"
+    [System.IO.DirectoryInfo]$OutputPath = "$PSScriptRoot\output",
+    [string]$DateFormat = 'yyyy-MM-dd'
 )
 
 $PSDefaultParameterValues = @{
@@ -34,6 +35,8 @@ $reports = $xmlFiles | ForEach-Object {
         Date      = Get-Date (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/GenerationDate').Node.'#text'
         Version   = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/EngineVersion').Node.'#text'
         Maturity  = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/MaturityLevel').Node.'#text'
+        DomainMode = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/DomainFunctionalLevel').Node.'#text'
+        ForestMode = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/ForestFunctionalLevel').Node.'#text'
         Scores    = [PSCustomObject]@{
             Global           = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/GlobalScore').Node.'#text'
             StaleObjects     = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/StaleObjectsScore').Node.'#text'
@@ -56,13 +59,13 @@ $reports = $xmlFiles | ForEach-Object {
 }
 
 $reports = $reports | Sort-Object Date
-$allRiskRules = $reports.RiskRules | Sort-Object -Unique -Property RiskId
 
 # Create one dashboard foreach domain
 $reports.Domain | Sort-Object -Unique | ForEach-Object {
 
     $domain = $_
     $domainReports = $reports | Where-Object { $_.Domain -eq $domain }
+    $allRiskRules = $domainReports.RiskRules | Sort-Object -Unique -Property RiskId
 
     New-HTML -Name 'PingCastle dashboard' -FilePath "$OutputPath\dashboard_$domain.html" -Encoding UTF8 -Author 'Léo Bouard' -DateFormat 'dd/MM/yyyy HH:mm:ss' {
         
@@ -80,11 +83,37 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                 $comp = Compare-Object -ReferenceObject $firstReport.RiskRules.RiskId -DifferenceObject $lastReport.RiskRules.RiskId
                 $riskSolvedSince = $comp | Where-Object { $_.SideIndicator -eq '<=' } | ForEach-Object {
                     $riskId = $_.InputObject
-                    $lastAppearance = Get-Date ($domainReports | Where-Object { $_.RiskRules.RiskId -eq $riskId })[-1].Date -Format 'yyyy-MM-dd'
+                    $lastAppearance = Get-Date ($domainReports | Where-Object { $_.RiskRules.RiskId -eq $riskId })[-1].Date -Format $DateFormat
                     $allRiskRules | Where-Object { $_.RiskId -eq $riskId } | Select-Object *, @{Name = 'LastAppearance'; Expression = { $lastAppearance } }
                 }
 
-                $chartAxisX = $domainReports | ForEach-Object { Get-Date $_.date -Format 'yyyy-MM-dd HH:mm' }
+                $scores = $domainReports | ForEach-Object {
+                    [PSCustomObject]@{
+                        Date                  = Get-Date $_.Date -Format $DateFormat
+                        Maturity              = $_.Maturity
+                        'Global score'        = $_.Scores.Global
+                        Anomalies             = $_.Scores.Anomaly
+                        'Privileged Accounts' = $_.Scores.PrivilegiedGroup
+                        'Stale Objects'       = $_.Scores.StaleObjects
+                        Trusts                = $_.Scores.Trust
+                    }
+                }
+
+                $riskRulesEvolution = $allRiskRules | Select-Object * -ExcludeProperty Points
+                $domainReports | Sort-Object Date -Descending | ForEach-Object {
+                    $name = (Get-Date $_.Date -Format $DateFormat)
+                    $riskRulesEvolution | Add-Member -Name $name -MemberType NoteProperty -Value $null
+                }
+                $domainReports | ForEach-Object {
+                    $report = $_
+                    $member = (Get-Date $report.Date -Format $DateFormat)
+                    $riskRulesEvolution | ForEach-Object {
+                        $riskId = $_.RiskId
+                        $_.$member = ($report.RiskRules | Where-Object { $_.RiskId -eq $riskId }).Points
+                    }
+                }
+
+                $chartAxisX = $domainReports | ForEach-Object { Get-Date $_.date -Format $DateFormat }
 
                 $chartLineTotal = $domainReports | ForEach-Object { ($_.RiskRules.Points | Measure-Object -Sum).Sum }
 
@@ -92,6 +121,8 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                 $chartLineCriticity2 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 2 } | Measure-Object -Sum).Sum }
                 $chartLineCriticity3 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 3 } | Measure-Object -Sum).Sum }
                 $chartLineCriticity4 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 4 } | Measure-Object -Sum).Sum }
+
+                $chartLineMaturity = $domainReports.Maturity
 
                 $chartLineAnoma = $domainReports | ForEach-Object { (($_.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum }
                 $chartLinePrivi = $domainReports | ForEach-Object { (($_.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum }
@@ -101,18 +132,25 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                 # Diagram for global score
                 New-HTMLSection -HeaderText 'Evolution of global score and criticity rule matching' {
                     New-HTMLPanel {
-                        New-HTMLChart {
-                            New-ChartAxisX -Name $chartAxisX
-                            New-ChartLine -Value $chartLineTotal -Name 'Point(s)'
+                        New-HTMLSection -Invisible {
+                            New-HTMLChart -Title 'Uncapped total of the four items score' {
+                                New-ChartAxisX -Name $chartAxisX
+                                New-ChartLine -Value $chartLineTotal -Name 'Point(s)'
+                            }
                         }
-                    }
-                    New-HTMLPanel {
-                        New-HTMLChart {
-                            New-ChartAxisX -Name $chartAxisX
-                            New-ChartLine -Value $chartLineCriticity1 -Name 'Criticity 1' -Color '#fd0100'
-                            New-ChartLine -Value $chartLineCriticity2 -Name 'Criticity 2' -Color '#ffa500'
-                            New-ChartLine -Value $chartLineCriticity3 -Name 'Criticity 3' -Color '#f0e68c'
-                            New-ChartLine -Value $chartLineCriticity4 -Name 'Criticity 4' -Color '#007bff'
+                        New-HTMLSection -Invisible {
+                            New-HTMLChart -Title 'Domain maturity' {
+                                New-ChartAxisX -Name $chartAxisX
+                                New-ChartAxisY -MinValue 1 -MaxValue 4 -Reversed
+                                New-ChartLine -Value $chartLineMaturity -Curve stepline -Color '#fd0100'
+                            }
+                            New-HTMLChart -Title 'Criticity level rule matching' {
+                                New-ChartAxisX -Name $chartAxisX
+                                New-ChartLine -Value $chartLineCriticity1 -Name 'Criticity 1' -Color '#fd0100'
+                                New-ChartLine -Value $chartLineCriticity2 -Name 'Criticity 2' -Color '#ffa500'
+                                New-ChartLine -Value $chartLineCriticity3 -Name 'Criticity 3' -Color '#f0e68c'
+                                New-ChartLine -Value $chartLineCriticity4 -Name 'Criticity 4' -Color '#007bff'
+                            }
                         }
                     }
                 }
@@ -143,9 +181,37 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
 
                 # Remediations
                 New-HTMLSection -HeaderText 'Remediations' {
-                    New-HTMLPanel {
-                        New-HTMLHeading h2 -HeadingText 'All risks solved'
-                        New-HTMLTable -DataTable $riskSolvedSince -DefaultSortIndex 1 -DisablePaging
+                    New-HTMLTable -Title 'All risks solved' -DataTable $riskSolvedSince -DefaultSortIndex 1 -DisablePaging
+                }
+
+                # Scores
+                New-HTMLSection -HeaderText 'Score & maturity evolution' {
+                    New-HTMLTable -DataTable $scores -DefaultSortIndex 0 -DisablePaging {
+                        # Maturity
+                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 1 -BackgroundColor '#fd0100'
+                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 2 -BackgroundColor '#ffa500'
+                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 3 -BackgroundColor '#f0e68c'
+                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 4 -BackgroundColor '#007bff'
+                        # All scores
+                        'Global score', 'Anomalies', 'Privileged Accounts', 'Stale Objects', 'Trusts' | ForEach-Object {
+                            New-HTMLTableCondition -Name $_ -ComparisonType number -Operator ge -Value 0 -Color '#5a9230'
+                            New-HTMLTableCondition -Name $_ -ComparisonType number -Operator ge -Value 25 -Color '#ac961c'
+                            New-HTMLTableCondition -Name $_ -ComparisonType number -Operator ge -Value 50 -Color '#f5701f'
+                            New-HTMLTableCondition -Name $_ -ComparisonType number -Operator ge -Value 75 -Color '#e73731'
+                        }
+                    }
+                }
+
+                # Risk rules evolution
+                New-HTMLSection -HeaderText 'Risk rules evolution' {
+                    New-HTMLTable -DataTable $riskRulesEvolution -DefaultSortIndex 0 -DisablePaging {
+                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 1 -BackgroundColor '#fd0100'
+                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 2 -BackgroundColor '#ffa500'
+                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 3 -BackgroundColor '#f0e68c'
+                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 4 -BackgroundColor '#007bff'
+                        $domainReports.Date | ForEach-Object {Get-Date $_ -Format $DateFormat} | ForEach-Object {
+                            New-HTMLTableCondition -Name $_ -ComparisonType string -Operator eq -Value '' -BackgroundColor 'lightgray'
+                        }
                     }
                 }
             }
@@ -169,13 +235,22 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                     }
                 }
 
-                New-HTMLTab -Name (Get-Date $_.date -Format 'yyyy-MM-dd HH:mm') {
+                New-HTMLTab -Name (Get-Date $_.date -Format $DateFormat) {
 
                     # Show main informations about report and domain
                     New-HTMLSection -HeaderText 'Report and domain information' {
                         New-HTMLPanel {
-                            New-HTMLImage -Source 'https://www.pingcastle.com/wp/wp-content/uploads/2018/09/pingcastle_big.png' -Height 100
-                            New-HTMLText -Text "Build version $($currentReport.Version)" -FontSize 16
+                            $mainInfo = [PSCustomObject]@{
+                                "PingCastle version" = $currentReport.Version
+                                "Generated on"       = Get-Date $currentReport.Date -Format D
+                                "Report age"         = "$([int]((New-TimeSpan -Start $currentReport.Date).TotalDays)) day(s)"
+                                "Domain maturity"    = $currentReport.Maturity
+                                "Domain mode"        = $currentReport.DomainMode
+                                "Forest mode"        = $currentReport.ForestMode
+                                "Total score"        = "$(($currentReport.RiskRules.Points | Measure-Object -Sum).Sum) point(s)"
+                            }
+                            New-HTMLImage -Source 'https://www.pingcastle.com/wp/wp-content/uploads/2018/09/pingcastle_big.png' -Height 80
+                            New-HTMLTable -Title 'Report information' -DataTable $mainInfo -HideFooter -Transpose -Simplify
                         }
                         New-HTMLPanel {
                             New-HTMLGage -Label 'Global score' -Value $currentReport.Scores.Global
