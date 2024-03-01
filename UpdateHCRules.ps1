@@ -38,4 +38,4 @@ $HCRules = $results | ForEach-Object {
     }
 }
 
-$HCRules | Sort-Object RiskId | Export-Csv -Path "$PSScriptRoot\HCRules.csv" -Delimiter ';' -Encoding utf8 -NoTypeInformation
+$HCRules | Sort-Object RiskId | Export-Csv -Path "$PSScriptRoot\data\HCRules.csv" -Delimiter ';' -Encoding utf8 -NoTypeInformation

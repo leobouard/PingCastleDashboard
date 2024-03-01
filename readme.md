@@ -8,7 +8,7 @@ Pour se servir du script, c'est très simple : on balance tous les fichiers XML 
 
 Basé sur des données fictives :
 
-![Capture d'écran du dashboard](/illustation.png)
+![Capture d'écran du dashboard](/data/illustation.png)
 
 ## Liens utiles et inspirations
 

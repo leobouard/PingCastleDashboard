@@ -26,25 +26,25 @@ $PSDefaultParameterValues = @{
 }
 
 $xmlFiles = Get-ChildItem -Path $xmlPath -Filter '*.xml' -Recurse
-
-$hcRules = Import-Csv -Path "$PSScriptRoot\HCRules.csv" -Delimiter ';' -Encoding utf8
+$hcRules = Import-Csv -Path "$PSScriptRoot\data\HCRules.csv" -Delimiter ';' -Encoding utf8
+$functionalLevels = 'Windows2000', 'Windows2003Interim', 'Windows2003', 'Windows2008', 'Windows2008R2', 'Windows2012', 'Windows2012R2', 'Windows2016', 'Windows2025'
 
 $reports = $xmlFiles | ForEach-Object {
     [PSCustomObject]@{
-        Domain    = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/DomainFQDN').Node.'#text'
-        Date      = Get-Date (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/GenerationDate').Node.'#text'
-        Version   = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/EngineVersion').Node.'#text'
-        Maturity  = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/MaturityLevel').Node.'#text'
-        DomainMode = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/DomainFunctionalLevel').Node.'#text'
-        ForestMode = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/ForestFunctionalLevel').Node.'#text'
-        Scores    = [PSCustomObject]@{
+        Domain     = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/DomainFQDN').Node.'#text'
+        Date       = Get-Date (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/GenerationDate').Node.'#text'
+        Version    = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/EngineVersion').Node.'#text'
+        Maturity   = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/MaturityLevel').Node.'#text'
+        DomainMode = $functionalLevels[(Select-Xml -Path $_.FullName -XPath '/HealthcheckData/DomainFunctionalLevel').Node.'#text']
+        ForestMode = $functionalLevels[(Select-Xml -Path $_.FullName -XPath '/HealthcheckData/ForestFunctionalLevel').Node.'#text']
+        Scores     = [PSCustomObject]@{
             Global           = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/GlobalScore').Node.'#text'
             StaleObjects     = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/StaleObjectsScore').Node.'#text'
             PrivilegiedGroup = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/PrivilegiedGroupScore').Node.'#text'
             Trust            = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/TrustScore').Node.'#text'
             Anomaly          = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/AnomalyScore').Node.'#text'
         }
-        RiskRules = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/RiskRules/HealthcheckRiskRule').Node | ForEach-Object {
+        RiskRules  = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/RiskRules/HealthcheckRiskRule').Node | ForEach-Object {
             $riskId = $_.RiskId
             [PSCustomObject]@{
                 Points    = [int]($_.Points)
@@ -70,7 +70,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
     New-HTML -Name 'PingCastle dashboard' -FilePath "$OutputPath\dashboard_$domain.html" -Encoding UTF8 -Author 'Léo Bouard' -DateFormat 'dd/MM/yyyy HH:mm:ss' {
         
         # Header
-        New-HTMLHeader -HTMLContent { $ExecutionContext.InvokeCommand.ExpandString([string](Get-Content -Path "$PSScriptRoot\html\header.html")) }
+        New-HTMLHeader -HTMLContent { $ExecutionContext.InvokeCommand.ExpandString([string](Get-Content -Path "$PSScriptRoot\data\header.html")) }
 
         # Main
         New-HTMLMain {
@@ -92,10 +92,11 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                         Date                  = Get-Date $_.Date -Format $DateFormat
                         Maturity              = $_.Maturity
                         'Global score'        = $_.Scores.Global
-                        Anomalies             = $_.Scores.Anomaly
-                        'Privileged Accounts' = $_.Scores.PrivilegiedGroup
-                        'Stale Objects'       = $_.Scores.StaleObjects
-                        Trusts                = $_.Scores.Trust
+                        'Total score'         = ($_.RiskRules.Points | Measure-Object -Sum).Sum
+                        Anomalies             = (($_.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum
+                        'Privileged Accounts' = (($_.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum
+                        'Stale Objects'       = (($_.RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum
+                        Trusts                = (($_.RiskRules | Where-Object { $_.Category -eq 'Trusts' }).Points | Measure-Object -Sum).Sum
                     }
                 }
 
@@ -114,16 +115,12 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                 }
 
                 $chartAxisX = $domainReports | ForEach-Object { Get-Date $_.date -Format $DateFormat }
-
                 $chartLineTotal = $domainReports | ForEach-Object { ($_.RiskRules.Points | Measure-Object -Sum).Sum }
-
                 $chartLineCriticity1 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 1 } | Measure-Object -Sum).Sum }
                 $chartLineCriticity2 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 2 } | Measure-Object -Sum).Sum }
                 $chartLineCriticity3 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 3 } | Measure-Object -Sum).Sum }
                 $chartLineCriticity4 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 4 } | Measure-Object -Sum).Sum }
-
                 $chartLineMaturity = $domainReports.Maturity
-
                 $chartLineAnoma = $domainReports | ForEach-Object { (($_.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum }
                 $chartLinePrivi = $domainReports | ForEach-Object { (($_.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum }
                 $chartLineStale = $domainReports | ForEach-Object { (($_.RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum }
@@ -185,7 +182,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                 }
 
                 # Scores
-                New-HTMLSection -HeaderText 'Score & maturity evolution' {
+                New-HTMLSection -HeaderText 'Score & maturity evolution (uncapped)' {
                     New-HTMLTable -DataTable $scores -DefaultSortIndex 0 -DisablePaging {
                         # Maturity
                         New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 1 -BackgroundColor '#fd0100'
@@ -209,9 +206,11 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                         New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 2 -BackgroundColor '#ffa500'
                         New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 3 -BackgroundColor '#f0e68c'
                         New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 4 -BackgroundColor '#007bff'
-                        $domainReports.Date | ForEach-Object {Get-Date $_ -Format $DateFormat} | ForEach-Object {
+                        $domainReports.Date | ForEach-Object { Get-Date $_ -Format $DateFormat } | ForEach-Object {
                             New-HTMLTableCondition -Name $_ -ComparisonType string -Operator eq -Value '' -BackgroundColor 'lightgray'
                         }
+                        # Grayed the row how have been resolved
+                        New-HTMLTableCondition -Name (Get-Date $domainReports.Date[-1] -Format $DateFormat) -ComparisonType string -Operator eq -Value '' -Color 'darkgray' -Row
                     }
                 }
             }
@@ -345,7 +344,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
         }
 
         # Footer
-        New-HTMLFooter -HTMLContent { $ExecutionContext.InvokeCommand.ExpandString([string](Get-Content -Path "$PSScriptRoot\html\footer.html")) }
+        New-HTMLFooter -HTMLContent { $ExecutionContext.InvokeCommand.ExpandString([string](Get-Content -Path "$PSScriptRoot\data\footer.html")) }
     }
 }
 
