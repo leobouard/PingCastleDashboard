@@ -67,6 +67,9 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
     $domainReports = $reports | Where-Object { $_.Domain -eq $domain }
     $allRiskRules = $domainReports.RiskRules | Sort-Object -Unique -Property RiskId
 
+    # Export data to JSON
+    $domainReports | ConvertTo-Json -Depth 3 | Set-Content -Path "$OutputPath\export_$domain.json" -Encoding UTF8
+
     New-HTML -Name 'PingCastle dashboard' -FilePath "$OutputPath\dashboard_$domain.html" -Encoding UTF8 -Author 'Léo Bouard' -DateFormat 'dd/MM/yyyy HH:mm:ss' {
         
         # Header
