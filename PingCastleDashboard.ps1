@@ -18,6 +18,7 @@ $PSDefaultParameterValues = @{
             New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 2 -BackgroundColor '#ffa500'
             New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 3 -BackgroundColor '#f0e68c'
             New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 4 -BackgroundColor '#007bff'
+            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 5 -BackgroundColor '#28a745'
         } }
     'New-HTMLTable*:WarningAction'          = 'SilentlyContinue'
     'New-HTMLGage:MinValue'                 = 0
@@ -123,6 +124,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                 $chartLineCriticity2 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 2 } | Measure-Object -Sum).Sum }
                 $chartLineCriticity3 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 3 } | Measure-Object -Sum).Sum }
                 $chartLineCriticity4 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 4 } | Measure-Object -Sum).Sum }
+                $chartLineCriticity5 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 5 } | Measure-Object -Sum).Sum }
                 $chartLineMaturity = $domainReports.Maturity
                 $chartLineAnoma = $domainReports | ForEach-Object { (($_.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum }
                 $chartLinePrivi = $domainReports | ForEach-Object { (($_.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum }
@@ -150,6 +152,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                                 New-ChartLine -Value $chartLineCriticity2 -Name 'Criticity 2' -Color '#ffa500'
                                 New-ChartLine -Value $chartLineCriticity3 -Name 'Criticity 3' -Color '#f0e68c'
                                 New-ChartLine -Value $chartLineCriticity4 -Name 'Criticity 4' -Color '#007bff'
+                                New-ChartLine -Value $chartLineCriticity5 -Name 'Criticity 5' -Color '#28a745'
                             }
                         }
                     }
@@ -192,6 +195,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                         New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 2 -BackgroundColor '#ffa500'
                         New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 3 -BackgroundColor '#f0e68c'
                         New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 4 -BackgroundColor '#007bff'
+                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 5 -BackgroundColor '#28a745'
                         # All scores
                         'Global score', 'Anomalies', 'Privileged Accounts', 'Stale Objects', 'Trusts' | ForEach-Object {
                             New-HTMLTableCondition -Name $_ -ComparisonType number -Operator ge -Value 0 -Color '#5a9230'
@@ -209,6 +213,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                         New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 2 -BackgroundColor '#ffa500'
                         New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 3 -BackgroundColor '#f0e68c'
                         New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 4 -BackgroundColor '#007bff'
+                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 5 -BackgroundColor '#28a745'
                         $domainReports.Date | ForEach-Object { Get-Date $_ -Format $DateFormat } | ForEach-Object {
                             New-HTMLTableCondition -Name $_ -ComparisonType string -Operator eq -Value '' -BackgroundColor 'lightgray'
                         }
@@ -264,6 +269,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                                 New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 2 }).Count -Name 'Criticity 2' -Color '#ffa500'
                                 New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 3 }).Count -Name 'Criticity 3' -Color '#f0e68c'
                                 New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 4 }).Count -Name 'Criticity 4' -Color '#007bff'
+                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 4 }).Count -Name 'Criticity 5' -Color '#28a745'
                             }
                         }
                     }
