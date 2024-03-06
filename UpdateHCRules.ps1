@@ -4,6 +4,7 @@ $results = Invoke-RestMethod -Method GET -Uri $uri | Where-Object { $_.Name -lik
 $i = 0
 $total = ($results | Measure-Object).Count
 
+
 $HCRules = $results | ForEach-Object {
     
     # Progress bar
@@ -38,4 +39,12 @@ $HCRules = $results | ForEach-Object {
     }
 }
 
+$ref = Get-Content -Path "$PSScriptRoot\data\HCRules.csv" -Encoding utf8
+$dif = $HCRules | ConvertTo-Csv -Delimiter ';' -NoTypeInformation
+$comp = Compare-Object -ReferenceObject $ref -DifferenceObject $dif
+Write-Output "$(($comp | Measure-Object).Count) difference(s) found!"
+$comp | Format-Table
+
 $HCRules | Sort-Object RiskId | Export-Csv -Path "$PSScriptRoot\data\HCRules.csv" -Delimiter ';' -Encoding utf8 -NoTypeInformation
+
+pause
