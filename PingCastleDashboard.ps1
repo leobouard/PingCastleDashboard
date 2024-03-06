@@ -7,18 +7,35 @@ param(
     [string]$DateFormat = 'yyyy-MM-dd'
 )
 
+$Colors = @{
+    'Primary'   = '#783CBD'
+    'Secondary' = '#3D3834'
+    'Level1'    = '#f94144'
+    'Level2'    = '#f8961e'
+    'Level3'    = '#f9c74f'
+    'Level4'    = '#43aa8b'
+    'Level5'    = '#277da1'
+    'Highest'   = 'darkred'
+    'High'      = 'darkorange'
+    'Medium'    = 'darkgoldenrod'
+    'Low'       = 'darkgreen'
+    'Lowest'    = 'darkcyan'
+    'Positive'  = '#CFE9CF'
+    'Negative'  = '#FFCECE'
+}
+
 $PSDefaultParameterValues = @{
-    'New-HTMLSection:HeaderBackGroundColor' = '#3D3834'
+    'New-HTMLSection:HeaderBackGroundColor' = $Colors.Secondary
     'New-HTMLSection:HeaderTextSize'        = 16
     'New-HTMLSection:Margin'                = 20
-    'New-ChartBar:Color'                    = '#783CBD'
-    'New-ChartLine:Color'                   = '#783CBD'
+    'New-ChartBar:Color'                    = $Colors.Primary
+    'New-ChartLine:Color'                   = $Colors.Primary
     'New-HTMLTable:HTML'                    = { {
-            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 1 -BackgroundColor '#fd0100'
-            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 2 -BackgroundColor '#ffa500'
-            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 3 -BackgroundColor '#f0e68c'
-            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 4 -BackgroundColor '#007bff'
-            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 5 -BackgroundColor '#28a745'
+            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 1 -BackgroundColor $Colors.Level1
+            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 2 -BackgroundColor $Colors.Level2
+            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 3 -BackgroundColor $Colors.Level3
+            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 4 -BackgroundColor $Colors.Level4
+            New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 5 -BackgroundColor $Colors.Level5
         } }
     'New-HTMLTable*:WarningAction'          = 'SilentlyContinue'
     'New-HTMLGage:MinValue'                 = 0
@@ -144,15 +161,15 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                             New-HTMLChart -Title 'Domain maturity' {
                                 New-ChartAxisX -Name $chartAxisX
                                 New-ChartAxisY -MinValue 1 -MaxValue 4 -Reversed
-                                New-ChartLine -Value $chartLineMaturity -Curve stepline -Color '#fd0100'
+                                New-ChartLine -Value $chartLineMaturity -Curve stepline -Color $Colors.Level1
                             }
                             New-HTMLChart -Title 'Criticity level rule matching' {
                                 New-ChartAxisX -Name $chartAxisX
-                                New-ChartLine -Value $chartLineCriticity1 -Name 'Criticity 1' -Color '#fd0100'
-                                New-ChartLine -Value $chartLineCriticity2 -Name 'Criticity 2' -Color '#ffa500'
-                                New-ChartLine -Value $chartLineCriticity3 -Name 'Criticity 3' -Color '#f0e68c'
-                                New-ChartLine -Value $chartLineCriticity4 -Name 'Criticity 4' -Color '#007bff'
-                                New-ChartLine -Value $chartLineCriticity5 -Name 'Criticity 5' -Color '#28a745'
+                                New-ChartLine -Value $chartLineCriticity1 -Name 'Criticity 1' -Color $Colors.Level1
+                                New-ChartLine -Value $chartLineCriticity2 -Name 'Criticity 2' -Color $Colors.Level2
+                                New-ChartLine -Value $chartLineCriticity3 -Name 'Criticity 3' -Color $Colors.Level3
+                                New-ChartLine -Value $chartLineCriticity4 -Name 'Criticity 4' -Color $Colors.Level4
+                                New-ChartLine -Value $chartLineCriticity5 -Name 'Criticity 5' -Color $Colors.Level5
                             }
                         }
                     }
@@ -191,17 +208,18 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                 New-HTMLSection -HeaderText 'Score & maturity evolution (uncapped)' {
                     New-HTMLTable -DataTable $scores -DefaultSortIndex 0 -DisablePaging {
                         # Maturity
-                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 1 -BackgroundColor '#fd0100'
-                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 2 -BackgroundColor '#ffa500'
-                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 3 -BackgroundColor '#f0e68c'
-                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 4 -BackgroundColor '#007bff'
-                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 5 -BackgroundColor '#28a745'
+                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 1 -BackgroundColor $Colors.Level1
+                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 2 -BackgroundColor $Colors.Level2
+                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 3 -BackgroundColor $Colors.Level3
+                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 4 -BackgroundColor $Colors.Level4
+                        New-HTMLTableCondition -Name 'Maturity' -ComparisonType number -Operator eq -Value 5 -BackgroundColor $Colors.Level5
                         # All scores
                         'Global score', 'Anomalies', 'Privileged Accounts', 'Stale Objects', 'Trusts' | ForEach-Object {
-                            New-HTMLTableCondition -Name $_ -ComparisonType number -Operator ge -Value 0 -Color '#5a9230'
-                            New-HTMLTableCondition -Name $_ -ComparisonType number -Operator ge -Value 25 -Color '#ac961c'
-                            New-HTMLTableCondition -Name $_ -ComparisonType number -Operator ge -Value 50 -Color '#f5701f'
-                            New-HTMLTableCondition -Name $_ -ComparisonType number -Operator ge -Value 75 -Color '#e73731'
+                            New-HTMLTableCondition -Name $_ -ComparisonType number -Operator gt -Value 0 -Color $Colors.Lowest -FontWeight bold
+                            New-HTMLTableCondition -Name $_ -ComparisonType number -Operator ge -Value 25 -Color $Colors.Low -FontWeight bold
+                            New-HTMLTableCondition -Name $_ -ComparisonType number -Operator ge -Value 50 -Color $Colors.Medium -FontWeight bold
+                            New-HTMLTableCondition -Name $_ -ComparisonType number -Operator ge -Value 75 -Color $Colors.High -FontWeight bold
+                            New-HTMLTableCondition -Name $_ -ComparisonType number -Operator ge -Value 100 -Color $Colors.Highest -FontWeight bold
                         }
                     }
                 }
@@ -209,11 +227,11 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                 # Risk rules evolution
                 New-HTMLSection -HeaderText 'Risk rules evolution' {
                     New-HTMLTable -DataTable $riskRulesEvolution -DefaultSortIndex 0 -DisablePaging {
-                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 1 -BackgroundColor '#fd0100'
-                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 2 -BackgroundColor '#ffa500'
-                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 3 -BackgroundColor '#f0e68c'
-                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 4 -BackgroundColor '#007bff'
-                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 5 -BackgroundColor '#28a745'
+                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 1 -BackgroundColor $Colors.Level1
+                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 2 -BackgroundColor $Colors.Level2
+                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 3 -BackgroundColor $Colors.Level3
+                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 4 -BackgroundColor $Colors.Level4
+                        New-HTMLTableCondition -Name 'Level' -ComparisonType number -Operator eq -Value 5 -BackgroundColor $Colors.Level5
                         $domainReports.Date | ForEach-Object { Get-Date $_ -Format $DateFormat } | ForEach-Object {
                             New-HTMLTableCondition -Name $_ -ComparisonType string -Operator eq -Value '' -BackgroundColor 'lightgray'
                         }
@@ -265,11 +283,11 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                         }
                         New-HTMLPanel {
                             New-HTMLChart {
-                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 1 }).Count -Name 'Criticity 1' -Color '#fd0100'
-                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 2 }).Count -Name 'Criticity 2' -Color '#ffa500'
-                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 3 }).Count -Name 'Criticity 3' -Color '#f0e68c'
-                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 4 }).Count -Name 'Criticity 4' -Color '#007bff'
-                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 4 }).Count -Name 'Criticity 5' -Color '#28a745'
+                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 1 }).Count -Name 'Criticity 1' -Color $Colors.Level1
+                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 2 }).Count -Name 'Criticity 2' -Color $Colors.Level2
+                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 3 }).Count -Name 'Criticity 3' -Color $Colors.Level3
+                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 4 }).Count -Name 'Criticity 4' -Color $Colors.Level4
+                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 4 }).Count -Name 'Criticity 5' -Color $Colors.Level5
                             }
                         }
                     }
@@ -326,7 +344,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                     New-HTMLSection -HeaderText 'Improvement & deterioration' {
                         New-HTMLPanel {
                             # The following risk rules have been resolved since the last report (improvement)
-                            New-HTMLSection -Invisible -Margin 0 -AlignItems center -JustifyContent flex-start -BackgroundColor '#cfe9cf' {
+                            New-HTMLSection -Invisible -Margin 0 -AlignItems center -JustifyContent flex-start -BackgroundColor $Colors.Positive {
                                 # New-HTMLFontIcon -IconSize 20 -IconSolid check-circle -IconColor 'Green'
                                 New-HTMLHeading h2 -HeadingText 'Risk rules resolved'
                             }
@@ -334,7 +352,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                         }
                         New-HTMLPanel {
                             # The following risk rules have been discovered since the last report (deterioration)
-                            New-HTMLSection -Invisible -Margin 0 -AlignItems center -JustifyContent flex-start -BackgroundColor '#ffcece' {
+                            New-HTMLSection -Invisible -Margin 0 -AlignItems center -JustifyContent flex-start -BackgroundColor $Colors.Negative {
                                 # New-HTMLFontIcon -IconSize 20 -IconSolid arrow-circle-down -IconColor 'DarkRed'
                                 New-HTMLHeading h2 -HeadingText 'New risk rules triggered'
                             }
