@@ -17,6 +17,7 @@ $Colors = @{
     'Neutral'   = '#3D3834'
     'Positive'  = '#CFE9CF'
     'Negative'  = '#FFCECE'
+    'Level1'    = '#F94144'
     'Level2'    = '#F8961E'
     'Level3'    = '#F9C74F'
     'Level4'    = '#43AA8B'
