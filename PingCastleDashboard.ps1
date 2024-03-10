@@ -4,28 +4,32 @@
 param(
     [System.IO.DirectoryInfo]$XMLPath = "$PSScriptRoot\xml",
     [System.IO.DirectoryInfo]$OutputPath = "$PSScriptRoot\output",
-    [string]$DateFormat = 'yyyy-MM-dd'
+    [string]$DateFormat = 'yyyy-MM-dd',
+    [string]$URI = 'https://blog.metsys.fr',
+    [string]$Logo = 'https://www.metsys.fr/wp-content/themes/metsys/images/svg/metsys-logo-white.svg',
+    [string]$Author = 'METSYS',
+    [int]$MaxWidth = 1400
 )
 
 $Colors = @{
     'Primary'   = '#783CBD'
-    'Secondary' = '#3D3834'
-    'Level1'    = '#f94144'
-    'Level2'    = '#f8961e'
-    'Level3'    = '#f9c74f'
-    'Level4'    = '#43aa8b'
-    'Level5'    = '#277da1'
+    'Secondary' = '#3845AB'
+    'Neutral'   = '#3D3834'
+    'Positive'  = '#CFE9CF'
+    'Negative'  = '#FFCECE'
+    'Level2'    = '#F8961E'
+    'Level3'    = '#F9C74F'
+    'Level4'    = '#43AA8B'
+    'Level5'    = '#277DA1'
     'Highest'   = 'darkred'
     'High'      = 'darkorange'
     'Medium'    = 'darkgoldenrod'
     'Low'       = 'darkgreen'
     'Lowest'    = 'darkcyan'
-    'Positive'  = '#CFE9CF'
-    'Negative'  = '#FFCECE'
 }
 
 $PSDefaultParameterValues = @{
-    'New-HTMLSection:HeaderBackGroundColor' = $Colors.Secondary
+    'New-HTMLSection:HeaderBackGroundColor' = $Colors.Neutral
     'New-HTMLSection:HeaderTextSize'        = 16
     'New-HTMLSection:Margin'                = 20
     'New-ChartBar:Color'                    = $Colors.Primary
@@ -46,6 +50,10 @@ $PSDefaultParameterValues = @{
 $xmlFiles = Get-ChildItem -Path $xmlPath -Filter '*.xml' -Recurse
 $hcRules = Import-Csv -Path "$PSScriptRoot\data\HCRules.csv" -Delimiter ';' -Encoding utf8
 $functionalLevels = 'Windows2000', 'Windows2003Interim', 'Windows2003', 'Windows2008', 'Windows2008R2', 'Windows2012', 'Windows2012R2', 'Windows2016', 'Windows2025'
+
+if (!(Test-Path -Path $OutputPath.FullName -PathType Container)) {
+    $null = New-Item -Path $OutputPath.FullName -ItemType Directory
+}
 
 $reports = $xmlFiles | ForEach-Object {
     [PSCustomObject]@{
@@ -85,13 +93,12 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
     $domainReports = $reports | Where-Object { $_.Domain -eq $domain }
     $allRiskRules = $domainReports.RiskRules | Sort-Object -Unique -Property RiskId
 
-    # Export data to JSON
-    $domainReports | ConvertTo-Json -Depth 3 | Set-Content -Path "$OutputPath\export_$domain.json" -Encoding UTF8
-
-    New-HTML -Name 'PingCastle dashboard' -FilePath "$OutputPath\dashboard_$domain.html" -Encoding UTF8 -Author 'Léo Bouard' -DateFormat 'dd/MM/yyyy HH:mm:ss' {
+    New-HTML -Name 'PingCastle dashboard' -FilePath "$OutputPath\dashboard_$domain.html" -Encoding UTF8 -Author $Author -DateFormat 'dd/MM/yyyy HH:mm:ss' {
         
         # Header
-        New-HTMLHeader -HTMLContent { $ExecutionContext.InvokeCommand.ExpandString([string](Get-Content -Path "$PSScriptRoot\data\header.html")) }
+        New-HTMLHeader -HTMLContent { 
+            $ExecutionContext.InvokeCommand.ExpandString([string](Get-Content -Path "$PSScriptRoot\data\header.html"))
+        }
 
         # Main
         New-HTMLMain {
@@ -378,7 +385,8 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
 $reports.Domain | Sort-Object -Unique | ForEach-Object {
 
     $domain = $_
-    $content = (Get-Content -Path "$OutputPath\dashboard_$domain.html") -replace '<div data-panes="true">', '<div data-panes="true" style="max-width: 1400px; margin: 0 auto;">'
+    $newInlineCss = '<div data-panes="true" style="max-width: '+$MaxWidth+'px; margin: 0 auto;">'
+    $content = (Get-Content -Path "$OutputPath\dashboard_$domain.html") -replace '<div data-panes="true">', $newInlineCss
     $content | Set-Content -Path "$OutputPath\dashboard_$domain.html" -Encoding utf8
     Start-Process "$OutputPath\dashboard_$domain.html"
 
