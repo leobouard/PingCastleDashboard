@@ -8,7 +8,8 @@ param(
     [string]$URI = 'https://blog.metsys.fr',
     [string]$Logo = 'https://www.metsys.fr/wp-content/themes/metsys/images/svg/metsys-logo-white.svg',
     [string]$Author = 'METSYS',
-    [int]$MaxWidth = 1400
+    [int]$MaxWidth = 1400,
+    [switch]$DoNotShow
 )
 
 $Colors = @{
@@ -389,6 +390,6 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
     $newInlineCss = '<div data-panes="true" style="max-width: '+$MaxWidth+'px; margin: 0 auto;">'
     $content = (Get-Content -Path "$OutputPath\dashboard_$domain.html") -replace '<div data-panes="true">', $newInlineCss
     $content | Set-Content -Path "$OutputPath\dashboard_$domain.html" -Encoding utf8
-    Start-Process "$OutputPath\dashboard_$domain.html"
+    if (!$DoNotShow.IsPresent) { Start-Process "$OutputPath\dashboard_$domain.html" }
 
 }
