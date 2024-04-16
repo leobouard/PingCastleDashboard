@@ -387,7 +387,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
 $reports.Domain | Sort-Object -Unique | ForEach-Object {
 
     $domain = $_
-    $newInlineCss = '<div data-panes="true" style="max-width: '+$MaxWidth+'px; margin: 0 auto;">'
+    $newInlineCss = '<div data-panes="true" style="max-width: ' + $MaxWidth + 'px; margin: 0 auto;">'
     $content = (Get-Content -Path "$OutputPath\dashboard_$domain.html") -replace '<div data-panes="true">', $newInlineCss
     $content | Set-Content -Path "$OutputPath\dashboard_$domain.html" -Encoding utf8
     if (!$DoNotShow.IsPresent) { Start-Process "$OutputPath\dashboard_$domain.html" }
