@@ -2,15 +2,32 @@
 #Requires -Modules @{ModuleName='PSWriteHTML';ModuleVersion='1.17.0'}
 
 param(
-    [System.IO.DirectoryInfo]$XMLPath = "$PSScriptRoot\xml",
+    [System.IO.DirectoryInfo]$XMLPath,
     [System.IO.DirectoryInfo]$OutputPath = "$PSScriptRoot\output",
     [string]$DateFormat = 'yyyy-MM-dd',
     [string]$URI = 'https://blog.metsys.fr',
     [string]$Logo = 'https://www.metsys.fr/wp-content/themes/metsys/images/svg/metsys-logo-white.svg',
     [string]$Author = 'METSYS',
     [int]$MaxWidth = 1400,
-    [switch]$DoNotShow
+    [switch]$DoNotShow,
+    [switch]$InvertChartLine
 )
+
+function Get-File {
+    param (
+        [string]$Directory = 'C:\',
+        [string]$Filter = 'All files (*.*)|*.*'
+    )
+
+    $null = [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms")
+    $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
+    $OpenFileDialog.InitialDirectory = (Get-Item $Directory).FullName
+    $OpenFileDialog.Filter = $Filter
+    $OpenFileDialog.Multiselect = $true
+    $null = $OpenFileDialog.ShowDialog()
+    
+    $OpenFileDialog.FileNames
+}
 
 $Colors = @{
     'Primary'   = '#783CBD'
@@ -49,7 +66,13 @@ $PSDefaultParameterValues = @{
     'New-HTMLGage:Pointer'                  = $true
 }
 
-$xmlFiles = Get-ChildItem -Path $xmlPath -Filter '*.xml' -Recurse
+if (!$XMLPath) {
+    $xmlFiles = Get-File -Directory $PSScriptRoot -Filter 'Extensible Markup Language (*.xml)|*.xml' | ForEach-Object { Get-Item -Path $_ }
+}
+else {
+    $xmlFiles = Get-ChildItem -Path $xmlPath -Filter '*.xml' -Recurse
+}
+
 $hcRules = Import-Csv -Path "$PSScriptRoot\data\HCRules.csv" -Delimiter ';' -Encoding utf8
 $functionalLevels = 'Windows2000', 'Windows2003Interim', 'Windows2003', 'Windows2008', 'Windows2008R2', 'Windows2012', 'Windows2012R2', 'Windows2016', 'Windows2025'
 
@@ -163,6 +186,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                         New-HTMLSection -Invisible {
                             New-HTMLChart -Title 'Uncapped total of the four items score' {
                                 New-ChartAxisX -Name $chartAxisX
+                                if ($InvertChartLine.IsPresent) { New-ChartAxisY -Reversed }
                                 New-ChartLine -Value $chartLineTotal -Name 'Point(s)'
                             }
                         }
@@ -174,6 +198,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                             }
                             New-HTMLChart -Title 'Criticity level rule matching' {
                                 New-ChartAxisX -Name $chartAxisX
+                                if ($InvertChartLine.IsPresent) { New-ChartAxisY -Reversed }
                                 New-ChartLine -Value $chartLineCriticity1 -Name 'Criticity 1' -Color $Colors.Level1
                                 New-ChartLine -Value $chartLineCriticity2 -Name 'Criticity 2' -Color $Colors.Level2
                                 New-ChartLine -Value $chartLineCriticity3 -Name 'Criticity 3' -Color $Colors.Level3
@@ -189,20 +214,24 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                     New-HTMLPanel {
                         New-HTMLChart -Title 'Anomalies' {
                             New-ChartAxisX -Name $chartAxisX
+                            if ($InvertChartLine.IsPresent) { New-ChartAxisY -Reversed }
                             New-ChartLine -Value $chartLineAnoma -Name 'Point(s)'
                         }
                         New-HTMLChart -Title 'Privileged Accounts' {
                             New-ChartAxisX -Name $chartAxisX
+                            if ($InvertChartLine.IsPresent) { New-ChartAxisY -Reversed }
                             New-ChartLine -Value $chartLinePrivi -Name 'Point(s)'
                         }
                     }
                     New-HTMLPanel {
                         New-HTMLChart -Title 'Stale Objects' {
                             New-ChartAxisX -Name $chartAxisX
+                            if ($InvertChartLine.IsPresent) { New-ChartAxisY -Reversed }
                             New-ChartLine -Value $chartLineStale -Name 'Point(s)'
                         }
                         New-HTMLChart -Title 'Trusts' {
                             New-ChartAxisX -Name $chartAxisX
+                            if ($InvertChartLine.IsPresent) { New-ChartAxisY -Reversed }
                             New-ChartLine -Value $chartLineTrust -Name 'Point(s)'
                         }
                     }
@@ -272,32 +301,51 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                 New-HTMLTab -Name (Get-Date $_.date -Format $DateFormat) {
 
                     # Show main informations about report and domain
-                    New-HTMLSection -HeaderText 'Report and domain information' {
-                        New-HTMLPanel {
-                            $mainInfo = [PSCustomObject]@{
-                                "PingCastle version" = $currentReport.Version
-                                "Generated on"       = Get-Date $currentReport.Date -Format D
-                                "Report age"         = "$([int]((New-TimeSpan -Start $currentReport.Date).TotalDays)) day(s)"
-                                "Domain maturity"    = $currentReport.Maturity
-                                "Domain mode"        = $currentReport.DomainMode
-                                "Forest mode"        = $currentReport.ForestMode
-                                "Total score"        = "$(($currentReport.RiskRules.Points | Measure-Object -Sum).Sum) point(s)"
+                    New-HTMLSection -HeaderText 'Report and domain information' -Direction column {
+                        New-HTMLSection -Invisible {
+                            New-HTMLPanel {
+                                $mainInfo = [PSCustomObject]@{
+                                    "PingCastle version" = $currentReport.Version
+                                    "Generated on"       = Get-Date $currentReport.Date -Format D
+                                    "Report age"         = "$([int]((New-TimeSpan -Start $currentReport.Date).TotalDays)) day(s)"
+                                    "Domain maturity"    = $currentReport.Maturity
+                                    "Domain mode"        = $currentReport.DomainMode
+                                    "Forest mode"        = $currentReport.ForestMode
+                                }
+                                New-HTMLImage -Source 'https://www.pingcastle.com/wp/wp-content/uploads/2018/09/pingcastle_big.png' -Height 80
+                                New-HTMLTable -Title 'Report information' -DataTable $mainInfo -HideFooter -Transpose -Simplify
                             }
-                            New-HTMLImage -Source 'https://www.pingcastle.com/wp/wp-content/uploads/2018/09/pingcastle_big.png' -Height 80
-                            New-HTMLTable -Title 'Report information' -DataTable $mainInfo -HideFooter -Transpose -Simplify
-                        }
-                        New-HTMLPanel {
-                            New-HTMLGage -Label 'Global score' -Value $currentReport.Scores.Global
-                            New-HTMLText -Alignment center -TextBlock { 'The worst score out of the four items' }
-                        }
-                        New-HTMLPanel {
-                            New-HTMLChart {
-                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 1 }).Count -Name 'Criticity 1' -Color $Colors.Level1
-                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 2 }).Count -Name 'Criticity 2' -Color $Colors.Level2
-                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 3 }).Count -Name 'Criticity 3' -Color $Colors.Level3
-                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 4 }).Count -Name 'Criticity 4' -Color $Colors.Level4
-                                New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 4 }).Count -Name 'Criticity 5' -Color $Colors.Level5
+                            New-HTMLPanel {
+                                New-HTMLGage -Label 'Global score' -Value $currentReport.Scores.Global
+                                New-HTMLText -Alignment center -TextBlock { 'The worst score out of the four items' }
                             }
+                            New-HTMLPanel {
+                                New-HTMLChart {
+                                    New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 1 }).Count -Name 'Criticity 1' -Color $Colors.Level1
+                                    New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 2 }).Count -Name 'Criticity 2' -Color $Colors.Level2
+                                    New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 3 }).Count -Name 'Criticity 3' -Color $Colors.Level3
+                                    New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 4 }).Count -Name 'Criticity 4' -Color $Colors.Level4
+                                    New-ChartPie -Value ($currentReport.RiskRules | Where-Object { $_.Level -eq 5 }).Count -Name 'Criticity 5' -Color $Colors.Level5
+                                }
+                            }
+                        }
+                        New-HTMLSection -Invisible {
+                            New-HTMLPanel {
+                                $totalScore = ($currentReport.RiskRules.Points | Measure-Object -Sum).Sum
+                                New-HTMLText -Text "$totalScore pt(s)" -FontSize 22 -FontWeight bold -Alignment center
+                                New-HTMLText -Text "Total score" -Alignment center -FontSize 12
+                            }
+                            1..5 | ForEach-Object {
+                                $i = $_
+                                New-HTMLPanel {
+                                    $critXpoints = (($currentReport.RiskRules | Where-Object { $_.Level -eq $i }).Points | Measure-Object -Sum).Sum
+                                    New-HTMLText -Text "$critXpoints pt(s)" -FontSize 22 -FontWeight bold -Alignment center
+                                    New-HTMLText -Alignment center {
+                                        '<span style="text-align:center;font-size:12px;color:#ffffff;padding: 2px;background-color:{0}">Criticity {1}</span>' -f $Colors."Level$i", $i
+                                    }
+                                }
+                            }
+                            
                         }
                     }
 
@@ -323,29 +371,37 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
 
                     # Show evolution per item between initial, previous and current report
                     New-HTMLSection -HeaderText 'Comparison with previous reports' {
-                        New-HTMLChart -Title 'Anomalies' {
-                            New-ChartBarOptions -Vertical
-                            if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum }
-                            if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum }
-                            New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum
+                        New-HTMLPanel {
+                            New-HTMLChart -Title 'Anomalies' {
+                                New-ChartBarOptions -Vertical
+                                if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum }
+                                if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum }
+                                New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum
+                            }
                         }
-                        New-HTMLChart -Title 'Privileged Accounts' {
-                            New-ChartBarOptions -Vertical
-                            if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum }
-                            if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum }
-                            New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum
+                        New-HTMLPanel {
+                            New-HTMLChart -Title 'Privileged Accounts' {
+                                New-ChartBarOptions -Vertical
+                                if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum }
+                                if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum }
+                                New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum
+                            }
                         }
-                        New-HTMLChart -Title 'Stale Objects' {
-                            New-ChartBarOptions -Vertical
-                            if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum }
-                            if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum }
-                            New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum
+                        New-HTMLPanel {
+                            New-HTMLChart -Title 'Stale Objects' {
+                                New-ChartBarOptions -Vertical
+                                if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum }
+                                if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum }
+                                New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum
+                            }
                         }
-                        New-HTMLChart -Title 'Trusts' {
-                            New-ChartBarOptions -Vertical
-                            if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'Trusts' }).Points | Measure-Object -Sum).Sum }
-                            if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'Trusts' }).Points | Measure-Object -Sum).Sum }
-                            New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'Trusts' }).Points | Measure-Object -Sum).Sum
+                        New-HTMLPanel {
+                            New-HTMLChart -Title 'Trusts' {
+                                New-ChartBarOptions -Vertical
+                                if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'Trusts' }).Points | Measure-Object -Sum).Sum }
+                                if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'Trusts' }).Points | Measure-Object -Sum).Sum }
+                                New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'Trusts' }).Points | Measure-Object -Sum).Sum
+                            }
                         }
                     }
 
@@ -387,7 +443,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
 $reports.Domain | Sort-Object -Unique | ForEach-Object {
 
     $domain = $_
-    $newInlineCss = '<div data-panes="true" style="max-width: '+$MaxWidth+'px; margin: 0 auto;">'
+    $newInlineCss = '<div data-panes="true" style="max-width: ' + $MaxWidth + 'px; margin: 0 auto;">'
     $content = (Get-Content -Path "$OutputPath\dashboard_$domain.html") -replace '<div data-panes="true">', $newInlineCss
     $content | Set-Content -Path "$OutputPath\dashboard_$domain.html" -Encoding utf8
     if (!$DoNotShow.IsPresent) { Start-Process "$OutputPath\dashboard_$domain.html" }
