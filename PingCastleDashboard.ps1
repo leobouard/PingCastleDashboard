@@ -332,16 +332,54 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                         New-HTMLSection -Invisible {
                             New-HTMLPanel {
                                 $totalScore = ($currentReport.RiskRules.Points | Measure-Object -Sum).Sum
-                                New-HTMLText -Text "$totalScore pt(s)" -FontSize 22 -FontWeight bold -Alignment center
+                                $prevTotalScore = ($previousReport.RiskRules.Points | Measure-Object -Sum).Sum
+                                if ($previousReport) {
+                                    if ($prevTotalScore -lt $totalScore) { $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="height: 25px;"><path d="M384 160c-17.7 0-32-14.3-32-32s14.3-32 32-32H544c17.7 0 32 14.3 32 32V288c0 17.7-14.3 32-32 32s-32-14.3-32-32V205.3L342.6 374.6c-12.5 12.5-32.8 12.5-45.3 0L192 269.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160c12.5-12.5 32.8-12.5 45.3 0L320 306.7 466.7 160H384z"/></svg>' }
+                                    if ($prevTotalScore -gt $totalScore) { $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="height: 25px;"><path d="M384 352c-17.7 0-32 14.3-32 32s14.3 32 32 32H544c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32s-32 14.3-32 32v82.7L342.6 137.4c-12.5-12.5-32.8-12.5-45.3 0L192 242.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0L320 205.3 466.7 352H384z"/></svg>' }
+                                    if ($prevTotalScore -eq $totalScore) { $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="height: 22px;"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z"/></svg>' }
+                                }
+                                else {
+                                    $svg = $null
+                                }
+                                
+                                @'
+                                <div style="justify-content:center;align-items: center;width: 100%;display: flex;">
+                                  {0}
+                                  <div class="defaultText">
+                                    <div align="center">
+                                      <span style="font-weight:bold;text-align:center;font-size:22px">{1} pt(s)</span>
+                                    </div>
+                                  </div>
+                                </div>
+'@ -f $svg, $totalScore
                                 New-HTMLText -Text "Total score" -Alignment center -FontSize 12
                             }
                             1..5 | ForEach-Object {
                                 $i = $_
                                 New-HTMLPanel {
                                     $critXpoints = (($currentReport.RiskRules | Where-Object { $_.Level -eq $i }).Points | Measure-Object -Sum).Sum
-                                    New-HTMLText -Text "$critXpoints pt(s)" -FontSize 22 -FontWeight bold -Alignment center
+                                    $prevCritXpoints = (($previousReport.RiskRules | Where-Object { $_.Level -eq $i }).Points | Measure-Object -Sum).Sum
+                                    if ($previousReport) {
+                                        if ($prevCritXpoints -lt $critXpoints) { $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="height: 25px;"><path d="M384 160c-17.7 0-32-14.3-32-32s14.3-32 32-32H544c17.7 0 32 14.3 32 32V288c0 17.7-14.3 32-32 32s-32-14.3-32-32V205.3L342.6 374.6c-12.5 12.5-32.8 12.5-45.3 0L192 269.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160c12.5-12.5 32.8-12.5 45.3 0L320 306.7 466.7 160H384z"/></svg>' }
+                                        if ($prevCritXpoints -gt $critXpoints) { $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="height: 25px;"><path d="M384 352c-17.7 0-32 14.3-32 32s14.3 32 32 32H544c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32s-32 14.3-32 32v82.7L342.6 137.4c-12.5-12.5-32.8-12.5-45.3 0L192 242.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0L320 205.3 466.7 352H384z"/></svg>' }
+                                        if ($prevCritXpoints -eq $critXpoints) { $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="height: 22px;"><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z"/></svg>' }
+                                    }
+                                    else {
+                                        $svg = $null
+                                    }
+                                    
+                                    @'
+                                    <div style="justify-content:center;align-items: center;width: 100%;display: flex;">
+                                      {0}
+                                      <div class="defaultText">
+                                        <div align="center">
+                                          <span style="font-weight:bold;text-align:center;font-size:22px">{1} pt(s)</span>
+                                        </div>
+                                      </div>
+                                    </div>
+'@ -f $svg, $critXpoints
                                     New-HTMLText -Alignment center {
-                                        '<span style="text-align:center;font-size:12px;color:#ffffff;padding: 2px;background-color:{0}">Criticity {1}</span>' -f $Colors."Level$i", $i
+                                        '<span style="text-align:center;font-size:12px;color:#ffffff;padding: 2px;background-color:{0};border-radius:2px;">Criticity {1}</span>' -f $Colors."Level$i", $i
                                     }
                                 }
                             }
