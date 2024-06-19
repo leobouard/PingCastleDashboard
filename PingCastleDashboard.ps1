@@ -169,11 +169,11 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
 
                 $chartAxisX = $domainReports | ForEach-Object { Get-Date $_.date -Format $DateFormat }
                 $chartLineTotal = $domainReports | ForEach-Object { ($_.RiskRules.Points | Measure-Object -Sum).Sum }
-                $chartLineCriticity1 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 1 } | Measure-Object -Sum).Sum }
-                $chartLineCriticity2 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 2 } | Measure-Object -Sum).Sum }
-                $chartLineCriticity3 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 3 } | Measure-Object -Sum).Sum }
-                $chartLineCriticity4 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 4 } | Measure-Object -Sum).Sum }
-                $chartLineCriticity5 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 5 } | Measure-Object -Sum).Sum }
+                $chartLineCriticity1 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 1 } | Measure-Object).Count }
+                $chartLineCriticity2 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 2 } | Measure-Object).Count }
+                $chartLineCriticity3 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 3 } | Measure-Object).Count }
+                $chartLineCriticity4 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 4 } | Measure-Object).Count }
+                $chartLineCriticity5 = $domainReports | ForEach-Object { ($_.RiskRules.Level | Where-Object { $_ -eq 5 } | Measure-Object).Count }
                 $chartLineMaturity = $domainReports.Maturity
                 $chartLineAnoma = $domainReports | ForEach-Object { (($_.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum }
                 $chartLinePrivi = $domainReports | ForEach-Object { (($_.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum }
