@@ -106,7 +106,17 @@ $reports = $xmlFiles | ForEach-Object {
                 Rationale = $_.Rationale
             }
         }
+        IgnoredRiskRules = $null
     }
+}
+
+# Handle exceptions
+$exceptions = Import-Csv -Path "$PSScriptRoot\data\exceptions.csv" -Delimiter ";" -Encoding UTF8
+$reports | ForEach-Object {
+    $domain = $_.Domain
+    $domainExceptions = $exceptions | Where-Object { $_.Domain -eq $domain -or $_.Domain -eq '*' }
+    $_.IgnoredRiskRules = $_.RiskRules | Where-Object { $_.RiskId -in $domainExceptions.RiskId }
+    $_.RiskRules = $_.RiskRules | Where-Object { $_.RiskId -notin $domainExceptions.RiskId }
 }
 
 $reports = $reports | Sort-Object Date
@@ -312,7 +322,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                                     "Domain mode"        = $currentReport.DomainMode
                                     "Forest mode"        = $currentReport.ForestMode
                                 }
-                                New-HTMLImage -Source 'https://www.pingcastle.com/wp/wp-content/uploads/2018/09/pingcastle_big.png' -Height 80
+                                New-HTMLImage -Source 'https://www.pingcastle.com/wp/wp-content/uploads/2024/07/PC_Logo_PNG-300x253.png' -Height 80
                                 New-HTMLTable -Title 'Report information' -DataTable $mainInfo -HideFooter -Transpose -Simplify
                             }
                             New-HTMLPanel {
@@ -408,37 +418,40 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                     }
 
                     # Show evolution per item between initial, previous and current report
-                    New-HTMLSection -HeaderText 'Comparison with previous reports' {
-                        New-HTMLPanel {
-                            New-HTMLChart -Title 'Anomalies' {
-                                New-ChartBarOptions -Vertical
-                                if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum }
-                                if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum }
-                                New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum
+                    New-HTMLSection -HeaderText 'Comparison with previous reports' -Direction column {
+                        New-HTMLText -Text 'The evolution of the uncapped score in each category. The score may vary from the normal Ping Castle score (capped to 100), as some rules can be ignored using the exceptions.csv file. The list of ignored risk rules is available at the bottom of the page.'
+                        New-HTMLSection -Invisible {
+                            New-HTMLPanel {
+                                New-HTMLChart -Title 'Anomalies' {
+                                    New-ChartBarOptions -Vertical
+                                    if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum }
+                                    if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum }
+                                    New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'Anomalies' }).Points | Measure-Object -Sum).Sum
+                                }
                             }
-                        }
-                        New-HTMLPanel {
-                            New-HTMLChart -Title 'Privileged Accounts' {
-                                New-ChartBarOptions -Vertical
-                                if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum }
-                                if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum }
-                                New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum
+                            New-HTMLPanel {
+                                New-HTMLChart -Title 'Privileged Accounts' {
+                                    New-ChartBarOptions -Vertical
+                                    if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum }
+                                    if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum }
+                                    New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'PrivilegedAccounts' }).Points | Measure-Object -Sum).Sum
+                                }
                             }
-                        }
-                        New-HTMLPanel {
-                            New-HTMLChart -Title 'Stale Objects' {
-                                New-ChartBarOptions -Vertical
-                                if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum }
-                                if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum }
-                                New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum
+                            New-HTMLPanel {
+                                New-HTMLChart -Title 'Stale Objects' {
+                                    New-ChartBarOptions -Vertical
+                                    if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum }
+                                    if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum }
+                                    New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'StaleObjects' }).Points | Measure-Object -Sum).Sum
+                                }
                             }
-                        }
-                        New-HTMLPanel {
-                            New-HTMLChart -Title 'Trusts' {
-                                New-ChartBarOptions -Vertical
-                                if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'Trusts' }).Points | Measure-Object -Sum).Sum }
-                                if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'Trusts' }).Points | Measure-Object -Sum).Sum }
-                                New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'Trusts' }).Points | Measure-Object -Sum).Sum
+                            New-HTMLPanel {
+                                New-HTMLChart -Title 'Trusts' {
+                                    New-ChartBarOptions -Vertical
+                                    if ($i -gt 1) { New-ChartBar -Name 'Initial' -Value (($domainReports[0].RiskRules | Where-Object { $_.Category -eq 'Trusts' }).Points | Measure-Object -Sum).Sum }
+                                    if ($i -gt 0) { New-ChartBar -Name 'Previous' -Value (($previousReport.RiskRules | Where-Object { $_.Category -eq 'Trusts' }).Points | Measure-Object -Sum).Sum }
+                                    New-ChartBar -Name 'Current' -Value (($currentReport.RiskRules | Where-Object { $_.Category -eq 'Trusts' }).Points | Measure-Object -Sum).Sum
+                                }
                             }
                         }
                     }
@@ -448,7 +461,6 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                         New-HTMLPanel {
                             # The following risk rules have been resolved since the last report (improvement)
                             New-HTMLSection -Invisible -Margin 0 -AlignItems center -JustifyContent flex-start -BackgroundColor $Colors.Positive {
-                                # New-HTMLFontIcon -IconSize 20 -IconSolid check-circle -IconColor 'Green'
                                 New-HTMLHeading h2 -HeadingText 'Risk rules resolved'
                             }
                             New-HTMLTable -DataTable $riskSolved -DefaultSortIndex 1 -HideButtons
@@ -456,7 +468,6 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                         New-HTMLPanel {
                             # The following risk rules have been discovered since the last report (deterioration)
                             New-HTMLSection -Invisible -Margin 0 -AlignItems center -JustifyContent flex-start -BackgroundColor $Colors.Negative {
-                                # New-HTMLFontIcon -IconSize 20 -IconSolid arrow-circle-down -IconColor 'DarkRed'
                                 New-HTMLHeading h2 -HeadingText 'New risk rules triggered'
                             }
                             New-HTMLTable -DataTable $riskNew -DefaultSortIndex 1 -HideButtons
@@ -464,8 +475,16 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                     }
 
                     # Show all risk rules
-                    New-HTMLSection -HeaderText 'All current risk rules' {
+                    New-HTMLSection -HeaderText 'All current risk rules' -Direction column {
                         New-HTMLTable -DataTable $currentReport.RiskRules -DefaultSortIndex 1 -DisablePaging
+                    }
+
+                    # Show ignored risk rules
+                    if ($currentReport.IgnoredRiskRules) {
+                        New-HTMLSection -HeaderText 'Ignored risk rules' -Direction column {
+                            New-HTMLText -Text 'The following rules have been excluded from the calculated scores using the "exceptions.csv" file.'
+                            New-HTMLTable -DataTable $currentReport.IgnoredRiskRules -DefaultSortIndex 1 -DisablePaging
+                        }
                     }
                 }
 
