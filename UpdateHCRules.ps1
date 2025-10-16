@@ -1,4 +1,4 @@
-﻿$uri = "https://api.github.com/repos/netwrix/pingcastle/contents/Healthcheck/Rules"
+﻿$uri = "https://api.github.com/repos/netwrix/pingcastle/contents/PingCastle/Healthcheck/Rules?ref=master"
 $results = Invoke-RestMethod -Method GET -Uri $uri | Where-Object { $_.Name -like '*.cs' }
 
 $i = 0
