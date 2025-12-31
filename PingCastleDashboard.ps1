@@ -493,14 +493,14 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                             New-HTMLSection -Invisible -Margin 0 -AlignItems center -JustifyContent flex-start -BackgroundColor $Colors.Positive {
                                 New-HTMLHeading h2 -HeadingText 'Risk rules resolved'
                             }
-                            New-HTMLTable -DataTable $riskSolved -DefaultSortIndex 1 -HideButtons
+                            New-HTMLTable -DataTable $riskSolved -DefaultSortIndex 1 -HideButtons -DisablePaging
                         }
                         New-HTMLPanel {
                             # The following risk rules have been discovered since the last report (deterioration)
                             New-HTMLSection -Invisible -Margin 0 -AlignItems center -JustifyContent flex-start -BackgroundColor $Colors.Negative {
                                 New-HTMLHeading h2 -HeadingText 'New risk rules triggered'
                             }
-                            New-HTMLTable -DataTable $riskNew -DefaultSortIndex 1 -HideButtons
+                            New-HTMLTable -DataTable $riskNew -DefaultSortIndex 1 -HideButtons -DisablePaging
                         }
                     }
 
