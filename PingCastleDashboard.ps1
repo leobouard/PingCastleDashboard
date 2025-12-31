@@ -322,7 +322,8 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                                     "Domain mode"        = $currentReport.DomainMode
                                     "Forest mode"        = $currentReport.ForestMode
                                 }
-                                New-HTMLImage -Source 'https://raw.githubusercontent.com/leobouard/PingCastleDashboard/refs/heads/main/data/ping-castle-logo.png' -Height 80
+                                # Using raw HTML instead of New-HTMLImage because -Inline parameter doesn't work as excpected
+                                '<img src="https://raw.githubusercontent.com/leobouard/PingCastleDashboard/refs/heads/main/data/ping-castle-logo.png" alt="PingCastle logo" style="height:32px; margin: 2em auto; display: block;" />'
                                 New-HTMLTable -Title 'Report information' -DataTable $mainInfo -HideFooter -Transpose -Simplify
                             }
                             New-HTMLPanel {
