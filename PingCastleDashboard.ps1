@@ -395,6 +395,36 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                             }
                             
                         }
+                        New-HTMLSection -HeaderText 'Scores per model' -HeaderBackgroundColor White -HeaderTextColor $Colors.Neutral -CanCollapse -Collapsed {
+                            New-HTMLPanel {
+                                $perModel = $currentReport.RiskRules.Model | Sort-Object -Unique | ForEach-Object {
+                                    $model = $_
+                                    [PSCustomObject]@{
+                                        Category = ($currentReport.RiskRules | Where-Object { $_.Model -eq $model })[0].Category
+                                        Model    = $model
+                                        Points   = [int]($currentReport.RiskRules | Where-Object { $_.Model -eq $model } | Measure-Object -Sum -Property Points).Sum
+                                        Count    = [int]($currentReport.RiskRules | Where-Object { $_.Model -eq $model } | Measure-Object).Count
+                                    }
+                                }
+                                $perModel = $perModel | Where-Object { $_.Points -ne 0 } | Sort-Object -Property Points -Descending
+                                New-HTMLTable -Title 'Point distribution per model' -DataTable $perModel -PagingLength 10 -HideFooter -HideButtons -DisableSearch
+                            }
+                            New-HTMLPanel {
+                                $otherThreshold = ($perModel.Points | Measure-Object -Sum).Sum * 0.05
+                                $otherModel = [PSCustomObject]@{
+                                    Model  = 'Other'
+                                    Points = [int]($perModel | Where-Object { $_.Points -lt $otherThreshold } | Measure-Object -Sum -Property Points).Sum
+                                }
+                                $perModel = $perModel | Where-Object { $_.Points -ge $otherThreshold } | Select-Object Model, Points
+                                $perModel += $otherModel
+                                New-HTMLChart -Title 'Point distribution per model' {
+                                    New-ChartLegend -Name $perModel.Model -LegendPosition bottom
+                                    $perModel | ForEach-Object {
+                                        New-ChartPie -Name $_.Model -Value $_.Points
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     # Show PingCastle scores between 0 and 100 pts
