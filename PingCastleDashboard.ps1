@@ -322,7 +322,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                                     "Domain mode"        = $currentReport.DomainMode
                                     "Forest mode"        = $currentReport.ForestMode
                                 }
-                                New-HTMLImage -Source 'https://www.pingcastle.com/wp/wp-content/uploads/2024/07/PC_Logo_PNG-300x253.png' -Height 80
+                                New-HTMLImage -Source 'https://raw.githubusercontent.com/leobouard/PingCastleDashboard/refs/heads/main/data/ping-castle-logo.png' -Height 80
                                 New-HTMLTable -Title 'Report information' -DataTable $mainInfo -HideFooter -Transpose -Simplify
                             }
                             New-HTMLPanel {
