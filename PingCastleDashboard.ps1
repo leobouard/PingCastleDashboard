@@ -47,6 +47,19 @@ $Colors = @{
     'Lowest'    = 'darkcyan'
 }
 
+$Palette = @(
+    '#F94144',
+    '#90BE6D',
+    '#256EFF'
+    '#F9C74F',
+    '#DA659A',
+    '#43AA8B',
+    '#1e93c5',
+    '#8338EC',
+    '#A9DEF9',
+    '#F9844A'
+)
+
 $PSDefaultParameterValues = @{
     'New-HTMLSection:HeaderBackGroundColor' = $Colors.Neutral
     'New-HTMLSection:HeaderTextSize'        = 16
@@ -82,20 +95,20 @@ if (!(Test-Path -Path $OutputPath.FullName -PathType Container)) {
 
 $reports = $xmlFiles | ForEach-Object {
     [PSCustomObject]@{
-        Domain     = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/DomainFQDN').Node.'#text'
-        Date       = Get-Date (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/GenerationDate').Node.'#text'
-        Version    = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/EngineVersion').Node.'#text'
-        Maturity   = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/MaturityLevel').Node.'#text'
-        DomainMode = $functionalLevels[(Select-Xml -Path $_.FullName -XPath '/HealthcheckData/DomainFunctionalLevel').Node.'#text']
-        ForestMode = $functionalLevels[(Select-Xml -Path $_.FullName -XPath '/HealthcheckData/ForestFunctionalLevel').Node.'#text']
-        Scores     = [PSCustomObject]@{
+        Domain           = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/DomainFQDN').Node.'#text'
+        Date             = Get-Date (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/GenerationDate').Node.'#text'
+        Version          = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/EngineVersion').Node.'#text'
+        Maturity         = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/MaturityLevel').Node.'#text'
+        DomainMode       = $functionalLevels[(Select-Xml -Path $_.FullName -XPath '/HealthcheckData/DomainFunctionalLevel').Node.'#text']
+        ForestMode       = $functionalLevels[(Select-Xml -Path $_.FullName -XPath '/HealthcheckData/ForestFunctionalLevel').Node.'#text']
+        Scores           = [PSCustomObject]@{
             Global           = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/GlobalScore').Node.'#text'
             StaleObjects     = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/StaleObjectsScore').Node.'#text'
             PrivilegiedGroup = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/PrivilegiedGroupScore').Node.'#text'
             Trust            = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/TrustScore').Node.'#text'
             Anomaly          = [int](Select-Xml -Path $_.FullName -XPath '/HealthcheckData/AnomalyScore').Node.'#text'
         }
-        RiskRules  = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/RiskRules/HealthcheckRiskRule').Node | ForEach-Object {
+        RiskRules        = (Select-Xml -Path $_.FullName -XPath '/HealthcheckData/RiskRules/HealthcheckRiskRule').Node | ForEach-Object {
             $riskId = $_.RiskId
             [PSCustomObject]@{
                 Points    = [int]($_.Points)
@@ -411,17 +424,13 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
                                 New-HTMLTable -Title 'Point distribution per model' -DataTable $perModel -PagingLength 10 -HideFooter -HideButtons -DisableSearch
                             }
                             New-HTMLPanel {
-                                $otherThreshold = ($perModel.Points | Measure-Object -Sum).Sum * 0.05
-                                $otherModel = [PSCustomObject]@{
-                                    Model  = 'Other'
-                                    Points = [int]($perModel | Where-Object { $_.Points -lt $otherThreshold } | Measure-Object -Sum -Property Points).Sum
-                                }
-                                $perModel = $perModel | Where-Object { $_.Points -ge $otherThreshold } | Select-Object Model, Points
-                                $perModel += $otherModel
                                 New-HTMLChart -Title 'Point distribution per model' {
+                                    $i = 0
                                     New-ChartLegend -Name $perModel.Model -LegendPosition bottom
                                     $perModel | ForEach-Object {
-                                        New-ChartPie -Name $_.Model -Value $_.Points
+                                        if ($i -ge $Palette.Count) { $i = 0 }
+                                        New-ChartPie -Value $_.Points -Name $_.Model -Color $Palette[$i]
+                                        $i++
                                     }
                                 }
                             }
