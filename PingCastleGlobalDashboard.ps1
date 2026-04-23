@@ -403,6 +403,7 @@ New-HTML -Name 'Global - PingCastle dashboard' -FilePath "$OutputPath\dashboard_
                                 $i = 0
                                 New-ChartLegend -Name $perModel.Model -LegendPosition bottom
                                 $perModel | ForEach-Object {
+                                    if ($i -ge $Palette.Count) { $i = 0 }
                                     New-ChartPie -Value $_.Points -Name $_.Model -Color $Palette[$i]
                                     $i++
                                 }
