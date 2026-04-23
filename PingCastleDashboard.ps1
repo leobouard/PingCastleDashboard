@@ -141,7 +141,7 @@ $reports.Domain | Sort-Object -Unique | ForEach-Object {
     $domainReports = $reports | Where-Object { $_.Domain -eq $domain }
     $allRiskRules = $domainReports.RiskRules | Sort-Object -Unique -Property RiskId
 
-    New-HTML -Name 'PingCastle dashboard' -FilePath "$OutputPath\dashboard_$domain.html" -Encoding UTF8 -Author $Author -DateFormat 'dd/MM/yyyy HH:mm:ss' {
+    New-HTML -Name "$domain - PingCastle dashboard" -FilePath "$OutputPath\dashboard_$domain.html" -Encoding UTF8 -Author $Author -DateFormat 'dd/MM/yyyy HH:mm:ss' {
         
         # Header
         New-HTMLHeader -HTMLContent { 
