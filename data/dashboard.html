@@ -54,6 +54,11 @@ header{background:var(--header);border-bottom:1px solid var(--headerline)}
 .themes button{font:inherit;font-size:12px;border:0;background:transparent;color:var(--muted);padding:6px 10px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:6px}
 .themes button i{width:12px;height:12px;border-radius:50%;display:inline-block;border:1px solid #0003}
 .themes button.on{background:var(--accent);color:var(--onaccent);font-weight:600}
+.langrow{display:flex;justify-content:flex-start;padding-top:12px}.langrow+.top{padding-top:10px}
+.langs{display:inline-flex;gap:2px;background:var(--surface2);border:1px solid var(--border);padding:3px;border-radius:9px}
+.langs button{font:inherit;font-size:11.5px;font-weight:700;letter-spacing:.04em;border:0;background:transparent;color:var(--muted);padding:4px 10px;border-radius:6px;cursor:pointer;transition:background .2s,color .2s}
+.langs button.on{background:var(--accent);color:var(--onaccent)}
+.langs button:not(.on):hover{color:var(--text)}
 .pills{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
 .pill{font-size:11.5px;color:var(--muted);border:1px solid var(--border);padding:3px 9px;border-radius:99px;white-space:nowrap}
 .pill.good{color:var(--good);border-color:var(--good)}
@@ -77,6 +82,7 @@ main.wrap{padding-top:22px;padding-bottom:10px}
 .note{color:var(--muted);font-size:13px;margin:-4px 0 12px;line-height:1.5}
 .g{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:repeat(5,1fr)}.g6{grid-template-columns:repeat(6,1fr)}
 .g>.card{margin-bottom:0}.gwrap{margin-bottom:16px}
+.g>*,.hz-grid>*,.qw-proj>*{min-width:0}.g-gr{grid-template-columns:1fr 1.2fr}
 .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow)}
 .kpi.hi{background:var(--hibg);border-color:var(--hiborder)}
 [data-theme="report"] .kpi.hi,[data-theme="report"] .kpi.hi .k-v{color:#fff}
@@ -104,8 +110,8 @@ main.wrap{padding-top:22px;padding-bottom:10px}
 .chip{font-family:var(--mono);font-size:11.5px;border:1px solid var(--border);background:var(--surface2);padding:5px 9px;border-radius:99px;display:flex;align-items:center;gap:6px}
 .chip .lv{min-width:20px;padding:1px 4px;font-size:10px}.chip em{color:var(--muted);font-style:normal;font-size:10.5px}
 /* tables */
-.tbar{display:flex;gap:8px;align-items:center;margin-bottom:10px}
-.tbar input{font:inherit;font-size:12.5px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 10px;min-width:220px}
+.tbar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.tbar input{font:inherit;font-size:12.5px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 10px;min-width:0;width:220px;max-width:100%}
 .tbar button,.btn{font:inherit;font-size:12px;background:transparent;color:var(--accent);border:1px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer}
 .tscroll{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
@@ -136,6 +142,7 @@ td.c{text-align:center}
 .hz .why{font-size:12px;color:var(--muted);margin:8px 0 0}
 .hz p{font-size:12.5px;line-height:1.5;margin:8px 0 10px;color:var(--text2)}
 .hz p.miss{color:var(--muted);font-style:italic}
+.hz p,.hz .why,.qw-f,.qw-t,td.fix,td.rat,.note{overflow-wrap:anywhere}
 .code{position:relative}
 .code code{display:block;font-family:var(--mono);font-size:10.5px;background:var(--codebg);color:var(--codefg);padding:8px 9px;padding-right:46px;border-radius:6px;white-space:pre-wrap;word-break:break-all;line-height:1.45}
 .code button{position:absolute;top:5px;right:5px;font:inherit;font-size:10px;background:#ffffff1a;color:var(--codefg);border:0;border-radius:4px;padding:2px 6px;cursor:pointer}
@@ -256,7 +263,7 @@ body.has-max{overflow:hidden}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 
 @media (max-width:1100px){.g5,.g6{grid-template-columns:repeat(3,1fr)}.hz-grid{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}}
-@media (max-width:760px){.g2,.g3,.g4,.g5,.g6,.hz-grid,.hz-grid.wide{grid-template-columns:1fr}.top{flex-wrap:wrap}.right{margin-left:0;align-items:flex-start}}
+@media (max-width:760px){.g2,.g3,.g4,.g5,.g6,.g-gr,.hz-grid,.hz-grid.wide{grid-template-columns:1fr}.gauges.row{grid-template-columns:1fr 1fr}.gauges>*{min-width:0}.top{flex-wrap:wrap}.right{margin-left:0;align-items:flex-start}}
 @media print{.themes,.tbar,.tabs,.code button{display:none!important}body{background:#fff}.card,.kpi,.cs{break-inside:avoid}}
 </style>
 </head>
@@ -273,6 +280,13 @@ body.has-max{overflow:hidden}
     get: function (k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } },
     set: function (k, v) { try { window.localStorage.setItem(k, v); } catch (e) { } }
   };
+
+  // ---------- language ----------
+  var FR = {"Increased": "En hausse", "Decreased": "En baisse", "No change": "Sans changement", "Search…": "Rechercher…", "Export CSV": "Exporter en CSV", "No data": "Aucune donnée", "{0} / {1} rows": "{0} / {1} lignes", "Points": "Points", "Level": "Niveau", "Category": "Catégorie", "Model": "Modèle", "NEW": "NOUVEAU", "Rationale": "Détail", "How to fix": "Comment corriger", "new": "nouveau", "No fix text yet for this rule. Add it to data\\hardening.csv or check the rule docs.": "Pas encore de correctif pour cette règle. Ajoutez-le dans data\\hardening.csv ou consultez la doc de la règle.", "Copy": "Copier", "Copied ✓": "Copié ✓", "Rule docs ↗": "Doc de la règle ↗", "Fix source ↗": "Source du correctif ↗", "source ↗": "source ↗", "Planned": "Planifié", "1 day+": "1 jour+", "⚡ Quick win": "⚡ Gain rapide", "Medium effort": "Effort moyen", "High effort": "Effort élevé", "⚡ Quick wins": "⚡ Gains rapides", "{0} easy changes · {1} total · −{2} pts": "{0} changements simples · {1} au total · −{2} pts", "Low effort fixes from the last report (group cleanups, single settings, password resets), biggest points first. Here is what the PingCastle scores would become if you do all of them:": "Corrections simples du dernier rapport (nettoyage de groupes, un seul paramètre, réinitialisation de mots de passe), les plus gros gains en premier. Voici les scores PingCastle que vous obtiendriez en les faisant toutes :", "Global score": "Score global", "worst of the four": "le pire des quatre", "no quick win": "aucun gain rapide", "Copy check": "Copier la vérif.", "+ {0} more quick win(s) in the Hardening guide tab.": "+ {0} autre(s) gain(s) rapide(s) dans l'onglet Guide de durcissement.", "Anomalies": "Anomalies", "Privileged Accounts": "Comptes à privilèges", "Stale Objects": "Objets obsolètes", "Trusts": "Approbations", "Specific security control points": "Points de contrôle de sécurité spécifiques", "Administrators of the Active Directory": "Administrateurs de l'Active Directory", "Operations related to user or computer objects": "Opérations sur les objets utilisateur ou ordinateur", "Connections between two Active Directories": "Connexions entre deux Active Directory", "The worst score out of the four items": "Le pire score des quatre catégories", "Domain maturity": "Maturité du domaine", "forest": "forêt", "Uncapped total": "Total non plafonné", "vs previous": "vs précédent", "since first": "depuis le premier", "Active risk rules": "Règles de risque actives", "{0} new · {1} ignored by exceptions": "{0} nouvelle(s) · {1} ignorée(s) par les exceptions", "Risks solved": "Risques résolus", "since {0}": "depuis le {0}", "Uncapped total of the four items score": "Total non plafonné des quatre catégories", "{0} reports": "{0} rapports", "Criticity level rule matching": "Règles déclenchées par niveau de criticité", "Criticity": "Criticité", "Maturity": "Maturité", "Step line · 1 = lowest, top of the chart": "Ligne en escalier · 1 = le plus bas, en haut du graphique", "Scores": "Scores", "capped 0 to 100, lower is better": "plafonné de 0 à 100, plus bas = mieux", "Remediations · all risks solved": "Remédiations · tous les risques résolus", "{0} solved": "{0} résolus", "No risk solved yet since the first report.": "Aucun risque résolu depuis le premier rapport.", "🛡️ AD hardening plan": "🛡️ Plan de durcissement AD", "fix these {0} first · up to −{1} pts": "à corriger en premier : {0} · jusqu'à −{1} pts", "Critical rules (level 1 and 2) of the last report, sorted by points. Each one has a plain fix and a PowerShell check. The full list is in the Hardening guide tab.": "Règles critiques (niveaux 1 et 2) du dernier rapport, triées par points. Chacune a un correctif simple et une vérification PowerShell. La liste complète est dans l'onglet Guide de durcissement.", "Remediations · all risks solved (table)": "Remédiations · tous les risques résolus (tableau)", "LastAppearance": "Dernière apparition", "Date": "Date", "Total score": "Score total", "Score &amp; maturity evolution (uncapped)": "Évolution des scores et de la maturité (non plafonnés)", "Risk rules evolution": "Évolution des règles de risque", "grey rows are solved in the last report": "lignes grises = résolues dans le dernier rapport", "PingCastle version": "Version de PingCastle", "Generated on": "Généré le", "Report age": "Âge du rapport", "{0} day(s)": "{0} jour(s)", "Domain mode": "Niveau fonctionnel du domaine", "Forest mode": "Niveau fonctionnel de la forêt", "Report information": "Informations du rapport", "Rules per criticity": "Règles par criticité", "Scores per model": "Scores par modèle", "{0} models": "{0} modèles", "Count": "Nombre", "Comparison with previous reports": "Comparaison avec les rapports précédents", "The evolution of the uncapped score in each category. The score may vary from the normal PingCastle score (capped to 100), as some rules can be ignored using the exceptions.csv file. The list of ignored risk rules is available at the bottom of the page.": "L'évolution du score non plafonné de chaque catégorie. Il peut être différent du score PingCastle normal (plafonné à 100), car certaines règles peuvent être ignorées avec le fichier exceptions.csv. La liste des règles ignorées est en bas de la page.", "Initial": "Initial", "Previous": "Précédent", "Current": "Actuel", "Risk rules resolved": "Règles de risque résolues", "New risk rules triggered": "Nouvelles règles de risque déclenchées", "All current risk rules": "Toutes les règles de risque actuelles", "{0} rules": "{0} règles", "Ignored risk rules": "Règles de risque ignorées", "The following rules have been excluded from the calculated scores using the \"exceptions.csv\" file.": "Les règles suivantes ont été exclues des scores calculés avec le fichier \"exceptions.csv\".", "🛡️ Hardening guide": "🛡️ Guide de durcissement", "{0} rules · {1} with a fix text": "{0} règles · {1} avec un correctif", "All risk rules of the last report, most critical first. Run the PowerShell check, apply the fix, then tick \"Planned\" to track your work (saved in this browser only). Fix texts come from data\\hardening.csv (checked against the PingCastle rule code and current Microsoft docs), so you can edit or translate them.": "Toutes les règles de risque du dernier rapport, les plus critiques en premier. Lancez la vérification PowerShell, appliquez le correctif, puis cochez \"Planifié\" pour suivre votre travail (enregistré dans ce navigateur uniquement). Les correctifs viennent de data\\hardening.csv (vérifiés avec le code des règles PingCastle et la documentation Microsoft actuelle), vous pouvez donc les modifier.", "No criticity level": "Sans niveau de criticité", "{0} rule(s)": "{0} règle(s)", "PingCastle dashboard · Active Directory security review": "Tableau de bord PingCastle · revue de sécurité Active Directory", "{0} healthcheck(s)": "{0} healthcheck(s)", "Engine": "Moteur", "Midnight": "Minuit", "Slate": "Ardoise", "Report": "Rapport", "Last scan {0}": "Dernier scan {0}", "⌂ Home": "⌂ Accueil", "🛡 Hardening guide": "🛡 Guide de durcissement", "Made with ❤️ by METSYS": "Fait avec ❤️ par METSYS", "Updated by": "Mis à jour par", "Powered by PingCastle": "Propulsé par PingCastle", "Generated on {0} by {1}": "Généré le {0} par {1}", "Expand": "Agrandir", "Close (Esc)": "Fermer (Échap)"};
+  var LANG = 'en';
+  var t = function (s) { return LANG === 'fr' && Object.prototype.hasOwnProperty.call(FR, s) ? FR[s] : s; };
+  var f = function (s) { var a = arguments; return t(s).replace(/\{(\d)\}/g, function (_, i) { return a[+i + 1]; }); };
+  var fixText = function (h) { return (LANG === 'fr' && h.FixFR) ? h.FixFR : (h.Fix || ''); };
 
   // ---------- normalize data ----------
   var R = arr(D.reports).map(function (r) {
@@ -318,9 +332,9 @@ body.has-max{overflow:hidden}
   };
   var arrow = function (cur, prev) {
     if (prev === null) return '';
-    if (cur > prev) return '<span class="arrow up" title="Increased">↗</span>';
-    if (cur < prev) return '<span class="arrow dn" title="Decreased">↘</span>';
-    return '<span class="arrow eq" title="No change">→</span>';
+    if (cur > prev) return '<span class="arrow up" title="' + t('Increased') + '">↗</span>';
+    if (cur < prev) return '<span class="arrow dn" title="' + t('Decreased') + '">↘</span>';
+    return '<span class="arrow eq" title="' + t('No change') + '">→</span>';
   };
   var uid = 0; var nid = function (p) { uid++; return (p || 'id') + uid; };
   var CHARTS = {};
@@ -420,7 +434,7 @@ body.has-max{overflow:hidden}
   function table(cols, rows, o) {
     o = o || {}; var id = nid('t');
     TABLES[id] = { cols: cols, rows: rows, o: o, sort: o.sort != null ? o.sort : null, dir: 1, q: '' };
-    var bar = o.tools === false ? '' : '<div class="tbar"><input type="search" placeholder="Search…" data-t="' + id + '"><button data-csv="' + id + '">Export CSV</button><span class="pill" id="' + id + '-n"></span></div>';
+    var bar = o.tools === false ? '' : '<div class="tbar"><input type="search" placeholder="' + t('Search…') + '" data-t="' + id + '"><button data-csv="' + id + '">' + t('Export CSV') + '</button><span class="pill" id="' + id + '-n"></span></div>';
     return bar + '<div class="tscroll"><table id="' + id + '"><thead></thead><tbody></tbody></table></div>';
   }
   function cellText(c, r) { var v = c.get ? c.get(r) : r[c.key]; return v == null ? '' : v; }
@@ -444,8 +458,8 @@ body.has-max{overflow:hidden}
         var v = cellText(c, r);
         return '<td class="' + (c.cls ? (typeof c.cls === 'function' ? c.cls(v, r) : c.cls) : '') + '">' + (c.html ? c.html(v, r) : esc(v)) + '</td>';
       }).join('') + '</tr>';
-    }).join('') : '<tr><td colspan="' + T.cols.length + '" class="nodata">No data</td></tr>';
-    var n = document.getElementById(id + '-n'); if (n) n.textContent = rows.length + ' / ' + T.rows.length + ' rows';
+    }).join('') : '<tr><td colspan="' + T.cols.length + '" class="nodata">' + t('No data') + '</td></tr>';
+    var n = document.getElementById(id + '-n'); if (n) n.textContent = f('{0} / {1} rows', rows.length, T.rows.length);
   }
   function exportCsv(id) {
     var T = TABLES[id], q = function (v) { return '"' + String(v).replace(/"/g, '""') + '"'; };
@@ -456,15 +470,15 @@ body.has-max{overflow:hidden}
 
   var RULECOLS = function (withFix, extra) {
     var c = [
-      { title: 'Points', key: 'Points', cls: 'num' },
-      { title: 'Level', key: 'Level', html: function (v) { return badge(v); } },
-      { title: 'Category', key: 'Category' },
-      { title: 'Model', key: 'Model' },
-      { title: 'RiskId', key: 'RiskId', cls: 'rid', html: function (v, r) { return esc(v) + (r._new ? '<span class="new">NEW</span>' : ''); } },
-      { title: 'Rationale', key: 'Rationale', cls: 'rat' }
+      { title: t('Points'), key: 'Points', cls: 'num' },
+      { title: t('Level'), key: 'Level', html: function (v) { return badge(v); } },
+      { title: t('Category'), key: 'Category' },
+      { title: t('Model'), key: 'Model' },
+      { title: 'RiskId', key: 'RiskId', cls: 'rid', html: function (v, r) { return esc(v) + (r._new ? '<span class="new">' + t('NEW') + '</span>' : ''); } },
+      { title: t('Rationale'), key: 'Rationale', cls: 'rat' }
     ];
     if (extra) c = c.concat(extra);
-    if (withFix) c.push({ title: 'How to fix <span class="tag">new</span>', get: function (r) { return (HD[r.RiskId] || {}).Fix || ''; }, cls: 'fix' });
+    if (withFix) c.push({ title: t('How to fix') + ' <span class="tag">' + t('new') + '</span>', get: function (r) { return fixText(HD[r.RiskId] || {}); }, cls: 'fix' });
     return c;
   };
 
@@ -474,17 +488,17 @@ body.has-max{overflow:hidden}
     var h = HD[x.RiskId] || {}, done = store.get(planKey(x.RiskId)) === '1';
     return '<div class="hz' + (done ? ' done' : '') + '"><div class="hz-h">' + (i ? '<span class="hz-n">' + i + '</span>' : '') + badge(x.Level) + '<b>' + esc(x.RiskId) + '</b><span class="hz-p">−' + x.Points + ' pts</span></div>' + (effTag(x) ? '<div style="margin-top:7px">' + effTag(x) + '</div>' : '') +
       (wide ? '<div class="why">' + esc(x.Category) + ' · ' + esc(x.Model) + ' — ' + esc(x.Rationale) + '</div>' : '') +
-      (h.Fix ? '<p>' + esc(h.Fix) + '</p>' : '<p class="miss">No fix text yet for this rule. Add it to data\\hardening.csv or check the rule docs.</p>') +
-      (h.Check ? '<div class="code"><code>PS&gt; ' + esc(h.Check) + '</code><button data-copy="' + esc(h.Check) + '">Copy</button></div>' : '') +
-      '<div class="hz-l"><a href="https://www.pingcastle.com/PingCastleFiles/ad_hc_rules_list.html#' + encodeURIComponent(x.RiskId) + '" target="_blank" rel="noopener">Rule docs ↗</a>' +
-      (h.Ref && /^https?:\/\//.test(h.Ref) ? '<a href="' + esc(h.Ref) + '" target="_blank" rel="noopener">Fix source ↗</a>' : '') +
-      '<label><input type="checkbox" data-plan="' + esc(x.RiskId) + '"' + (done ? ' checked' : '') + '> Planned</label></div></div>';
+      (fixText(h) ? '<p>' + esc(fixText(h)) + '</p>' : '<p class="miss">' + t('No fix text yet for this rule. Add it to data\\hardening.csv or check the rule docs.') + '</p>') +
+      (h.Check ? '<div class="code"><code>PS&gt; ' + esc(h.Check) + '</code><button data-copy="' + esc(h.Check) + '">' + t('Copy') + '</button></div>' : '') +
+      '<div class="hz-l"><a href="https://www.pingcastle.com/PingCastleFiles/ad_hc_rules_list.html#' + encodeURIComponent(x.RiskId) + '" target="_blank" rel="noopener">' + t('Rule docs ↗') + '</a>' +
+      (h.Ref && /^https?:\/\//.test(h.Ref) ? '<a href="' + esc(h.Ref) + '" target="_blank" rel="noopener">' + t('Fix source ↗') + '</a>' : '') +
+      '<label><input type="checkbox" data-plan="' + esc(x.RiskId) + '"' + (done ? ' checked' : '') + '> ' + t('Planned') + '</label></div></div>';
   }
   var mins = function (x) { return +((HD[x.RiskId] || {}).Minutes) || 0; };
-  var fmtTime = function (m) { if (!m) return '?'; if (m < 60) return '~' + m + ' min'; if (m < 480) return '~' + (Math.round(m / 30) / 2) + ' h'; return '1 day+'; };
+  var fmtTime = function (m) { if (!m) return '?'; if (m < 60) return '~' + m + ' min'; if (m < 480) return '~' + (Math.round(m / 30) / 2) + ' h'; return t('1 day+'); };
   var effTag = function (x) {
     var e = (HD[x.RiskId] || {}).Effort; if (!e) return '';
-    return '<span class="eff eff-' + esc(e.toLowerCase()) + '">' + (e === 'Low' ? '⚡ Quick win' : esc(e) + ' effort') + ' · ' + fmtTime(mins(x)) + '</span>';
+    return '<span class="eff eff-' + esc(e.toLowerCase()) + '">' + (e === 'Low' ? t('⚡ Quick win') : t(e + ' effort')) + ' · ' + fmtTime(mins(x)) + '</span>';
   };
   function quickWins(r) {
     return r.RiskRules.filter(function (x) { return x.Points > 0 && HD[x.RiskId] && HD[x.RiskId].Effort === 'Low'; })
@@ -500,19 +514,19 @@ body.has-max{overflow:hidden}
     });
     var gNow = Math.max.apply(null, proj.map(function (p) { return p.now; })), gAfter = Math.max.apply(null, proj.map(function (p) { return p.after; }));
     var cell = function (label, a, b, sub) { return '<div class="qw-p"><span>' + label + '</span><div><b>' + a + '</b> → <b class="' + (b < a ? 'dn' : 'eq') + '">' + b + '</b></div><em>' + sub + '</em></div>'; };
-    var h = '<div class="card qw"><div class="c-h"><h3>⚡ Quick wins <span class="tag">new</span></h3><span class="pill good">' + all.length + ' easy changes · ' + fmtTime(time).replace('~', '~') + ' total · −' + gain + ' pts</span></div>' +
-      '<p class="note">Low effort fixes from the last report (group cleanups, single settings, password resets), biggest points first. Here is what the PingCastle scores would become if you do all of them:</p>' +
-      '<div class="qw-proj">' + cell('Global score', gNow, gAfter, 'worst of the four') + proj.map(function (p) { return cell(p.c.label, p.now, p.after, p.saved ? '−' + p.saved + ' pts' : 'no quick win'); }).join('') + '</div>' +
+    var h = '<div class="card qw"><div class="c-h"><h3>' + t('⚡ Quick wins') + ' <span class="tag">' + t('new') + '</span></h3><span class="pill good">' + f('{0} easy changes · {1} total · −{2} pts', all.length, fmtTime(time), gain) + '</span></div>' +
+      '<p class="note">' + t('Low effort fixes from the last report (group cleanups, single settings, password resets), biggest points first. Here is what the PingCastle scores would become if you do all of them:') + '</p>' +
+      '<div class="qw-proj">' + cell(t('Global score'), gNow, gAfter, t('worst of the four')) + proj.map(function (p) { return cell(t(p.c.label), p.now, p.after, p.saved ? '−' + p.saved + ' pts' : t('no quick win')); }).join('') + '</div>' +
       '<div class="qw-list">' + list.map(function (x, i) {
         var hd = HD[x.RiskId], done = store.get(planKey(x.RiskId)) === '1';
         return '<div class="qw-row' + (done ? ' done' : '') + '"><span class="hz-n">' + (i + 1) + '</span>' +
-          '<div class="qw-m"><div class="qw-t">' + badge(x.Level) + ' <b>' + esc(x.RiskId) + '</b> <span class="qw-c">' + esc(x.Category) + '</span>' + (hd.Ref && /^https?:\/\//.test(hd.Ref) ? ' <a class="qw-src" href="' + esc(hd.Ref) + '" target="_blank" rel="noopener">source ↗</a>' : '') + '</div><div class="qw-f">' + esc(hd.Fix) + '</div></div>' +
+          '<div class="qw-m"><div class="qw-t">' + badge(x.Level) + ' <b>' + esc(x.RiskId) + '</b> <span class="qw-c">' + esc(x.Category) + '</span>' + (hd.Ref && /^https?:\/\//.test(hd.Ref) ? ' <a class="qw-src" href="' + esc(hd.Ref) + '" target="_blank" rel="noopener">' + t('source ↗') + '</a>' : '') + '</div><div class="qw-f">' + esc(fixText(hd)) + '</div></div>' +
           '<div class="qw-bar"><i style="width:' + Math.max(4, Math.round(100 * x.Points / top)) + '%"></i></div>' +
           '<span class="qw-time">' + fmtTime(mins(x)) + '</span><span class="qw-pts">−' + x.Points + '</span>' +
-          (hd.Check ? '<button class="btn qw-copy" data-copy="' + esc(hd.Check) + '" data-tip="' + esc(esc('PS> ' + hd.Check)) + '">Copy check</button>' : '<span></span>') +
-          '<label class="qw-ck"><input type="checkbox" data-plan="' + esc(x.RiskId) + '"' + (done ? ' checked' : '') + '> Planned</label></div>';
+          (hd.Check ? '<button class="btn qw-copy" data-copy="' + esc(hd.Check) + '" data-tip="' + esc(esc('PS> ' + hd.Check)) + '">' + t('Copy check') + '</button>' : '<span></span>') +
+          '<label class="qw-ck"><input type="checkbox" data-plan="' + esc(x.RiskId) + '"' + (done ? ' checked' : '') + '> ' + t('Planned') + '</label></div>';
       }).join('') + '</div>' +
-      (limit && all.length > limit ? '<p class="note" style="margin:12px 0 0">+ ' + (all.length - limit) + ' more quick win(s) in the Hardening guide tab.</p>' : '') + '</div>';
+      (limit && all.length > limit ? '<p class="note" style="margin:12px 0 0">' + f('+ {0} more quick win(s) in the Hardening guide tab.', all.length - limit) + '</p>' : '') + '</div>';
     return h;
   }
   var byPriority = function (rules) { return rules.slice().sort(function (a, b) { return (a.Level || 9) - (b.Level || 9) || b.Points - a.Points; }); };
@@ -526,41 +540,41 @@ body.has-max{overflow:hidden}
     var h = '';
     // KPIs
     h += '<div class="g g5 gwrap">' +
-      '<div class="kpi"><div class="k-t">Global score</div><div class="k-v">' + last.Scores.Global + '<small>/100</small></div><div class="k-s">The worst score out of the four items</div></div>' +
-      '<div class="kpi"><div class="k-t">Domain maturity</div><div class="k-v">' + last.Maturity + '<small>/5</small></div><div class="k-s">' + esc(last.DomainMode) + ' · forest ' + esc(last.ForestMode) + '</div></div>' +
-      '<div class="kpi hi"><div class="k-t">Uncapped total</div><div class="k-v">' + tot(last) + '<small>pts</small></div><div class="k-s">' + (prevOfLast ? delta(tot(last), tot(prevOfLast)) + ' vs previous · ' : '') + delta(tot(last), tot(first)) + ' since first</div></div>' +
-      '<div class="kpi"><div class="k-t">Active risk rules</div><div class="k-v">' + last.RiskRules.length + '</div><div class="k-s">' + newCount + ' new · ' + last.IgnoredRiskRules.length + ' ignored by exceptions</div></div>' +
-      '<div class="kpi"><div class="k-t">Risks solved</div><div class="k-v">' + solvedSince.length + '</div><div class="k-s">since ' + esc(first.Label) + '</div></div></div>';
+      '<div class="kpi"><div class="k-t">' + t('Global score') + '</div><div class="k-v">' + last.Scores.Global + '<small>/100</small></div><div class="k-s">' + t('The worst score out of the four items') + '</div></div>' +
+      '<div class="kpi"><div class="k-t">' + t('Domain maturity') + '</div><div class="k-v">' + last.Maturity + '<small>/5</small></div><div class="k-s">' + esc(last.DomainMode) + ' · ' + t('forest') + ' ' + esc(last.ForestMode) + '</div></div>' +
+      '<div class="kpi hi"><div class="k-t">' + t('Uncapped total') + '</div><div class="k-v">' + tot(last) + '<small>pts</small></div><div class="k-s">' + (prevOfLast ? delta(tot(last), tot(prevOfLast)) + ' ' + t('vs previous') + ' · ' : '') + delta(tot(last), tot(first)) + ' ' + t('since first') + '</div></div>' +
+      '<div class="kpi"><div class="k-t">' + t('Active risk rules') + '</div><div class="k-v">' + last.RiskRules.length + '</div><div class="k-s">' + f('{0} new · {1} ignored by exceptions', newCount, last.IgnoredRiskRules.length) + '</div></div>' +
+      '<div class="kpi"><div class="k-t">' + t('Risks solved') + '</div><div class="k-v">' + solvedSince.length + '</div><div class="k-s">' + f('since {0}', esc(first.Label)) + '</div></div></div>';
     h += '<div class="g g5 gwrap">' + LV.map(function (l) { return '<div class="cs"><div class="cs-v">' + critPts(last, l) + '<small> pts</small></div>' + badge(l) + ' <span class="cs-d">' + (prevOfLast ? delta(critPts(last, l), critPts(prevOfLast, l), '') : '') + '</span></div>'; }).join('') + '</div>';
     // evolution of global score and criticity
-    h += '<div class="g g2 gwrap"><div class="card"><div class="c-h"><h3>Uncapped total of the four items score</h3><span class="pill">' + R.length + ' reports</span></div>' + lineChart([{ values: totalS, col: 'var(--accent)', name: 'Point(s)' }], { reverse: inv }) + '</div>' +
-      '<div class="card"><div class="c-h"><h3>Criticity level rule matching</h3></div>' + lineChart(LV.map(function (l) { return { values: R.map(function (r) { return critCount(r, l); }), col: 'var(--lv' + l + ')', name: 'Criticity ' + l }; }), { reverse: inv }) + legend(LV.map(function (l) { return ['Criticity ' + l, 'var(--lv' + l + ')']; })) + '</div></div>';
+    h += '<div class="g g2 gwrap"><div class="card"><div class="c-h"><h3>' + t('Uncapped total of the four items score') + '</h3><span class="pill">' + f('{0} reports', R.length) + '</span></div>' + lineChart([{ values: totalS, col: 'var(--accent)', name: 'Point(s)' }], { reverse: inv }) + '</div>' +
+      '<div class="card"><div class="c-h"><h3>' + t('Criticity level rule matching') + '</h3></div>' + lineChart(LV.map(function (l) { return { values: R.map(function (r) { return critCount(r, l); }), col: 'var(--lv' + l + ')', name: t('Criticity') + ' ' + l }; }), { reverse: inv }) + legend(LV.map(function (l) { return [t('Criticity') + ' ' + l, 'var(--lv' + l + ')']; })) + '</div></div>';
     // per category + maturity
     h += '<div class="g g5 gwrap">' + CATS.map(function (c) {
       var s = R.map(function (r) { return catPts(r, c.key); });
-      return '<div class="card mini"><div class="m-h"><span>' + c.label + '</span><b>' + s[s.length - 1] + '<small> pts</small></b></div>' + lineChart([{ values: s, col: c.col, name: 'Point(s)' }], { w: 240, h: 70, axis: false, dots: false, lw: 2.2, reverse: inv }) + '<div class="m-f">' + (s.length > 1 ? delta(s[s.length - 1], s[s.length - 2]) + ' vs previous' : '&nbsp;') + '</div></div>';
+      return '<div class="card mini"><div class="m-h"><span>' + t(c.label) + '</span><b>' + s[s.length - 1] + '<small> pts</small></b></div>' + lineChart([{ values: s, col: c.col, name: 'Point(s)' }], { w: 240, h: 70, axis: false, dots: false, lw: 2.2, reverse: inv }) + '<div class="m-f">' + (s.length > 1 ? delta(s[s.length - 1], s[s.length - 2]) + ' ' + t('vs previous') : '&nbsp;') + '</div></div>';
     }).join('') +
-      '<div class="card mini"><div class="m-h"><span>Domain maturity</span><b>' + last.Maturity + '<small> /5</small></b></div>' + lineChart([{ values: matS, col: 'var(--lv1)', name: 'Maturity' }], { w: 240, h: 70, axis: false, dots: false, step: true, area: false, ymin: 1, ymax: 4, reverse: true, lw: 2.2 }) + '<div class="m-f">Step line · 1 = lowest, top of the chart</div></div></div>';
+      '<div class="card mini"><div class="m-h"><span>' + t('Domain maturity') + '</span><b>' + last.Maturity + '<small> /5</small></b></div>' + lineChart([{ values: matS, col: 'var(--lv1)', name: t('Maturity') }], { w: 240, h: 70, axis: false, dots: false, step: true, area: false, ymin: 1, ymax: 4, reverse: true, lw: 2.2 }) + '<div class="m-f">' + t('Step line · 1 = lowest, top of the chart') + '</div></div></div>';
     // gauges + remediations chips
-    h += '<div class="g gwrap" style="grid-template-columns:1fr 1.2fr"><div class="card"><div class="c-h"><h3>Scores · ' + esc(last.Label) + '</h3><span class="pill">capped 0 to 100, lower is better</span></div><div class="gauges">' + CATS.map(function (c) { return gauge(last.Scores[c.score], c.label, c.sub); }).join('') + '</div></div>' +
-      '<div class="card"><div class="c-h"><h3>Remediations · all risks solved</h3><span class="pill good">' + solvedSince.length + ' solved</span></div>' +
-      (solvedSince.length ? '<div class="chips">' + byPriority(solvedSince).map(function (x) { return '<span class="chip">' + badge(x.Level) + ' ' + esc(x.RiskId) + ' <em>' + esc(x.LastAppearance) + '</em></span>'; }).join('') + '</div>' : '<div class="nodata">No risk solved yet since the first report.</div>') + '</div></div>';
+    h += '<div class="g gwrap g-gr"><div class="card"><div class="c-h"><h3>' + t('Scores') + ' · ' + esc(last.Label) + '</h3><span class="pill">' + t('capped 0 to 100, lower is better') + '</span></div><div class="gauges">' + CATS.map(function (c) { return gauge(last.Scores[c.score], t(c.label), t(c.sub)); }).join('') + '</div></div>' +
+      '<div class="card"><div class="c-h"><h3>' + t('Remediations · all risks solved') + '</h3><span class="pill good">' + f('{0} solved', solvedSince.length) + '</span></div>' +
+      (solvedSince.length ? '<div class="chips">' + byPriority(solvedSince).map(function (x) { return '<span class="chip">' + badge(x.Level) + ' ' + esc(x.RiskId) + ' <em>' + esc(x.LastAppearance) + '</em></span>'; }).join('') + '</div>' : '<div class="nodata">' + t('No risk solved yet since the first report.') + '</div>') + '</div></div>';
     // hardening plan
     var pick = byPriority(last.RiskRules.filter(function (x) { return x.Level === 1 || x.Level === 2; })).sort(function (a, b) { return b.Points - a.Points; }).slice(0, 4);
     if (pick.length) {
-      h += '<div class="card harden"><div class="c-h"><h3>🛡️ AD hardening plan <span class="tag">new</span></h3><span class="pill">fix these ' + pick.length + ' first · up to −' + sum(pick.map(function (x) { return x.Points; })) + ' pts</span></div>' +
-        '<p class="note">Critical rules (level 1 and 2) of the last report, sorted by points. Each one has a plain fix and a PowerShell check. The full list is in the Hardening guide tab.</p>' +
+      h += '<div class="card harden"><div class="c-h"><h3>' + t('🛡️ AD hardening plan') + ' <span class="tag">' + t('new') + '</span></h3><span class="pill">' + f('fix these {0} first · up to −{1} pts', pick.length, sum(pick.map(function (x) { return x.Points; }))) + '</span></div>' +
+        '<p class="note">' + t('Critical rules (level 1 and 2) of the last report, sorted by points. Each one has a plain fix and a PowerShell check. The full list is in the Hardening guide tab.') + '</p>' +
         '<div class="hz-grid">' + pick.map(function (x, i) { return hzCard(x, i + 1); }).join('') + '</div></div>';
     }
     h += qwCard(last, 6);
     // remediations table
-    h += '<div class="card"><div class="c-h"><h3>Remediations · all risks solved (table)</h3></div>' + table(RULECOLS(false, [{ title: 'LastAppearance', key: 'LastAppearance' }]), solvedSince, { sort: 1 }) + '</div>';
+    h += '<div class="card"><div class="c-h"><h3>' + t('Remediations · all risks solved (table)') + '</h3></div>' + table(RULECOLS(false, [{ title: t('LastAppearance'), key: 'LastAppearance' }]), solvedSince, { sort: 1 }) + '</div>';
     // score & maturity evolution
     var scoreRows = R.map(function (r) { return { Date: r.Label, Maturity: r.Maturity, 'Global score': r.Scores.Global, 'Total score': tot(r), Anomalies: catPts(r, 'Anomalies'), 'Privileged Accounts': catPts(r, 'PrivilegedAccounts'), 'Stale Objects': catPts(r, 'StaleObjects'), Trusts: catPts(r, 'Trusts') }; });
     var scCls = function (v) { v = +v; return v >= 100 ? 'sc sc-highest' : v >= 75 ? 'sc sc-high' : v >= 50 ? 'sc sc-medium' : v >= 25 ? 'sc sc-low' : v > 0 ? 'sc sc-lowest' : ''; };
-    var sCols = [{ title: 'Date', key: 'Date' }, { title: 'Maturity', key: 'Maturity', html: function (v) { return badge(v); } }, { title: 'Global score', key: 'Global score', cls: scCls }, { title: 'Total score', key: 'Total score', cls: 'num' }];
-    ['Anomalies', 'Privileged Accounts', 'Stale Objects', 'Trusts'].forEach(function (k) { sCols.push({ title: k, key: k, cls: scCls }); });
-    h += '<div class="card"><div class="c-h"><h3>Score &amp; maturity evolution (uncapped)</h3></div>' + table(sCols, scoreRows, { sort: 0 }) + '</div>';
+    var sCols = [{ title: t('Date'), key: 'Date' }, { title: t('Maturity'), key: 'Maturity', html: function (v) { return badge(v); } }, { title: t('Global score'), key: 'Global score', cls: scCls }, { title: t('Total score'), key: 'Total score', cls: 'num' }];
+    ['Anomalies', 'Privileged Accounts', 'Stale Objects', 'Trusts'].forEach(function (k) { sCols.push({ title: t(k), key: k, cls: scCls }); });
+    h += '<div class="card"><div class="c-h"><h3>' + t('Score &amp; maturity evolution (uncapped)') + '</h3></div>' + table(sCols, scoreRows, { sort: 0 }) + '</div>';
     // risk rules evolution
     var revDates = R.slice().reverse();
     var evo = allOrder.map(function (rid) {
@@ -568,9 +582,9 @@ body.has-max{overflow:hidden}
       revDates.forEach(function (r) { var m = r.RiskRules.filter(function (x) { return x.RiskId === rid; })[0]; o['d:' + r.Label] = m ? m.Points : ''; });
       return o;
     });
-    var eCols = [{ title: 'Level', key: 'Level', html: function (v) { return badge(v); } }, { title: 'Category', key: 'Category' }, { title: 'Model', key: 'Model' }, { title: 'RiskId', key: 'RiskId', cls: 'rid' }, { title: 'Rationale', key: 'Rationale', cls: 'rat' }]
+    var eCols = [{ title: t('Level'), key: 'Level', html: function (v) { return badge(v); } }, { title: t('Category'), key: 'Category' }, { title: t('Model'), key: 'Model' }, { title: 'RiskId', key: 'RiskId', cls: 'rid' }, { title: t('Rationale'), key: 'Rationale', cls: 'rat' }]
       .concat(revDates.map(function (r) { return { title: esc(r.Label), key: 'd:' + r.Label, cls: function (v) { return v === '' ? 'empty c' : 'num c'; } }; }));
-    h += '<div class="card"><div class="c-h"><h3>Risk rules evolution</h3><span class="pill">grey rows are solved in the last report</span></div>' + table(eCols, evo, { sort: 0, rowClass: function (r) { return r['d:' + last.Label] === '' ? 'resolved' : ''; } }) + '</div>';
+    h += '<div class="card"><div class="c-h"><h3>' + t('Risk rules evolution') + '</h3><span class="pill">' + t('grey rows are solved in the last report') + '</span></div>' + table(eCols, evo, { sort: 0, rowClass: function (r) { return r['d:' + last.Label] === '' ? 'resolved' : ''; } }) + '</div>';
     return h;
   }
 
@@ -581,51 +595,51 @@ body.has-max{overflow:hidden}
     var solved = prev ? prev.RiskRules.filter(function (x) { return !curIds[x.RiskId]; }).map(function (x) { return allRules[x.RiskId]; }) : [];
     var newer = prev ? cur.RiskRules.filter(function (x) { return !prevIds[x.RiskId]; }).map(function (x) { return allRules[x.RiskId]; }) : [];
     // report & domain info
-    var info = [['PingCastle version', cur.Version], ['Generated on', cur.LongDate], ['Report age', cur.AgeDays + ' day(s)'], ['Domain maturity', cur.Maturity], ['Domain mode', cur.DomainMode], ['Forest mode', cur.ForestMode]];
-    h += '<div class="g g3 gwrap"><div class="card"><div class="c-h"><h3>Report information</h3></div><img class="pclogo" src="' + esc(D.pcLogo) + '" alt="PingCastle logo" onerror="this.style.display=\'none\'"><table class="info"><tbody>' + info.map(function (i) { return '<tr><td>' + i[0] + '</td><td><b>' + esc(i[1]) + '</b></td></tr>'; }).join('') + '</tbody></table></div>' +
-      '<div class="card center"><div class="c-h"><h3>Global score</h3></div>' + gauge(cur.Scores.Global, 'Global score', 'The worst score out of the four items') + '</div>' +
-      '<div class="card"><div class="c-h"><h3>Rules per criticity</h3></div>' + donut(LV.map(function (l) { return { v: critCount(cur, l), col: 'var(--lv' + l + ')', name: 'Criticity ' + l }; })) + legend(LV.map(function (l) { return ['Criticity ' + l + ' (' + critCount(cur, l) + ')', 'var(--lv' + l + ')']; })) + '</div></div>';
+    var info = [[t('PingCastle version'), cur.Version], [t('Generated on'), cur.LongDate], [t('Report age'), f('{0} day(s)', cur.AgeDays)], [t('Domain maturity'), cur.Maturity], [t('Domain mode'), cur.DomainMode], [t('Forest mode'), cur.ForestMode]];
+    h += '<div class="g g3 gwrap"><div class="card"><div class="c-h"><h3>' + t('Report information') + '</h3></div><img class="pclogo" src="' + esc(D.pcLogo) + '" alt="PingCastle logo" onerror="this.style.display=\'none\'"><table class="info"><tbody>' + info.map(function (i) { return '<tr><td>' + i[0] + '</td><td><b>' + esc(i[1]) + '</b></td></tr>'; }).join('') + '</tbody></table></div>' +
+      '<div class="card center"><div class="c-h"><h3>' + t('Global score') + '</h3></div>' + gauge(cur.Scores.Global, t('Global score'), t('The worst score out of the four items')) + '</div>' +
+      '<div class="card"><div class="c-h"><h3>' + t('Rules per criticity') + '</h3></div>' + donut(LV.map(function (l) { return { v: critCount(cur, l), col: 'var(--lv' + l + ')', name: t('Criticity') + ' ' + l }; })) + legend(LV.map(function (l) { return [t('Criticity') + ' ' + l + ' (' + critCount(cur, l) + ')', 'var(--lv' + l + ')']; })) + '</div></div>';
     // total + criticity points
-    h += '<div class="g g6 gwrap"><div class="kpi hi center"><div class="k-t">Total score</div><div class="k-v">' + arrow(tot(cur), prev ? tot(prev) : null) + tot(cur) + '<small>pt(s)</small></div></div>' +
-      LV.map(function (l) { return '<div class="kpi center"><div class="k-t">' + badge(l) + ' Criticity ' + l + '</div><div class="k-v">' + arrow(critPts(cur, l), prev ? critPts(prev, l) : null) + critPts(cur, l) + '<small>pt(s)</small></div></div>'; }).join('') + '</div>';
+    h += '<div class="g g6 gwrap"><div class="kpi hi center"><div class="k-t">' + t('Total score') + '</div><div class="k-v">' + arrow(tot(cur), prev ? tot(prev) : null) + tot(cur) + '<small>pt(s)</small></div></div>' +
+      LV.map(function (l) { return '<div class="kpi center"><div class="k-t">' + badge(l) + ' ' + t('Criticity') + ' ' + l + '</div><div class="k-v">' + arrow(critPts(cur, l), prev ? critPts(prev, l) : null) + critPts(cur, l) + '<small>pt(s)</small></div></div>'; }).join('') + '</div>';
     // per model
     var models = {}; cur.RiskRules.forEach(function (x) { var m = models[x.Model] || (models[x.Model] = { Category: x.Category, Model: x.Model, Points: 0, Count: 0 }); m.Points += x.Points; m.Count++; });
     var perModel = Object.keys(models).map(function (k) { return models[k]; }).filter(function (m) { return m.Points !== 0; }).sort(function (a, b) { return b.Points - a.Points; });
     var pal = ['var(--lv1)', 'var(--c1)', 'var(--c2)', 'var(--lv3)', 'var(--c3)', 'var(--lv4)', 'var(--lv5)', 'var(--c4)', 'var(--lv2)', 'var(--muted)'];
-    h += '<details class="card"><summary class="c-h"><h3>Scores per model</h3><span class="pill">' + perModel.length + ' models</span></summary><div class="g g2" style="margin-top:12px"><div>' +
-      table([{ title: 'Category', key: 'Category' }, { title: 'Model', key: 'Model' }, { title: 'Points', key: 'Points', cls: 'num' }, { title: 'Count', key: 'Count' }], perModel, { tools: false }) + '</div><div>' +
+    h += '<details class="card"><summary class="c-h"><h3>' + t('Scores per model') + '</h3><span class="pill">' + f('{0} models', perModel.length) + '</span></summary><div class="g g2" style="margin-top:12px"><div>' +
+      table([{ title: t('Category'), key: 'Category' }, { title: t('Model'), key: 'Model' }, { title: t('Points'), key: 'Points', cls: 'num' }, { title: t('Count'), key: 'Count' }], perModel, { tools: false }) + '</div><div>' +
       donut(perModel.map(function (m, i) { return { v: m.Points, col: pal[i % pal.length], name: m.Model }; }), 200) + legend(perModel.map(function (m, i) { return [m.Model + ' (' + m.Points + ')', pal[i % pal.length]]; })) + '</div></div></details>';
     // 4 scores
-    h += '<div class="card"><div class="c-h"><h3>Scores</h3><span class="pill">capped 0 to 100, lower is better</span></div><div class="gauges row">' + CATS.map(function (c) { return gauge(cur.Scores[c.score], c.label, c.sub); }).join('') + '</div></div>';
+    h += '<div class="card"><div class="c-h"><h3>' + t('Scores') + '</h3><span class="pill">' + t('capped 0 to 100, lower is better') + '</span></div><div class="gauges row">' + CATS.map(function (c) { return gauge(cur.Scores[c.score], t(c.label), t(c.sub)); }).join('') + '</div></div>';
     // comparison
-    h += '<div class="card"><div class="c-h"><h3>Comparison with previous reports</h3></div><p class="note">The evolution of the uncapped score in each category. The score may vary from the normal PingCastle score (capped to 100), as some rules can be ignored using the exceptions.csv file. The list of ignored risk rules is available at the bottom of the page.</p><div class="g g4">' +
+    h += '<div class="card"><div class="c-h"><h3>' + t('Comparison with previous reports') + '</h3></div><p class="note">' + t('The evolution of the uncapped score in each category. The score may vary from the normal PingCastle score (capped to 100), as some rules can be ignored using the exceptions.csv file. The list of ignored risk rules is available at the bottom of the page.') + '</p><div class="g g4">' +
       CATS.map(function (c) {
         var it = [];
-        if (idx > 1) it.push({ name: 'Initial', v: catPts(R[0], c.key), col: 'var(--muted)' });
-        if (idx > 0) it.push({ name: 'Previous', v: catPts(prev, c.key), col: 'color-mix(in srgb,' + c.col + ' 55%,transparent)' });
-        it.push({ name: 'Current', v: catPts(cur, c.key), col: c.col });
-        return '<div><div class="m-h" style="margin-bottom:6px"><span>' + c.label + '</span></div>' + bars(it) + '</div>';
+        if (idx > 1) it.push({ name: t('Initial'), v: catPts(R[0], c.key), col: 'var(--muted)' });
+        if (idx > 0) it.push({ name: t('Previous'), v: catPts(prev, c.key), col: 'color-mix(in srgb,' + c.col + ' 55%,transparent)' });
+        it.push({ name: t('Current'), v: catPts(cur, c.key), col: c.col });
+        return '<div><div class="m-h" style="margin-bottom:6px"><span>' + t(c.label) + '</span></div>' + bars(it) + '</div>';
       }).join('') + '</div></div>';
     // improvement & deterioration
-    h += '<div class="g g2 gwrap"><div class="card"><div class="posh">✓ Risk rules resolved</div>' + table(RULECOLS(false), solved, { sort: 1, tools: false }) + '</div>' +
-      '<div class="card"><div class="negh">⚠ New risk rules triggered</div>' + table(RULECOLS(true), newer, { sort: 1, tools: false }) + '</div></div>';
+    h += '<div class="g g2 gwrap"><div class="card"><div class="posh">✓ ' + t('Risk rules resolved') + '</div>' + table(RULECOLS(false), solved, { sort: 1, tools: false }) + '</div>' +
+      '<div class="card"><div class="negh">⚠ ' + t('New risk rules triggered') + '</div>' + table(RULECOLS(true), newer, { sort: 1, tools: false }) + '</div></div>';
     // all current
     var rows = cur.RiskRules.map(function (x) { var o = Object.assign({}, x); o._new = prev && !prevIds[x.RiskId]; return o; });
-    h += '<div class="card"><div class="c-h"><h3>All current risk rules</h3><span class="pill">' + rows.length + ' rules</span></div>' + table(RULECOLS(true), rows, { sort: 1 }) + '</div>';
-    if (cur.IgnoredRiskRules.length) h += '<div class="card"><div class="c-h"><h3>Ignored risk rules</h3></div><p class="note">The following rules have been excluded from the calculated scores using the "exceptions.csv" file.</p>' + table(RULECOLS(false), cur.IgnoredRiskRules, { sort: 1, tools: false }) + '</div>';
+    h += '<div class="card"><div class="c-h"><h3>' + t('All current risk rules') + '</h3><span class="pill">' + f('{0} rules', rows.length) + '</span></div>' + table(RULECOLS(true), rows, { sort: 1 }) + '</div>';
+    if (cur.IgnoredRiskRules.length) h += '<div class="card"><div class="c-h"><h3>' + t('Ignored risk rules') + '</h3></div><p class="note">' + t('The following rules have been excluded from the calculated scores using the "exceptions.csv" file.') + '</p>' + table(RULECOLS(false), cur.IgnoredRiskRules, { sort: 1, tools: false }) + '</div>';
     return h;
   }
 
   // ---------- hardening guide tab ----------
   function guide() {
     var rules = byPriority(last.RiskRules), h = '';
-    var covered = rules.filter(function (x) { return HD[x.RiskId] && HD[x.RiskId].Fix; }).length;
+    var covered = rules.filter(function (x) { return HD[x.RiskId] && fixText(HD[x.RiskId]); }).length;
     h += qwCard(last, 0);
-    h += '<div class="card harden"><div class="c-h"><h3>🛡️ Hardening guide · ' + esc(last.Label) + ' <span class="tag">new</span></h3><span class="pill">' + rules.length + ' rules · ' + covered + ' with a fix text</span></div>' +
-      '<p class="note">All risk rules of the last report, most critical first. Run the PowerShell check, apply the fix, then tick "Planned" to track your work (saved in this browser only). Fix texts come from data\\hardening.csv (checked against the PingCastle rule code and current Microsoft docs), so you can edit or translate them.</p>';
+    h += '<div class="card harden"><div class="c-h"><h3>' + t('🛡️ Hardening guide') + ' · ' + esc(last.Label) + ' <span class="tag">' + t('new') + '</span></h3><span class="pill">' + f('{0} rules · {1} with a fix text', rules.length, covered) + '</span></div>' +
+      '<p class="note">' + t('All risk rules of the last report, most critical first. Run the PowerShell check, apply the fix, then tick "Planned" to track your work (saved in this browser only). Fix texts come from data\\hardening.csv (checked against the PingCastle rule code and current Microsoft docs), so you can edit or translate them.') + '</p>';
     LV.concat([null]).forEach(function (l) {
       var g = rules.filter(function (x) { return x.Level === l; }); if (!g.length) return;
-      h += '<div class="lvl-h">' + badge(l) + ' <b style="color:var(--text)">' + (l ? 'Criticity ' + l : 'No criticity level') + '</b> · ' + g.length + ' rule(s) · ' + sum(g.map(function (x) { return x.Points; })) + ' pts</div>';
+      h += '<div class="lvl-h">' + badge(l) + ' <b style="color:var(--text)">' + (l ? t('Criticity') + ' ' + l : t('No criticity level')) + '</b> · ' + f('{0} rule(s)', g.length) + ' · ' + sum(g.map(function (x) { return x.Points; })) + ' pts</div>';
       h += '<div class="hz-grid wide">' + g.map(function (x) { return hzCard(x, 0, true); }).join('') + '</div>';
     });
     return h + '</div>';
@@ -635,16 +649,19 @@ body.has-max{overflow:hidden}
   var THEMES = [['midnight', 'Midnight', '#0b1020'], ['slate', 'Slate', '#f5f6fa'], ['report', 'Report', '#faf7f0']];
   var tabs = [{ id: 'home', name: '⌂ Home', fn: home }].concat(R.map(function (r, i) { return { id: 'r' + i, name: r.Label, fn: function () { return reportTab(i); } }; })).concat([{ id: 'guide', name: '🛡 Hardening guide', fn: guide, cls: 'hz' }]);
   var logo = D.logo ? '<img src="' + esc(D.logo) + '" alt="' + esc(D.author) + '" onerror="this.replaceWith(document.createTextNode(this.alt))">' : esc(D.author);
+  function renderShell() {
+  document.documentElement.lang = LANG;
   document.getElementById('app').innerHTML =
-    '<header><div class="wrap"><div class="top">' +
+    '<header><div class="wrap"><div class="langrow"><div class="langs" role="group" aria-label="Language"><button data-lang="en"' + (LANG === 'en' ? ' class="on"' : '') + '>EN</button><button data-lang="fr"' + (LANG === 'fr' ? ' class="on"' : '') + '>FR</button></div></div><div class="top">' +
     '<a class="brand" href="' + esc(D.uri) + '" target="_blank" rel="noopener">' + logo + '</a>' +
-    '<div><div class="kicker">PingCastle dashboard · Active Directory security review</div><h1>' + esc(D.domain) + '</h1>' +
-    '<div class="meta">' + R.length + ' healthcheck(s) · ' + esc(first.Label) + ' → ' + esc(last.Label) + ' · Engine ' + esc(last.Version) + '</div></div>' +
-    '<div class="right"><div class="themes" role="group" aria-label="Theme">' + THEMES.map(function (t) { return '<button data-theme-btn="' + t[0] + '"><i style="background:' + t[2] + '"></i>' + t[1] + '</button>'; }).join('') + '</div>' +
-    '<div class="pills"><span class="pill">' + esc(last.DomainMode) + '</span><span class="pill">Last scan ' + esc(last.Label) + '</span></div></div></div>' +
-    '<nav class="tabs">' + tabs.map(function (t) { return '<button data-tab="' + t.id + '" class="' + (t.cls || '') + '">' + esc(t.name) + '</button>'; }).join('') + '</nav></div></header>' +
-    '<main class="wrap">' + tabs.map(function (t) { return '<section class="pane" id="pane-' + t.id + '"></section>'; }).join('') + '</main>' +
-    '<footer class="wrap">Made with ❤️ by METSYS · Updated by <a href="https://github.com/karim852" target="_blank" rel="noopener">k0r1m</a> · Powered by PingCastle<br>Generated on ' + esc(D.generatedAt) + ' by ' + esc(D.author) + '</footer>';
+    '<div><div class="kicker">' + t('PingCastle dashboard · Active Directory security review') + '</div><h1>' + esc(D.domain) + '</h1>' +
+    '<div class="meta">' + f('{0} healthcheck(s)', R.length) + ' · ' + esc(first.Label) + ' → ' + esc(last.Label) + ' · ' + t('Engine') + ' ' + esc(last.Version) + '</div></div>' +
+    '<div class="right"><div class="themes" role="group" aria-label="Theme">' + THEMES.map(function (x) { return '<button data-theme-btn="' + x[0] + '"><i style="background:' + x[2] + '"></i>' + t(x[1]) + '</button>'; }).join('') + '</div>' +
+    '<div class="pills"><span class="pill">' + esc(last.DomainMode) + '</span><span class="pill">' + f('Last scan {0}', esc(last.Label)) + '</span></div></div></div>' +
+    '<nav class="tabs">' + tabs.map(function (x) { return '<button data-tab="' + x.id + '" class="' + (x.cls || '') + '">' + esc(t(x.name)) + '</button>'; }).join('') + '</nav></div></header>' +
+    '<main class="wrap">' + tabs.map(function (x) { return '<section class="pane" id="pane-' + x.id + '"></section>'; }).join('') + '</main>' +
+    '<footer class="wrap">' + t('Made with ❤️ by METSYS') + ' · ' + t('Updated by') + ' <a href="https://github.com/karim852" target="_blank" rel="noopener">k0r1m</a> · ' + t('Powered by PingCastle') + '<br>' + f('Generated on {0} by {1}', esc(D.generatedAt), esc(D.author)) + '</footer>';
+  }
 
 
   // ---------- motion helpers ----------
@@ -691,7 +708,7 @@ body.has-max{overflow:hidden}
     root.querySelectorAll('.card').forEach(function (card) {
       if (card.querySelector(':scope > .c-h .xbtn, :scope > summary .xbtn, :scope > .m-h .xbtn')) return;
       var head = card.querySelector(':scope > .c-h, :scope > summary.c-h, :scope > .m-h');
-      var b = document.createElement('button'); b.className = 'xbtn'; b.type = 'button'; b.title = 'Expand'; b.setAttribute('data-expand', ''); b.textContent = '⤢';
+      var b = document.createElement('button'); b.className = 'xbtn'; b.type = 'button'; b.title = t('Expand'); b.setAttribute('data-expand', ''); b.textContent = '⤢';
       if (head) {
         var pill = head.querySelector(':scope > .pill');
         var w = document.createElement('span'); w.className = 'xwrap';
@@ -704,7 +721,7 @@ body.has-max{overflow:hidden}
   function toggleMax(card) {
     var veil = document.getElementById('veil');
     if (maxCard) {
-      maxCard.classList.remove('max'); var btn = maxCard.querySelector('[data-expand]'); if (btn) { btn.textContent = '⤢'; btn.title = 'Expand'; }
+      maxCard.classList.remove('max'); var btn = maxCard.querySelector('[data-expand]'); if (btn) { btn.textContent = '⤢'; btn.title = t('Expand'); }
       if (ph) ph.remove(); ph = null; veil.classList.remove('on'); document.body.classList.remove('has-max');
       var was = maxCard; maxCard = null; was.classList.remove('anim'); refreshCharts(was); if (was === card) return;
     }
@@ -713,7 +730,7 @@ body.has-max{overflow:hidden}
     ph = document.createElement('div'); ph.className = 'ph'; ph.style.height = card.offsetHeight + 'px'; ph.style.marginBottom = getComputedStyle(card).marginBottom;
     card.parentNode.insertBefore(ph, card);
     card.classList.add('max'); maxCard = card; veil.classList.add('on'); document.body.classList.add('has-max');
-    var b = card.querySelector('[data-expand]'); if (b) { b.textContent = '✕'; b.title = 'Close (Esc)'; }
+    var b = card.querySelector('[data-expand]'); if (b) { b.textContent = '✕'; b.title = t('Close (Esc)'); }
     if (!reduce) { card.classList.remove('anim'); void card.offsetWidth; card.classList.add('anim'); }
     refreshCharts(card); if (!reduce) countUp(card);
   }
@@ -733,20 +750,27 @@ body.has-max{overflow:hidden}
     if (y + r.height > window.innerHeight - 8) y = e.clientY - r.height - 14;
     tip.style.left = x + 'px'; tip.style.top = y + 'px';
   });
-  var built = {};
+  var built = {}, current = 'home';
   function showTab(id) {
-    var t = tabs.filter(function (x) { return x.id === id; })[0] || tabs[0];
-    if (!built[t.id]) {
-      var before = uid, pane = document.getElementById('pane-' + t.id);
-      pane.innerHTML = t.fn();
+    var tb = tabs.filter(function (x) { return x.id === id; })[0] || tabs[0]; current = tb.id;
+    if (!built[tb.id]) {
+      var before = uid, pane = document.getElementById('pane-' + tb.id);
+      pane.innerHTML = tb.fn();
       Object.keys(TABLES).forEach(function (k) { if (+k.slice(1) > before) drawTable(k); });
       addExpand(pane);
-      built[t.id] = 1;
+      built[tb.id] = 1;
     }
-    document.querySelectorAll('.pane').forEach(function (p) { p.classList.toggle('on', p.id === 'pane-' + t.id); });
-    refreshCharts(document.getElementById('pane-' + t.id));
-    animatePane(document.getElementById('pane-' + t.id));
-    document.querySelectorAll('[data-tab]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-tab') === t.id); });
+    document.querySelectorAll('.pane').forEach(function (p) { p.classList.toggle('on', p.id === 'pane-' + tb.id); });
+    refreshCharts(document.getElementById('pane-' + tb.id));
+    animatePane(document.getElementById('pane-' + tb.id));
+    document.querySelectorAll('[data-tab]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-tab') === tb.id); });
+  }
+  function setLang(l) {
+    LANG = l === 'fr' ? 'fr' : 'en'; store.set('pcd-lang', LANG);
+    if (maxCard) toggleMax(null);
+    renderShell(); built = {}; TABLES = {};
+    setTheme(document.documentElement.getAttribute('data-theme') || D.theme || 'midnight');
+    showTab(current);
   }
   function setTheme(t) {
     document.documentElement.setAttribute('data-theme', t);
@@ -758,11 +782,12 @@ body.has-max{overflow:hidden}
     var xb = e.target.closest('[data-expand]'); if (xb) { e.preventDefault(); e.stopPropagation(); toggleMax(xb.closest('.card')); return; }
     var b = e.target.closest('[data-tab]'); if (b) { if (maxCard) toggleMax(null); showTab(b.getAttribute('data-tab')); window.scrollTo(0, 0); return; }
     var th = e.target.closest('[data-theme-btn]'); if (th) { setTheme(th.getAttribute('data-theme-btn')); return; }
+    var lb = e.target.closest('[data-lang]'); if (lb) { if (lb.getAttribute('data-lang') !== LANG) setLang(lb.getAttribute('data-lang')); return; }
     var hd = e.target.closest('th[data-i]');
     if (hd) { var id = hd.closest('table').id, T = TABLES[id], i = +hd.getAttribute('data-i'); T.dir = T.sort === i ? -T.dir : 1; T.sort = i; drawTable(id); return; }
     var cv = e.target.closest('[data-csv]'); if (cv) { exportCsv(cv.getAttribute('data-csv')); return; }
     var cp = e.target.closest('[data-copy]');
-    if (cp) { var txt = cp.getAttribute('data-copy'); try { navigator.clipboard.writeText(txt); var old = cp.getAttribute('data-label') || cp.textContent; cp.setAttribute('data-label', old); cp.textContent = 'Copied ✓'; } catch (err) { } setTimeout(function () { cp.textContent = cp.getAttribute('data-label') || 'Copy'; }, 1200); }
+    if (cp) { var txt = cp.getAttribute('data-copy'); try { navigator.clipboard.writeText(txt); var old = cp.getAttribute('data-label') || cp.textContent; cp.setAttribute('data-label', old); cp.textContent = t('Copied ✓'); } catch (err) { } setTimeout(function () { cp.textContent = cp.getAttribute('data-label') || t('Copy'); }, 1200); }
   });
   document.addEventListener('input', function (e) { var id = e.target.getAttribute && e.target.getAttribute('data-t'); if (id) { TABLES[id].q = e.target.value; drawTable(id); } });
   document.addEventListener('change', function (e) {
@@ -773,8 +798,11 @@ body.has-max{overflow:hidden}
     }
   });
 
+  var savedLang = store.get('pcd-lang');
+  LANG = savedLang === 'fr' || savedLang === 'en' ? savedLang : (D.lang === 'fr' ? 'fr' : 'en');
+  renderShell();
   var saved = store.get('pcd-theme');
-  setTheme(THEMES.some(function (t) { return t[0] === saved; }) ? saved : (D.theme || 'midnight'));
+  setTheme(THEMES.some(function (x) { return x[0] === saved; }) ? saved : (D.theme || 'midnight'));
   showTab('home');
 })();
 </script>

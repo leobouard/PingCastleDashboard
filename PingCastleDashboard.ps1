@@ -13,6 +13,9 @@ param(
     # Default theme of the dashboard. The user can switch it at the top right of the page.
     [ValidateSet('Midnight', 'Slate', 'Report')]
     [string]$Theme = 'Midnight',
+    # Default language of the dashboard. The user can switch it at the top left of the page.
+    [ValidateSet('EN', 'FR')]
+    [string]$Language = 'EN',
     # Use the original PSWriteHTML dashboard instead of the new themed one
     [switch]$Classic
 )
@@ -150,12 +153,12 @@ if (-not $Classic.IsPresent) {
 
     $template = [System.IO.File]::ReadAllText((Join-Path $PSScriptRoot 'data/dashboard.html'))
 
-    # Hardening help: RiskId;Fix;Check;Effort (Low, Medium, High);Minutes (rough time to fix);Ref (source link)
+    # Hardening help: RiskId;Fix;Check;Effort (Low, Medium, High);Minutes (rough time to fix);Ref (source link);FixFR (French fix)
     $hardening = @{}
     $hardeningFile = Join-Path $PSScriptRoot 'data/hardening.csv'
     if (Test-Path -Path $hardeningFile) {
         Import-Csv -Path $hardeningFile -Delimiter ';' -Encoding UTF8 | ForEach-Object {
-            $hardening[$_.RiskId] = [PSCustomObject]@{ Fix = $_.Fix; Check = $_.Check; Effort = $_.Effort; Minutes = [int]('0' + $_.Minutes); Ref = $_.Ref }
+            $hardening[$_.RiskId] = [PSCustomObject]@{ Fix = $_.Fix; Check = $_.Check; Effort = $_.Effort; Minutes = [int]('0' + $_.Minutes); Ref = $_.Ref; FixFR = $_.FixFR }
         }
     }
 
@@ -181,6 +184,7 @@ if (-not $Classic.IsPresent) {
             uri         = $URI
             logo        = $Logo
             theme       = $Theme.ToLower()
+            lang        = $Language.ToLower()
             invert      = $InvertChartLine.IsPresent
             generatedAt = Get-Date -Format 'dd/MM/yyyy HH:mm:ss'
             pcLogo      = 'https://raw.githubusercontent.com/leobouard/PingCastleDashboard/refs/heads/main/data/ping-castle-logo.png'
