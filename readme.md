@@ -16,6 +16,7 @@ Generates an HTML dashboard to review the evolution of PingCastle scores and met
 - **Quick wins**: the low effort fixes that save the most points, with a time estimate and the PingCastle scores you would get after doing them.
 - Fix texts live in `data\hardening.csv` (`RiskId;Fix;Check;Effort;Minutes;Ref;FixFR`), so you can edit, add or translate them. They were checked against the PingCastle rule code and current Microsoft docs. The checks use group SIDs, so they also work on non-English ADs.
 - `tests\Test-HardeningChecks.ps1` runs every check of the CSV on a domain controller of a test domain and lists the ones that fail. All checks are read-only.
+- Every push is tested by the CI pipeline (`.github/workflows/ci.yml`): PSScriptAnalyzer, Windows PowerShell 5.1 and PowerShell 7 builds, `-Classic`, all checks validated against the real ActiveDirectory and GroupPolicy modules, and a browser test. To publish a new release, change the version in `VERSION`.
 - Every panel can be expanded to full screen (⤢), charts redraw at their real size, and tables can be sorted, searched and exported to CSV.
 
 | Midnight | Slate | Report |

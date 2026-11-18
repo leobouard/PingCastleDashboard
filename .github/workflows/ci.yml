@@ -141,29 +141,40 @@ jobs:
 
   release:
     name: Publish release
-    if: startsWith(github.ref, 'refs/tags/v')
+    # on a v* tag, or on main when VERSION holds a version that has no release yet
+    if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     needs: [lint, build, classic, ad-commands, browser]
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
+      - name: Find the version
+        id: version
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then tag="$GITHUB_REF_NAME"; else tag="v$(tr -d ' \r\n' < VERSION)"; fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if gh release view "$tag" > /dev/null 2>&1; then echo "exists=true" >> "$GITHUB_OUTPUT"; echo "$tag is already released"; else echo "exists=false" >> "$GITHUB_OUTPUT"; echo "Will publish $tag"; fi
       - uses: actions/download-artifact@v4
+        if: steps.version.outputs.exists == 'false'
         with:
           name: dashboards-powershell
           path: samples
       - name: Build the release package
+        if: steps.version.outputs.exists == 'false'
         run: |
+          tag="${{ steps.version.outputs.tag }}"
           mkdir -p dist/PingCastleDashboard
-          cp -r PingCastleDashboard.ps1 PingCastleGlobalDashboard.ps1 UpdateHCRules.ps1 readme.md data xml tests dist/PingCastleDashboard/
-          (cd dist && zip -qr "PingCastleDashboard-${GITHUB_REF_NAME}.zip" PingCastleDashboard)
-          cp samples/en/*.html "dist/sample-dashboard-en.html"
-          cp samples/fr/*.html "dist/sample-dashboard-fr.html"
+          cp -r PingCastleDashboard.ps1 PingCastleGlobalDashboard.ps1 UpdateHCRules.ps1 readme.md VERSION data xml tests examples dist/PingCastleDashboard/
+          (cd dist && zip -qr "PingCastleDashboard-$tag.zip" PingCastleDashboard)
+          cp samples/en/*.html dist/sample-dashboard-en.html
+          cp samples/fr/*.html dist/sample-dashboard-fr.html
           ls -la dist
       - name: Create the GitHub release
-        env:
-          GH_TOKEN: ${{ github.token }}
+        if: steps.version.outputs.exists == 'false'
         run: |
-          gh release create "$GITHUB_REF_NAME" dist/*.zip dist/*.html \
-            --title "PingCastleDashboard $GITHUB_REF_NAME" \
-            --notes-file .github/RELEASE_NOTES.md
+          tag="${{ steps.version.outputs.tag }}"
+          gh release create "$tag" dist/*.zip dist/*.html --target "$GITHUB_SHA" \
+            --title "PingCastleDashboard $tag" --notes-file .github/RELEASE_NOTES.md
