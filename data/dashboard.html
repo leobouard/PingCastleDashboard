@@ -37,7 +37,7 @@
 }
 /* ===================== Base ===================== */
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;-webkit-font-smoothing:antialiased;transition:background .2s}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
 h1,h2,h3{font-family:var(--hfont);margin:0}
 h3{font-size:var(--h3size);font-weight:600}
 a{color:var(--accent)}
@@ -155,6 +155,71 @@ details>summary h3:before{content:"▸ ";color:var(--muted)}details[open]>summar
 .posh{background:color-mix(in srgb,var(--good) 14%,transparent);padding:8px 12px;border-radius:8px;margin-bottom:10px;font-weight:600}
 .negh{background:color-mix(in srgb,var(--bad) 14%,transparent);padding:8px 12px;border-radius:8px;margin-bottom:10px;font-weight:600}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 0 34px;line-height:1.7}
+
+/* ===================== Motion, depth & glow ===================== */
+:root,[data-theme="midnight"]{--glow:1.5px;--glowa:28%;--lift:0 8px 22px -14px rgba(0,0,0,.7),0 0 0 1px rgba(34,211,238,.14);--depth:inset 0 1px 0 rgba(255,255,255,.05),0 8px 24px -16px rgba(0,0,0,.8);--tipbg:#0a1222ee;--tipfg:#e6ebf5}
+[data-theme="slate"]{--glow:1px;--glowa:18%;--lift:0 10px 22px -14px rgba(16,24,40,.25),0 0 0 1px rgba(79,70,229,.1);--depth:inset 0 1px 0 #fff,0 6px 18px -14px rgba(16,24,40,.35);--tipbg:#111827f0;--tipfg:#fff}
+[data-theme="report"]{--glow:0px;--glowa:0%;--lift:0 10px 24px -16px rgba(27,42,74,.45);--depth:0 4px 14px -12px rgba(27,42,74,.35);--tipbg:#1b2a4af2;--tipfg:#faf7f0}
+.card,.kpi,.cs,.hz,.chip{transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,border-color .25s,background .25s}
+.card,.kpi,.cs{box-shadow:var(--depth)}
+.card:hover,.kpi:hover,.cs:hover{transform:translateY(-2px);box-shadow:var(--lift);border-color:color-mix(in srgb,var(--accent) 35%,var(--border))}
+.hz:hover{transform:translateY(-2px);box-shadow:var(--lift)}
+.chip:hover{transform:translateY(-1px);border-color:var(--accent)}
+tbody tr td{transition:background .15s}
+tbody tr:hover td{background:color-mix(in srgb,var(--accent) 9%,var(--surface))!important}
+.tabs button,.themes button,.btn,.tbar button{transition:background .2s,color .2s,transform .15s,box-shadow .2s}
+.tabs button:hover{color:var(--text);background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.tabs button:active,.themes button:active{transform:scale(.96)}
+.themes button.on{box-shadow:none}
+.brand{transition:transform .3s,box-shadow .3s}.brand:hover{transform:scale(1.03)}
+/* charts */
+svg .ln{filter:drop-shadow(0 0 var(--glow) color-mix(in srgb,var(--gc) var(--glowa),transparent)) drop-shadow(0 2px 1.5px rgba(0,0,0,.12));stroke-dasharray:1;stroke-dashoffset:0}
+svg .pt{transition:r .18s,stroke-width .18s;cursor:pointer}
+svg .pt:hover{r:5.5;stroke-width:2.5}
+svg .ga{filter:drop-shadow(0 0 var(--glow) color-mix(in srgb,var(--gc) var(--glowa),transparent));stroke-dasharray:1;cursor:pointer}
+.gsvg{width:170px;max-width:100%;overflow:visible}
+svg.donut{display:block;margin:0 auto;max-width:100%;overflow:visible}
+svg .seg{transition:stroke-width .2s;cursor:pointer}
+svg .seg:hover{stroke-width:28}
+svg .barg{cursor:pointer;transition:filter .2s}
+svg .barg .bar{filter:drop-shadow(0 3px 3px rgba(0,0,0,.16))}
+svg .barg:hover{filter:brightness(1.08)}
+#tip{position:fixed;z-index:100;pointer-events:none;background:var(--tipbg);color:var(--tipfg);font-size:12px;line-height:1.45;padding:7px 10px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;backdrop-filter:blur(6px);white-space:nowrap}
+#tip.on{opacity:1;transform:none}
+/* entry animations (replayed on every tab change) */
+@keyframes rise{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;r:0}to{opacity:1}}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes spin{from{opacity:0;transform:rotate(-120deg) scale(.8)}to{opacity:1;transform:none}}
+.anim .card,.anim .kpi,.anim .cs{animation:rise .55s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--d,0s)}
+.anim svg .ln{animation:draw 1.2s cubic-bezier(.4,0,.2,1) backwards;animation-delay:calc(var(--d,0s) + .15s)}
+.anim svg .ar{animation:fadein 1s ease both;animation-delay:calc(var(--d,0s) + .5s)}
+.anim svg .pt{animation:fadein .4s ease both}
+.anim svg .ga{animation:draw 1.1s cubic-bezier(.3,0,.2,1) backwards;animation-delay:calc(var(--d,0s) + .2s)}
+.anim svg .barg{animation:grow .8s cubic-bezier(.2,.9,.3,1.15) both}
+.anim svg.donut{animation:spin .9s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d,0s) + .1s)}
+/* expand (maximize) any panel */
+.xbtn{font:inherit;font-size:13px;line-height:1;width:28px;height:28px;display:inline-grid;place-items:center;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);cursor:pointer;opacity:.55;transition:opacity .2s,color .2s,border-color .2s,transform .2s;margin-left:6px;flex-shrink:0}
+.card:hover .xbtn{opacity:1}.xbtn:hover{color:var(--accent);border-color:var(--accent);transform:scale(1.08)}
+.c-h .xwrap{display:flex;align-items:center;gap:6px;margin-left:auto}
+#veil{position:fixed;inset:0;background:rgba(5,8,16,.55);backdrop-filter:blur(4px);z-index:40;opacity:0;pointer-events:none;transition:opacity .25s}
+#veil.on{opacity:1;pointer-events:auto}
+.card.max{position:fixed;inset:3vh 3vw;z-index:50;margin:0;overflow:auto;animation:zoomin .3s cubic-bezier(.2,.8,.2,1) both;box-shadow:0 30px 80px -20px rgba(0,0,0,.6)}
+@keyframes zoomin{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+.card.max:hover{transform:none}
+.chart{width:100%}.chart svg{display:block}
+.card.max .gsvg{width:260px}.card.max svg.donut{width:340px!important}
+.card.max .gauges{gap:40px}
+.card.max .xbtn{opacity:1}
+body.has-max{overflow:hidden}
+.ph{visibility:hidden}
+.xrel:not(.max){position:relative}
+.m-h .xbtn{width:24px;height:24px;font-size:12px}
+.card.max .m-h{font-size:15px}.card.max .m-h b{font-size:30px}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
 @media (max-width:1100px){.g5,.g6{grid-template-columns:repeat(3,1fr)}.hz-grid{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}}
 @media (max-width:760px){.g2,.g3,.g4,.g5,.g6,.hz-grid,.hz-grid.wide{grid-template-columns:1fr}.top{flex-wrap:wrap}.right{margin-left:0;align-items:flex-start}}
 @media print{.themes,.tbar,.tabs,.code button{display:none!important}body{background:#fff}.card,.kpi,.cs{break-inside:avoid}}
@@ -224,13 +289,17 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 0 34px;l
   };
   var uid = 0; var nid = function (p) { uid++; return (p || 'id') + uid; };
 
+  var CHARTS = {};
   function lineChart(series, o) {
-    o = o || {};
+    o = o || {}; var id = nid('c'); CHARTS[id] = { series: series, o: o };
+    return '<div class="chart" data-chart="' + id + '">' + lineSvg(series, o) + '</div>';
+  }
+  function lineSvg(series, o) {
     var w = o.w || 560, h = o.h || 210, labs = o.labels || labels;
     var all = []; series.forEach(function (s) { all = all.concat(s.values); });
     var lo = o.ymin != null ? o.ymin : 0, hi = o.ymax != null ? o.ymax : Math.max.apply(null, all.concat([0]));
     if (hi <= lo) hi = lo + 1;
-    var pl = o.axis === false ? 6 : 40, pr = 12, pt = 14, pb = o.axis === false ? 8 : 28, W = w - pl - pr, H = h - pt - pb, n = labs.length;
+    var pl = o.axis === false ? 6 : 40, pr = o.axis === false ? 6 : 36, pt = 14, pb = o.axis === false ? 8 : 28, W = w - pl - pr, H = h - pt - pb, n = labs.length;
     var rev = !!o.reverse;
     var X = function (i) { return n === 1 ? pl + W / 2 : pl + W * i / (n - 1); };
     var Y = function (v) { var f = (v - lo) / (hi - lo); return rev ? pt + H * f : pt + H - H * f; };
@@ -239,10 +308,10 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 0 34px;l
       for (var k = 0; k <= 4; k++) {
         var v = lo + (hi - lo) * k / 4, y = Y(v);
         s += '<line x1="' + pl + '" x2="' + (w - pr) + '" y1="' + y.toFixed(1) + '" y2="' + y.toFixed(1) + '" style="stroke:var(--grid)" />';
-        s += '<text x="' + (pl - 8) + '" y="' + (y + 4).toFixed(1) + '" text-anchor="end" font-size="10.5" style="fill:var(--muted)">' + (hi - lo > 8 ? Math.round(v) : Math.round(v * 10) / 10) + '</text>';
+        s += '<text x="' + (pl - 8) + '" y="' + (y + 4).toFixed(1) + '" text-anchor="end" font-size="' + (o.fs || 10.5) + '" style="fill:var(--muted)">' + (hi - lo > 8 ? Math.round(v) : Math.round(v * 10) / 10) + '</text>';
       }
       var every = Math.ceil(n / 12);
-      labs.forEach(function (d, i) { if (i % every === 0 || i === n - 1) s += '<text x="' + X(i).toFixed(1) + '" y="' + (h - 8) + '" text-anchor="middle" font-size="10.5" style="fill:var(--muted)">' + esc(d) + '</text>'; });
+      labs.forEach(function (d, i) { if (i % every === 0 || i === n - 1) s += '<text x="' + X(i).toFixed(1) + '" y="' + (h - 8) + '" text-anchor="middle" font-size="' + (o.fs || 10.5) + '" style="fill:var(--muted)">' + esc(d) + '</text>'; });
     }
     series.forEach(function (se) {
       var pts = [];
@@ -253,11 +322,11 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 0 34px;l
       if (series.length === 1 && o.area !== false) {
         var gid = nid('g'), base = rev ? Y(hi) : Y(lo);
         s += '<defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:' + se.col + ';stop-opacity:.28"/><stop offset="1" style="stop-color:' + se.col + ';stop-opacity:0"/></linearGradient></defs>';
-        s += '<polygon points="' + X(0).toFixed(1) + ',' + base.toFixed(1) + ' ' + pts.join(' ') + ' ' + X(n - 1).toFixed(1) + ',' + base.toFixed(1) + '" fill="url(#' + gid + ')"/>';
+        s += '<polygon points="' + X(0).toFixed(1) + ',' + base.toFixed(1) + ' ' + pts.join(' ') + ' ' + X(n - 1).toFixed(1) + ',' + base.toFixed(1) + '" fill="url(#' + gid + ')" class="ar"/>';
       }
-      s += '<polyline points="' + pts.join(' ') + '" fill="none" style="stroke:' + se.col + '" stroke-width="' + (o.lw || 2.4) + '" stroke-linejoin="round" stroke-linecap="round"/>';
+      s += '<polyline class="ln" pathLength="1" points="' + pts.join(' ') + '" fill="none" style="stroke:' + se.col + ';--gc:' + se.col + '" stroke-width="' + (o.lw || 2.4) + '" stroke-linejoin="round" stroke-linecap="round"/>';
       if (o.dots !== false) se.values.forEach(function (v, i) {
-        s += '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(v).toFixed(1) + '" r="3.4" style="fill:var(--surface);stroke:' + se.col + '" stroke-width="2"><title>' + esc(labs[i]) + ' · ' + esc(se.name || '') + ': ' + v + '</title></circle>';
+        s += '<circle class="pt" cx="' + X(i).toFixed(1) + '" cy="' + Y(v).toFixed(1) + '" r="3.4" style="fill:var(--surface);stroke:' + se.col + ';--gc:' + se.col + ';animation-delay:' + (0.35 + i * 0.07).toFixed(2) + 's" stroke-width="2" data-tip="<b>' + esc(esc(se.name || '')) + '</b> · ' + esc(esc(labs[i])) + '<br>' + v + '"></circle>';
       });
     });
     return s + '</svg>';
@@ -268,24 +337,24 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 0 34px;l
     v = +v || 0; var r = 62, cx = 85, cy = 80, a = Math.PI * (1 - Math.min(Math.max(v, 0), 100) / 100);
     var col = v >= 75 ? 'var(--lv1)' : v >= 50 ? 'var(--lv2)' : v >= 25 ? 'var(--lv3)' : 'var(--lv4)';
     var ex = cx + r * Math.cos(a), ey = cy - r * Math.sin(a);
-    return '<div class="gauge"><svg viewBox="0 0 170 100" width="170">' +
+    return '<div class="gauge"><svg viewBox="0 0 170 100" class="gsvg">' +
       '<path d="M' + (cx - r) + ',' + cy + ' A' + r + ',' + r + ' 0 0 1 ' + (cx + r) + ',' + cy + '" fill="none" style="stroke:var(--track)" stroke-width="13" stroke-linecap="round"/>' +
-      (v > 0 ? '<path d="M' + (cx - r) + ',' + cy + ' A' + r + ',' + r + ' 0 0 1 ' + ex.toFixed(1) + ',' + ey.toFixed(1) + '" fill="none" style="stroke:' + col + '" stroke-width="13" stroke-linecap="round"/>' : '') +
-      '<text x="' + cx + '" y="' + (cy - 6) + '" text-anchor="middle" font-size="30" font-weight="700" style="fill:var(--text);font-family:var(--numfont)">' + v + '</text>' +
+      (v > 0 ? '<path class="ga" pathLength="1" d="M' + (cx - r) + ',' + cy + ' A' + r + ',' + r + ' 0 0 1 ' + ex.toFixed(1) + ',' + ey.toFixed(1) + '" fill="none" style="stroke:' + col + ';--gc:' + col + '" stroke-width="13" stroke-linecap="round" data-tip="' + esc(esc(label)) + ': <b>' + v + '</b> / 100"/>' : '') +
+      '<text x="' + cx + '" y="' + (cy - 6) + '" text-anchor="middle" font-size="30" font-weight="700" class="cnt" style="fill:var(--text);font-family:var(--numfont)">' + v + '</text>' +
       '<text x="' + cx + '" y="' + (cy + 14) + '" text-anchor="middle" font-size="10" style="fill:var(--muted)">/ 100</text></svg>' +
       '<div class="g-label">' + esc(label) + '</div><div class="g-sub">' + esc(sub) + '</div></div>';
   }
 
   function donut(parts, size) {
     size = size || 170; var total = sum(parts.map(function (p) { return p.v; })), r = 60, c = 2 * Math.PI * r, off = 0;
-    var s = '<svg viewBox="0 0 170 170" width="' + size + '" style="display:block;margin:0 auto">';
+    var s = '<svg viewBox="0 0 170 170" class="donut" style="width:' + size + 'px">';
     s += '<circle cx="85" cy="85" r="' + r + '" fill="none" style="stroke:var(--track)" stroke-width="22"/>';
     if (total) parts.forEach(function (p) {
       if (!p.v) return; var len = c * p.v / total;
-      s += '<circle cx="85" cy="85" r="' + r + '" fill="none" style="stroke:' + p.col + '" stroke-width="22" stroke-dasharray="' + len.toFixed(2) + ' ' + (c - len).toFixed(2) + '" stroke-dashoffset="' + (-off).toFixed(2) + '" transform="rotate(-90 85 85)"><title>' + esc(p.name) + ': ' + p.v + '</title></circle>';
+      s += '<circle cx="85" cy="85" r="' + r + '" fill="none" style="stroke:' + p.col + '" stroke-width="22" stroke-dasharray="' + len.toFixed(2) + ' ' + (c - len).toFixed(2) + '" stroke-dashoffset="' + (-off).toFixed(2) + '" transform="rotate(-90 85 85)" class="seg" style="stroke:' + p.col + ';--gc:' + p.col + '" data-tip="<b>' + esc(esc(p.name)) + '</b><br>' + p.v + ' (' + Math.round(100 * p.v / total) + '%)"></circle>';
       off += len;
     });
-    s += '<text x="85" y="90" text-anchor="middle" font-size="24" font-weight="700" style="fill:var(--text);font-family:var(--numfont)">' + total + '</text></svg>';
+    s += '<text x="85" y="90" text-anchor="middle" font-size="24" font-weight="700" class="cnt" style="fill:var(--text);font-family:var(--numfont)">' + total + '</text></svg>';
     return s;
   }
 
@@ -296,7 +365,11 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 0 34px;l
     for (var k = 0; k <= 4; k++) { var y = pt + H - H * k / 4; s += '<line x1="' + pl + '" x2="' + (w - 10) + '" y1="' + y + '" y2="' + y + '" style="stroke:var(--grid)"/><text x="' + (pl - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="10" style="fill:var(--muted)">' + Math.round(max * k / 4) + '</text>'; }
     items.forEach(function (it, i) {
       var cx = pl + W * (i + .5) / items.length, bh = H * it.v / max;
-      s += '<rect x="' + (cx - bw / 2) + '" y="' + (pt + H - bh) + '" width="' + bw + '" height="' + bh + '" rx="4" style="fill:' + it.col + '"><title>' + esc(it.name) + ': ' + it.v + '</title></rect>';
+      var bg = nid('b');
+      s += '<defs><linearGradient id="' + bg + '" x1="0" y1="0" x2="1" y2="0"><stop offset="0" style="stop-color:' + it.col + '"/><stop offset=".55" style="stop-color:' + it.col + '"/><stop offset="1" style="stop-color:' + it.col + ';stop-opacity:.7"/></linearGradient></defs>';
+      s += '<g class="barg" style="--gc:' + it.col + ';animation-delay:' + (i * 0.12).toFixed(2) + 's;transform-origin:' + cx + 'px ' + (pt + H) + 'px" data-tip="<b>' + esc(esc(it.name)) + '</b><br>' + it.v + ' pts">' +
+        '<rect class="bar" x="' + (cx - bw / 2) + '" y="' + (pt + H - bh) + '" width="' + bw + '" height="' + bh + '" rx="5" fill="url(#' + bg + ')"/>' +
+        '<rect x="' + (cx - bw / 2 + 3) + '" y="' + (pt + H - bh + 2) + '" width="' + Math.max(bw * 0.28, 2) + '" height="' + Math.max(bh - 4, 0) + '" rx="3" fill="#fff" opacity=".16" pointer-events="none"/></g>';
       s += '<text x="' + cx + '" y="' + (pt + H - bh - 5) + '" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">' + it.v + '</text>';
       s += '<text x="' + cx + '" y="' + (h - 8) + '" text-anchor="middle" font-size="11" style="fill:var(--muted)">' + esc(it.name) + '</text>';
     });
@@ -496,6 +569,88 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 0 34px;l
     '<main class="wrap">' + tabs.map(function (t) { return '<section class="pane" id="pane-' + t.id + '"></section>'; }).join('') + '</main>' +
     '<footer class="wrap">Made with ❤️ by METSYS · Powered by PingCastle<br>Generated on ' + esc(D.generatedAt) + ' by ' + esc(D.author) + '</footer>';
 
+
+  // ---------- motion helpers ----------
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function countUp(root) {
+    if (reduce) return;
+    root.querySelectorAll('.k-v,.cs-v,.m-h b,.big,text.cnt').forEach(function (el) {
+      var node = null;
+      for (var i = 0; i < el.childNodes.length; i++) { var c = el.childNodes[i]; if (c.nodeType === 3 && /^\s*\d+\s*$/.test(c.nodeValue)) { node = c; break; } }
+      if (!node) return;
+      var to = +node.nodeValue.trim(), t0 = null, dur = 900;
+      if (!to) return;
+      node.nodeValue = '0';
+      var step = function (ts) { if (!t0) t0 = ts; var k = Math.min((ts - t0) / dur, 1), e = 1 - Math.pow(1 - k, 3); node.nodeValue = String(Math.round(to * e)); if (k < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    });
+  }
+  // redraw line charts at their real pixel size: text stays the same size, the chart grows with its window
+  function refreshCharts(root) {
+    root.querySelectorAll('.chart').forEach(function (el) {
+      var C = CHARTS[el.getAttribute('data-chart')], W = Math.floor(el.clientWidth); if (!C || W < 50) return;
+      var max = el.closest('.card.max'), h;
+      if (C.o.axis === false) h = max ? Math.round(Math.min(window.innerHeight * 0.55, W * 0.4)) : (C.o.h || 70);
+      else h = max ? Math.round(Math.min(window.innerHeight - 260, W * 0.5)) : Math.round(Math.min(Math.max(W * 0.37, 190), 300));
+      var o2 = Object.assign({}, C.o, { w: W, h: h, fs: max ? 12.5 : 10.5 });
+      if (max && C.o.axis === false) { o2.axis = true; o2.dots = true; }
+      el.innerHTML = lineSvg(C.series, o2);
+    });
+  }
+  function animatePane(pane) {
+    if (!pane || reduce) return;
+    pane.classList.remove('anim'); void pane.offsetWidth;
+    var i = 0;
+    pane.querySelectorAll('.card,.kpi,.cs').forEach(function (el) { if (el.closest('.card') !== el && el.closest('.card')) return; el.style.setProperty('--d', Math.min(i++ * 0.045, 0.6).toFixed(3) + 's'); });
+    pane.classList.add('anim');
+    countUp(pane);
+  }
+  function addExpand(root) {
+    root.querySelectorAll('.card').forEach(function (card) {
+      if (card.querySelector(':scope > .c-h .xbtn, :scope > summary .xbtn, :scope > .m-h .xbtn')) return;
+      var head = card.querySelector(':scope > .c-h, :scope > summary.c-h, :scope > .m-h');
+      var b = document.createElement('button'); b.className = 'xbtn'; b.type = 'button'; b.title = 'Expand'; b.setAttribute('data-expand', ''); b.textContent = '⤢';
+      if (head) {
+        var pill = head.querySelector(':scope > .pill');
+        var w = document.createElement('span'); w.className = 'xwrap';
+        if (head.classList.contains('m-h')) { var bb = head.querySelector(':scope > b'); w.style.marginLeft = 'auto'; if (bb) w.appendChild(bb); w.appendChild(b); head.appendChild(w); }
+        else { if (pill) w.appendChild(pill); w.appendChild(b); head.appendChild(w); }
+      } else { b.style.cssText = 'position:absolute;top:12px;right:12px'; card.classList.add('xrel'); card.appendChild(b); }
+    });
+  }
+  var maxCard = null, ph = null;
+  function toggleMax(card) {
+    var veil = document.getElementById('veil');
+    if (maxCard) {
+      maxCard.classList.remove('max'); var btn = maxCard.querySelector('[data-expand]'); if (btn) { btn.textContent = '⤢'; btn.title = 'Expand'; }
+      if (ph) ph.remove(); ph = null; veil.classList.remove('on'); document.body.classList.remove('has-max');
+      var was = maxCard; maxCard = null; was.classList.remove('anim'); refreshCharts(was); if (was === card) return;
+    }
+    if (!card) return;
+    if (card.tagName === 'DETAILS') card.open = true;
+    ph = document.createElement('div'); ph.className = 'ph'; ph.style.height = card.offsetHeight + 'px'; ph.style.marginBottom = getComputedStyle(card).marginBottom;
+    card.parentNode.insertBefore(ph, card);
+    card.classList.add('max'); maxCard = card; veil.classList.add('on'); document.body.classList.add('has-max');
+    var b = card.querySelector('[data-expand]'); if (b) { b.textContent = '✕'; b.title = 'Close (Esc)'; }
+    if (!reduce) { card.classList.remove('anim'); void card.offsetWidth; card.classList.add('anim'); }
+    refreshCharts(card); if (!reduce) countUp(card);
+  }
+  // tooltip
+  var tip = document.createElement('div'); tip.id = 'tip'; document.body.appendChild(tip);
+  var veilEl = document.createElement('div'); veilEl.id = 'veil'; document.body.appendChild(veilEl);
+  veilEl.addEventListener('click', function () { toggleMax(null); });
+  var rz = null;
+  window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { var p = document.querySelector('.pane.on'); if (!p) return; p.classList.remove('anim'); if (maxCard) maxCard.classList.remove('anim'); refreshCharts(p); }, 120); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && maxCard) toggleMax(null); });
+  document.addEventListener('mousemove', function (e) {
+    var t = e.target.closest && e.target.closest('[data-tip]');
+    if (!t) { tip.classList.remove('on'); return; }
+    tip.innerHTML = t.getAttribute('data-tip'); tip.classList.add('on');
+    var x = e.clientX + 14, y = e.clientY + 14, r = tip.getBoundingClientRect();
+    if (x + r.width > window.innerWidth - 8) x = e.clientX - r.width - 14;
+    if (y + r.height > window.innerHeight - 8) y = e.clientY - r.height - 14;
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+  });
   var built = {};
   function showTab(id) {
     var t = tabs.filter(function (x) { return x.id === id; })[0] || tabs[0];
@@ -503,9 +658,12 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 0 34px;l
       var before = uid, pane = document.getElementById('pane-' + t.id);
       pane.innerHTML = t.fn();
       Object.keys(TABLES).forEach(function (k) { if (+k.slice(1) > before) drawTable(k); });
+      addExpand(pane);
       built[t.id] = 1;
     }
     document.querySelectorAll('.pane').forEach(function (p) { p.classList.toggle('on', p.id === 'pane-' + t.id); });
+    refreshCharts(document.getElementById('pane-' + t.id));
+    animatePane(document.getElementById('pane-' + t.id));
     document.querySelectorAll('[data-tab]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-tab') === t.id); });
   }
   function setTheme(t) {
@@ -515,7 +673,8 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 0 34px;l
   }
 
   document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-tab]'); if (b) { showTab(b.getAttribute('data-tab')); window.scrollTo(0, 0); return; }
+    var xb = e.target.closest('[data-expand]'); if (xb) { e.preventDefault(); e.stopPropagation(); toggleMax(xb.closest('.card')); return; }
+    var b = e.target.closest('[data-tab]'); if (b) { if (maxCard) toggleMax(null); showTab(b.getAttribute('data-tab')); window.scrollTo(0, 0); return; }
     var th = e.target.closest('[data-theme-btn]'); if (th) { setTheme(th.getAttribute('data-theme-btn')); return; }
     var hd = e.target.closest('th[data-i]');
     if (hd) { var id = hd.closest('table').id, T = TABLES[id], i = +hd.getAttribute('data-i'); T.dir = T.sort === i ? -T.dir : 1; T.sort = i; drawTable(id); return; }
