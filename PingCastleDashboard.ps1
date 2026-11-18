@@ -150,12 +150,12 @@ if (-not $Classic.IsPresent) {
 
     $template = [System.IO.File]::ReadAllText((Join-Path $PSScriptRoot 'data/dashboard.html'))
 
-    # Hardening help: RiskId;Fix;Check;Effort (Low, Medium, High);Minutes (rough time to fix)
+    # Hardening help: RiskId;Fix;Check;Effort (Low, Medium, High);Minutes (rough time to fix);Ref (source link)
     $hardening = @{}
     $hardeningFile = Join-Path $PSScriptRoot 'data/hardening.csv'
     if (Test-Path -Path $hardeningFile) {
         Import-Csv -Path $hardeningFile -Delimiter ';' -Encoding UTF8 | ForEach-Object {
-            $hardening[$_.RiskId] = [PSCustomObject]@{ Fix = $_.Fix; Check = $_.Check; Effort = $_.Effort; Minutes = [int]('0' + $_.Minutes) }
+            $hardening[$_.RiskId] = [PSCustomObject]@{ Fix = $_.Fix; Check = $_.Check; Effort = $_.Effort; Minutes = [int]('0' + $_.Minutes); Ref = $_.Ref }
         }
     }
 

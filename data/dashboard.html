@@ -242,7 +242,7 @@ body.has-max{overflow:hidden}
 .qw-row{display:grid;grid-template-columns:22px minmax(0,1fr) 150px 64px 44px 96px 82px;gap:12px;align-items:center;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);transition:transform .2s,border-color .2s,background .2s}
 .qw-row:hover{transform:translateX(3px);border-color:color-mix(in srgb,var(--good) 45%,var(--border))}
 .qw-row.done{opacity:.5}.qw-row.done .qw-t b{text-decoration:line-through}
-.qw-t{font-size:12.5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}.qw-t b{font-family:var(--mono);font-size:12px}.qw-c{font-size:11px;color:var(--muted)}
+.qw-t{font-size:12.5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}.qw-t b{font-family:var(--mono);font-size:12px}.qw-c{font-size:11px;color:var(--muted)}.qw-src{font-size:11px;text-decoration:none}
 .qw-f{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.4}
 .qw-bar{height:8px;border-radius:99px;background:var(--track);overflow:hidden}.qw-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,color-mix(in srgb,var(--good) 60%,transparent),var(--good));transition:width .8s cubic-bezier(.2,.8,.2,1)}
 .anim .qw-bar i{animation:barx .9s cubic-bezier(.2,.8,.2,1) backwards}
@@ -477,6 +477,7 @@ body.has-max{overflow:hidden}
       (h.Fix ? '<p>' + esc(h.Fix) + '</p>' : '<p class="miss">No fix text yet for this rule. Add it to data\\hardening.csv or check the rule docs.</p>') +
       (h.Check ? '<div class="code"><code>PS&gt; ' + esc(h.Check) + '</code><button data-copy="' + esc(h.Check) + '">Copy</button></div>' : '') +
       '<div class="hz-l"><a href="https://www.pingcastle.com/PingCastleFiles/ad_hc_rules_list.html#' + encodeURIComponent(x.RiskId) + '" target="_blank" rel="noopener">Rule docs ↗</a>' +
+      (h.Ref && /^https?:\/\//.test(h.Ref) ? '<a href="' + esc(h.Ref) + '" target="_blank" rel="noopener">Fix source ↗</a>' : '') +
       '<label><input type="checkbox" data-plan="' + esc(x.RiskId) + '"' + (done ? ' checked' : '') + '> Planned</label></div></div>';
   }
   var mins = function (x) { return +((HD[x.RiskId] || {}).Minutes) || 0; };
@@ -505,7 +506,7 @@ body.has-max{overflow:hidden}
       '<div class="qw-list">' + list.map(function (x, i) {
         var hd = HD[x.RiskId], done = store.get(planKey(x.RiskId)) === '1';
         return '<div class="qw-row' + (done ? ' done' : '') + '"><span class="hz-n">' + (i + 1) + '</span>' +
-          '<div class="qw-m"><div class="qw-t">' + badge(x.Level) + ' <b>' + esc(x.RiskId) + '</b> <span class="qw-c">' + esc(x.Category) + '</span></div><div class="qw-f">' + esc(hd.Fix) + '</div></div>' +
+          '<div class="qw-m"><div class="qw-t">' + badge(x.Level) + ' <b>' + esc(x.RiskId) + '</b> <span class="qw-c">' + esc(x.Category) + '</span>' + (hd.Ref && /^https?:\/\//.test(hd.Ref) ? ' <a class="qw-src" href="' + esc(hd.Ref) + '" target="_blank" rel="noopener">source ↗</a>' : '') + '</div><div class="qw-f">' + esc(hd.Fix) + '</div></div>' +
           '<div class="qw-bar"><i style="width:' + Math.max(4, Math.round(100 * x.Points / top)) + '%"></i></div>' +
           '<span class="qw-time">' + fmtTime(mins(x)) + '</span><span class="qw-pts">−' + x.Points + '</span>' +
           (hd.Check ? '<button class="btn qw-copy" data-copy="' + esc(hd.Check) + '" data-tip="' + esc(esc('PS> ' + hd.Check)) + '">Copy check</button>' : '<span></span>') +
@@ -621,7 +622,7 @@ body.has-max{overflow:hidden}
     var covered = rules.filter(function (x) { return HD[x.RiskId] && HD[x.RiskId].Fix; }).length;
     h += qwCard(last, 0);
     h += '<div class="card harden"><div class="c-h"><h3>🛡️ Hardening guide · ' + esc(last.Label) + ' <span class="tag">new</span></h3><span class="pill">' + rules.length + ' rules · ' + covered + ' with a fix text</span></div>' +
-      '<p class="note">All risk rules of the last report, most critical first. Run the PowerShell check, apply the fix, then tick "Planned" to track your work (saved in this browser only). Fix texts come from data\\hardening.csv, so you can edit or translate them.</p>';
+      '<p class="note">All risk rules of the last report, most critical first. Run the PowerShell check, apply the fix, then tick "Planned" to track your work (saved in this browser only). Fix texts come from data\\hardening.csv (checked against the PingCastle rule code and current Microsoft docs), so you can edit or translate them.</p>';
     LV.concat([null]).forEach(function (l) {
       var g = rules.filter(function (x) { return x.Level === l; }); if (!g.length) return;
       h += '<div class="lvl-h">' + badge(l) + ' <b style="color:var(--text)">' + (l ? 'Criticity ' + l : 'No criticity level') + '</b> · ' + g.length + ' rule(s) · ' + sum(g.map(function (x) { return x.Points; })) + ' pts</div>';
