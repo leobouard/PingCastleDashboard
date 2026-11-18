@@ -1,0 +1,169 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: PSScriptAnalyzer (PowerShell 5.1 + 7 compatibility)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Analyze scripts
+        shell: pwsh
+        run: |
+          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+          $settings = @{
+            IncludeDefaultRules = $true
+            Rules = @{
+              PSUseCompatibleSyntax   = @{ Enable = $true; TargetVersions = @('5.1', '7.0') }
+              PSUseCompatibleCommands = @{ Enable = $true; TargetProfiles = @('win-8_x64_10.0.17763.0_5.1.17763.316_x64_4.0.30319.42000_framework', 'win-8_x64_10.0.14393.0_5.1.14393.2791_x64_4.0.30319.42000_framework') }
+            }
+          }
+          $found = foreach ($file in './PingCastleDashboard.ps1', './tests/Test-HardeningChecks.ps1', './tests/Test-CheckSyntax.ps1') {
+            Invoke-ScriptAnalyzer -Path $file -Settings $settings
+          }
+          $found | Select-Object ScriptName, Line, Severity, RuleName, Message | Format-Table -Wrap | Out-String -Width 300
+          $blocking = $found | Where-Object { $_.Severity -eq 'Error' -or $_.RuleName -like 'PSUseCompatible*' }
+          if ($blocking) { Write-Error "$(@($blocking).Count) blocking finding(s)"; exit 1 }
+
+  build:
+    name: Build dashboards (${{ matrix.shell }})
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [powershell, pwsh]   # powershell = Windows PowerShell 5.1
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate the dashboard in English and French
+        run: |
+          "PowerShell $($PSVersionTable.PSVersion)"
+          ./PingCastleDashboard.ps1 -XMLPath ./xml -OutputPath ./output/en -DoNotShow
+          ./PingCastleDashboard.ps1 -XMLPath ./xml -OutputPath ./output/fr -DoNotShow -Language FR -Theme Report
+          $files = @(Get-ChildItem ./output -Recurse -Filter *.html)
+          if ($files.Count -ne 2) { throw "Expected 2 dashboards, got $($files.Count)" }
+          foreach ($f in $files) {
+            $html = [System.IO.File]::ReadAllText($f.FullName)
+            $json = [regex]::Match($html, '<script id="pc-data" type="application/json">(.*?)</script>', 'Singleline').Groups[1].Value
+            $data = $json.Replace('<\/', '</') | ConvertFrom-Json
+            if (@($data.reports).Count -ne 7) { throw "$($f.Name): expected 7 reports, got $(@($data.reports).Count)" }
+            if (@($data.reports[-1].RiskRules).Count -ne 29) { throw "$($f.Name): expected 29 rules in the last report" }
+            "$($f.FullName): OK ($([int]($f.Length / 1KB)) KB)"
+          }
+      - name: Edge cases (one report, no XML)
+        run: |
+          New-Item -ItemType Directory ./edge/single, ./edge/empty -Force | Out-Null
+          Copy-Item ./xml/ad_hc_test.mysmartlogon.com_2021-02-25.xml ./edge/single/
+          ./PingCastleDashboard.ps1 -XMLPath ./edge/single -OutputPath ./output/single -DoNotShow
+          if (-not (Test-Path ./output/single/*.html)) { throw 'No dashboard for a single report' }
+          ./PingCastleDashboard.ps1 -XMLPath ./edge/empty -OutputPath ./output/empty -DoNotShow
+          'Edge cases OK'
+      - name: Invalid parameter is refused
+        run: |
+          try { ./PingCastleDashboard.ps1 -XMLPath ./xml -Theme Pink -DoNotShow; throw 'Invalid theme was accepted' }
+          catch { if ($_.Exception.Message -like '*Invalid theme was accepted*') { throw } else { 'Invalid theme refused: OK' } }
+      - name: Parse the 44 hardening checks
+        run: |
+          $bad = 0
+          foreach ($row in Import-Csv ./data/hardening.csv -Delimiter ';' -Encoding UTF8) {
+            $errs = $null
+            [void][System.Management.Automation.Language.Parser]::ParseInput($row.Check, [ref]$null, [ref]$errs)
+            if ($errs) { $bad++; "$($row.RiskId): $($errs[0].Message)" }
+          }
+          if ($bad) { throw "$bad check(s) do not parse" } else { 'All checks parse' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dashboards-${{ matrix.shell }}
+          path: output/
+
+  classic:
+    name: Classic dashboard (PSWriteHTML)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate with -Classic
+        shell: powershell
+        run: |
+          Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope CurrentUser | Out-Null
+          Install-Module PSWriteHTML -Force -Scope CurrentUser -AllowClobber
+          ./PingCastleDashboard.ps1 -XMLPath ./xml -OutputPath ./output -DoNotShow -Classic
+          $f = Get-Item ./output/*.html
+          if ($f.Length -lt 1MB) { throw "Classic dashboard looks too small: $($f.Length) bytes" }
+          "Classic dashboard OK ($([int]($f.Length / 1KB)) KB)"
+
+  ad-commands:
+    name: Hardening checks vs real AD modules
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install RSAT (ActiveDirectory and GroupPolicy modules)
+        shell: powershell
+        run: Install-WindowsFeature RSAT-AD-PowerShell, GPMC | Format-Table -AutoSize | Out-String -Width 200
+      - name: Validate every cmdlet and parameter (Windows PowerShell 5.1)
+        shell: powershell
+        run: ./tests/Test-CheckSyntax.ps1
+      - name: Validate every cmdlet and parameter (PowerShell 7)
+        shell: pwsh
+        run: ./tests/Test-CheckSyntax.ps1
+
+  browser:
+    name: Browser smoke test
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Test the dashboards built by Windows PowerShell 5.1 and PowerShell 7
+        run: |
+          for f in artifacts/dashboards-powershell/en/*.html artifacts/dashboards-pwsh/en/*.html artifacts/dashboards-powershell/single/*.html; do
+            echo "== $f"; python tests/browser-smoke.py "$f"
+          done
+
+  release:
+    name: Publish release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [lint, build, classic, ad-commands, browser]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dashboards-powershell
+          path: samples
+      - name: Build the release package
+        run: |
+          mkdir -p dist/PingCastleDashboard
+          cp -r PingCastleDashboard.ps1 PingCastleGlobalDashboard.ps1 UpdateHCRules.ps1 readme.md data xml tests dist/PingCastleDashboard/
+          (cd dist && zip -qr "PingCastleDashboard-${GITHUB_REF_NAME}.zip" PingCastleDashboard)
+          cp samples/en/*.html "dist/sample-dashboard-en.html"
+          cp samples/fr/*.html "dist/sample-dashboard-fr.html"
+          ls -la dist
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/*.zip dist/*.html \
+            --title "PingCastleDashboard $GITHUB_REF_NAME" \
+            --notes-file .github/RELEASE_NOTES.md
