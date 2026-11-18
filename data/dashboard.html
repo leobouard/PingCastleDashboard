@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="midnight">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+/* ===================== Themes ===================== */
+:root,[data-theme="midnight"]{
+  --bg:#0b1020;--surface:#121a2e;--surface2:#0f1627;--text:#e6ebf5;--text2:#b7c0d4;--muted:#7f8aa3;--border:#1f2a44;--rowline:#1a233a;
+  --accent:#22d3ee;--onaccent:#05222a;--good:#34d399;--bad:#fb7185;--hibg:linear-gradient(135deg,#0e2a3a,#121a2e);--hiborder:#155e75;
+  --hardbg:linear-gradient(180deg,#0f2233,#121a2e);--thbg:#0f1627;--zebra:#10182b;--fixbg:#0e1f2c;--codebg:#070b16;--codefg:#7dd3fc;
+  --lv1:#f43f5e;--lv2:#f97316;--lv3:#facc15;--lv3t:#1a1400;--lv4:#10b981;--lv5:#3b82f6;
+  --c1:#22d3ee;--c2:#a78bfa;--c3:#fbbf24;--c4:#34d399;--grid:#1f2a44;--track:#1f2a44;--empty:#1b2438;--resolved:#5b6580;
+  --s-lowest:#22d3ee;--s-low:#34d399;--s-medium:#facc15;--s-high:#fb923c;--s-highest:#f43f5e;
+  --r:14px;--br:6px;--shadow:0 1px 0 #ffffff08 inset;--font:Inter,"Segoe UI",system-ui,sans-serif;--hfont:var(--font);--numfont:var(--font);
+  --mono:"Cascadia Code",Consolas,"DejaVu Sans Mono",monospace;--ktt:uppercase;--kls:.06em;--tabfg:#9aa5bd;--tabon:#22d3ee1f;--tabonfg:#67e8f9;
+  --header:linear-gradient(90deg,#0b1020,#101b33 60%,#0b2a3a);--headerline:#1f2a44;--brandbg:linear-gradient(135deg,#22d3ee,#6366f1);--h3size:15px;--cardtop:var(--border);
+}
+[data-theme="slate"]{
+  --bg:#f5f6fa;--surface:#ffffff;--surface2:#f8f9fc;--text:#111827;--text2:#374151;--muted:#6b7280;--border:#e5e7eb;--rowline:#f0f1f4;
+  --accent:#4f46e5;--onaccent:#fff;--good:#059669;--bad:#dc2626;--hibg:#eef2ff;--hiborder:#c7d2fe;--hardbg:#fff;--thbg:#f9fafb;--zebra:#fcfcfd;
+  --fixbg:#f5f7ff;--codebg:#0f172a;--codefg:#c7d2fe;--lv1:#dc2626;--lv2:#ea580c;--lv3:#eab308;--lv3t:#3b2f00;--lv4:#16a34a;--lv5:#2563eb;
+  --c1:#4f46e5;--c2:#db2777;--c3:#d97706;--c4:#0891b2;--grid:#eef0f4;--track:#eef0f4;--empty:#eceef2;--resolved:#a3a9b5;
+  --s-lowest:#0891b2;--s-low:#15803d;--s-medium:#b8860b;--s-high:#ea580c;--s-highest:#b91c1c;
+  --r:12px;--br:6px;--shadow:0 1px 2px rgba(16,24,40,.05);--font:"DM Sans",Inter,"Segoe UI",system-ui,sans-serif;--hfont:var(--font);--numfont:var(--font);
+  --ktt:none;--kls:0;--tabfg:#4b5563;--tabon:#fff;--tabonfg:#4f46e5;--header:#fff;--headerline:#e5e7eb;--brandbg:#4f46e5;--h3size:15px;--cardtop:var(--border);
+}
+[data-theme="report"]{
+  --bg:#faf7f0;--surface:#fff;--surface2:#fbf9f4;--text:#1b2a4a;--text2:#3a4663;--muted:#7b8299;--border:#e8e2d4;--rowline:#f0ebe0;
+  --accent:#1b2a4a;--onaccent:#fff;--good:#2f7d4f;--bad:#b4342d;--hibg:#1b2a4a;--hiborder:#1b2a4a;--hardbg:#fff;--thbg:#f6f2e9;--zebra:#fdfcf8;
+  --fixbg:#fbf7ec;--codebg:#1b2a4a;--codefg:#f1dca7;--lv1:#a8322b;--lv2:#c8702a;--lv3:#d4a73a;--lv3t:#2e2200;--lv4:#3d7d5a;--lv5:#3d5f91;
+  --c1:#1b2a4a;--c2:#b08d3c;--c3:#a8322b;--c4:#3d7d5a;--grid:#efe9dc;--track:#efe9dc;--empty:#f1ece1;--resolved:#a9adba;
+  --s-lowest:#3d5f91;--s-low:#3d7d5a;--s-medium:#a07b1e;--s-high:#c8702a;--s-highest:#a8322b;
+  --r:4px;--br:3px;--shadow:none;--font:"Open Sans","Segoe UI",system-ui,sans-serif;--hfont:Lora,Georgia,serif;--numfont:Lora,Georgia,serif;
+  --ktt:uppercase;--kls:.1em;--tabfg:#7b8299;--tabon:transparent;--tabonfg:#1b2a4a;--header:#faf7f0;--headerline:#e8e2d4;--brandbg:#1b2a4a;--h3size:18px;--cardtop:#1b2a4a;
+}
+/* ===================== Base ===================== */
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;-webkit-font-smoothing:antialiased;transition:background .2s}
+h1,h2,h3{font-family:var(--hfont);margin:0}
+h3{font-size:var(--h3size);font-weight:600}
+a{color:var(--accent)}
+.wrap{max-width:__MAXWIDTH__px;margin:0 auto;padding:0 28px}
+header{background:var(--header);border-bottom:1px solid var(--headerline)}
+.top{display:flex;align-items:center;gap:14px;padding:18px 0 14px}
+.brand{display:flex;align-items:center;justify-content:center;background:var(--brandbg);border-radius:10px;padding:8px 12px;min-height:42px;text-decoration:none;color:#fff;font-weight:700}
+.brand img{height:24px;display:block}
+.kicker{font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.top h1{font-size:22px}
+.meta{font-size:12px;color:var(--muted);margin-top:2px}
+.right{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.themes{display:flex;gap:4px;background:var(--surface2);border:1px solid var(--border);padding:4px;border-radius:10px}
+.themes button{font:inherit;font-size:12px;border:0;background:transparent;color:var(--muted);padding:6px 10px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.themes button i{width:12px;height:12px;border-radius:50%;display:inline-block;border:1px solid #0003}
+.themes button.on{background:var(--accent);color:var(--onaccent);font-weight:600}
+.pills{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.pill{font-size:11.5px;color:var(--muted);border:1px solid var(--border);padding:3px 9px;border-radius:99px;white-space:nowrap}
+.pill.good{color:var(--good);border-color:var(--good)}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;padding-bottom:14px}
+.tabs button{font:inherit;font-size:12.5px;padding:7px 13px;border-radius:var(--br);color:var(--tabfg);background:transparent;border:1px solid transparent;cursor:pointer}
+.tabs button.on{background:var(--tabon);color:var(--tabonfg);font-weight:600}
+.tabs button.hz{border:1px dashed var(--accent);color:var(--accent);margin-left:6px}
+[data-theme="slate"] .tabs{background:#f3f4f6;display:inline-flex;padding:4px;border-radius:9px;margin-bottom:14px}
+[data-theme="slate"] .tabs button.on{box-shadow:0 1px 3px rgba(0,0,0,.1)}
+[data-theme="report"] .tabs button.on{border-bottom:2px solid #b08d3c;border-radius:0}
+[data-theme="report"] .top{border-bottom:3px double #1b2a4a;margin-bottom:10px;padding-top:26px}
+[data-theme="report"] .top h1{font-size:30px;font-weight:600}
+[data-theme="report"] .kicker{color:#b08d3c;font-weight:700;letter-spacing:.22em}
+main.wrap{padding-top:22px;padding-bottom:10px}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--surface);border:1px solid var(--border);border-top-color:var(--cardtop);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);margin-bottom:16px;min-width:0}
+[data-theme="report"] .card{border-top-width:3px}
+.c-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap}
+.tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:var(--accent);color:var(--onaccent);padding:2px 6px;border-radius:4px;vertical-align:middle;margin-left:4px}
+[data-theme="report"] .tag{background:#b08d3c;color:#fff}
+.note{color:var(--muted);font-size:13px;margin:-4px 0 12px;line-height:1.5}
+.g{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:repeat(5,1fr)}.g6{grid-template-columns:repeat(6,1fr)}
+.g>.card{margin-bottom:0}.gwrap{margin-bottom:16px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow)}
+.kpi.hi{background:var(--hibg);border-color:var(--hiborder)}
+[data-theme="report"] .kpi.hi,[data-theme="report"] .kpi.hi .k-v{color:#fff}
+[data-theme="report"] .kpi.hi .k-t,[data-theme="report"] .kpi.hi .k-s,[data-theme="report"] .kpi.hi small{color:#c9cfdd}
+[data-theme="report"] .kpi.hi .dn{color:#9ae6b4}[data-theme="report"] .kpi.hi .up{color:#fca5a5}
+.k-t{font-size:12px;color:var(--muted);text-transform:var(--ktt);letter-spacing:var(--kls);font-weight:600}
+.k-v{font-size:32px;font-weight:700;font-family:var(--numfont);margin:6px 0 4px;line-height:1}
+.k-v small{font-size:14px;color:var(--muted);font-weight:500;margin-left:3px}
+.k-s{font-size:12px;color:var(--muted);line-height:1.45}
+.up{color:var(--bad);font-weight:600}.dn{color:var(--good);font-weight:600}.eq{color:var(--muted)}
+.cs{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
+.cs-v{font-size:22px;font-weight:700;font-family:var(--numfont);margin-right:auto}.cs-v small{font-size:12px;color:var(--muted)}.cs-d{font-size:12px}
+.mini{padding:14px 16px}
+.m-h{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:var(--muted);font-weight:600}
+.m-h b{font-size:20px;color:var(--text);font-family:var(--numfont)}.m-h b small{font-size:11px;color:var(--muted)}
+.m-f{font-size:11.5px;color:var(--muted)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
+.lg{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:5px}.lg i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.gauges{display:grid;grid-template-columns:1fr 1fr;gap:22px 10px;justify-items:center;padding-top:6px}
+.gauges.row{grid-template-columns:repeat(4,1fr)}
+.gauge{text-align:center}.g-label{font-weight:600;margin-top:2px}.g-sub{font-size:11.5px;color:var(--muted);max-width:190px;margin:0 auto}
+.lv{display:inline-block;min-width:26px;text-align:center;font-size:11px;font-weight:700;padding:2px 6px;border-radius:var(--br);color:#fff;background:var(--muted)}
+.lv1{background:var(--lv1)}.lv2{background:var(--lv2)}.lv3{background:var(--lv3);color:var(--lv3t)}.lv4{background:var(--lv4)}.lv5{background:var(--lv5)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--mono);font-size:11.5px;border:1px solid var(--border);background:var(--surface2);padding:5px 9px;border-radius:99px;display:flex;align-items:center;gap:6px}
+.chip .lv{min-width:20px;padding:1px 4px;font-size:10px}.chip em{color:var(--muted);font-style:normal;font-size:10.5px}
+/* tables */
+.tbar{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.tbar input{font:inherit;font-size:12.5px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 10px;min-width:220px}
+.tbar button,.btn{font:inherit;font-size:12px;background:transparent;color:var(--accent);border:1px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer}
+.tscroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:9px 10px;border-bottom:1px solid var(--border);background:var(--thbg);cursor:pointer;white-space:nowrap;user-select:none}
+th.s-asc:after{content:" ▲";font-size:9px}th.s-desc:after{content:" ▼";font-size:9px}
+td{padding:8px 10px;border-bottom:1px solid var(--rowline);vertical-align:top}
+tbody tr:nth-child(even) td{background:var(--zebra)}
+td.num{font-weight:700;font-family:var(--numfont);white-space:nowrap}
+td.rid{font-family:var(--mono);font-size:12px;white-space:nowrap;color:var(--accent)}
+td.rat{color:var(--text2);min-width:220px}
+td.fix{color:var(--text2);min-width:260px;font-size:12px;border-left:2px solid var(--accent);background:var(--fixbg)!important}
+td.empty{background:var(--empty)!important}
+tr.resolved td{color:var(--resolved)}tr.resolved td.rid{color:var(--resolved)}
+td.c{text-align:center}
+.sc{font-weight:700}.sc-lowest{color:var(--s-lowest)}.sc-low{color:var(--s-low)}.sc-medium{color:var(--s-medium)}.sc-high{color:var(--s-high)}.sc-highest{color:var(--s-highest)}
+.new{font-size:9.5px;font-weight:800;background:var(--bad);color:#fff;padding:1px 5px;border-radius:3px;margin-left:5px;font-family:var(--font)}
+.nodata{color:var(--muted);font-size:13px;padding:8px 0}
+/* hardening */
+.harden{border:1px solid var(--hiborder);background:var(--hardbg)}
+[data-theme="report"] .harden{border-top:3px solid #b08d3c}
+.hz-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.hz-grid.wide{grid-template-columns:repeat(2,1fr)}
+.hz{background:var(--surface2);border:1px solid var(--border);border-radius:calc(var(--r) - 2px);padding:14px;display:flex;flex-direction:column}
+.hz-h{display:flex;align-items:center;gap:7px;font-size:12.5px;flex-wrap:wrap}
+.hz-h b{font-family:var(--mono);font-size:11.5px;word-break:break-all}
+.hz-p{margin-left:auto;color:var(--good);font-weight:700;font-size:12px;white-space:nowrap}
+.hz-n{width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--onaccent);display:grid;place-items:center;font-size:11px;font-weight:700;flex-shrink:0}
+.hz .why{font-size:12px;color:var(--muted);margin:8px 0 0}
+.hz p{font-size:12.5px;line-height:1.5;margin:8px 0 10px;color:var(--text2)}
+.hz p.miss{color:var(--muted);font-style:italic}
+.code{position:relative}
+.code code{display:block;font-family:var(--mono);font-size:10.5px;background:var(--codebg);color:var(--codefg);padding:8px 9px;padding-right:46px;border-radius:6px;white-space:pre-wrap;word-break:break-all;line-height:1.45}
+.code button{position:absolute;top:5px;right:5px;font:inherit;font-size:10px;background:#ffffff1a;color:var(--codefg);border:0;border-radius:4px;padding:2px 6px;cursor:pointer}
+.hz-l{display:flex;gap:10px;margin-top:auto;padding-top:10px;font-size:11.5px;align-items:center;flex-wrap:wrap}
+.hz-l a{text-decoration:none}
+.hz-l label{color:var(--muted);margin-left:auto;cursor:pointer;display:flex;align-items:center;gap:5px}
+.hz.done{opacity:.55}
+.lvl-h{display:flex;align-items:center;gap:8px;margin:18px 0 10px;font-size:13px;color:var(--muted)}
+/* report tab */
+.info td:first-child{color:var(--muted);width:45%}
+.pclogo{height:32px;margin:6px auto 14px;display:block}
+.center{text-align:center}
+.big{font-size:24px;font-weight:700;font-family:var(--numfont)}
+.arrow{font-size:18px;margin-right:6px}
+details>summary{cursor:pointer;list-style:none}details>summary::-webkit-details-marker{display:none}
+details>summary h3:before{content:"▸ ";color:var(--muted)}details[open]>summary h3:before{content:"▾ "}
+.posh{background:color-mix(in srgb,var(--good) 14%,transparent);padding:8px 12px;border-radius:8px;margin-bottom:10px;font-weight:600}
+.negh{background:color-mix(in srgb,var(--bad) 14%,transparent);padding:8px 12px;border-radius:8px;margin-bottom:10px;font-weight:600}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 0 34px;line-height:1.7}
+@media (max-width:1100px){.g5,.g6{grid-template-columns:repeat(3,1fr)}.hz-grid{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.g2,.g3,.g4,.g5,.g6,.hz-grid,.hz-grid.wide{grid-template-columns:1fr}.top{flex-wrap:wrap}.right{margin-left:0;align-items:flex-start}}
+@media print{.themes,.tbar,.tabs,.code button{display:none!important}body{background:#fff}.card,.kpi,.cs{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script id="pc-data" type="application/json">__DATA__</script>
+<script>
+(function () {
+  'use strict';
+  var D = JSON.parse(document.getElementById('pc-data').textContent);
+  var arr = function (x) { return x == null ? [] : (Array.isArray(x) ? x : [x]); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var store = {
+    get: function (k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { window.localStorage.setItem(k, v); } catch (e) { } }
+  };
+
+  // ---------- normalize data ----------
+  var R = arr(D.reports).map(function (r) {
+    var fix = function (x) { return { Points: +x.Points || 0, Level: (x.Level === null || x.Level === undefined || x.Level === '') ? null : +arr(x.Level)[0], Category: x.Category, Model: x.Model, RiskId: x.RiskId, Rationale: x.Rationale }; };
+    r.RiskRules = arr(r.RiskRules).map(fix);
+    r.IgnoredRiskRules = arr(r.IgnoredRiskRules).map(fix);
+    r.Maturity = +r.Maturity;
+    return r;
+  });
+  var HD = D.hardening || {};
+  var CATS = [
+    { key: 'Anomalies', label: 'Anomalies', score: 'Anomaly', sub: 'Specific security control points', col: 'var(--c1)' },
+    { key: 'PrivilegedAccounts', label: 'Privileged Accounts', score: 'PrivilegiedGroup', sub: 'Administrators of the Active Directory', col: 'var(--c2)' },
+    { key: 'StaleObjects', label: 'Stale Objects', score: 'StaleObjects', sub: 'Operations related to user or computer objects', col: 'var(--c3)' },
+    { key: 'Trusts', label: 'Trusts', score: 'Trust', sub: 'Connections between two Active Directories', col: 'var(--c4)' }
+  ];
+  var LV = [1, 2, 3, 4, 5];
+  var sum = function (a) { return a.reduce(function (s, x) { return s + x; }, 0); };
+  var tot = function (r) { return sum(r.RiskRules.map(function (x) { return x.Points; })); };
+  var catPts = function (r, c) { return sum(r.RiskRules.filter(function (x) { return x.Category === c; }).map(function (x) { return x.Points; })); };
+  var critCount = function (r, l) { return r.RiskRules.filter(function (x) { return x.Level === l; }).length; };
+  var critPts = function (r, l) { return sum(r.RiskRules.filter(function (x) { return x.Level === l; }).map(function (x) { return x.Points; })); };
+  var ids = function (r) { var s = {}; r.RiskRules.forEach(function (x) { s[x.RiskId] = 1; }); return s; };
+  var labels = R.map(function (r) { return r.Label; });
+  var first = R[0], last = R[R.length - 1], prevOfLast = R.length > 1 ? R[R.length - 2] : null;
+
+  // unique rules over all reports (first appearance)
+  var allRules = {}, allOrder = [];
+  R.forEach(function (r) { r.RiskRules.forEach(function (x) { if (!allRules[x.RiskId]) { allRules[x.RiskId] = x; allOrder.push(x.RiskId); } }); });
+  var lastIds = ids(last);
+  var solvedSince = first.RiskRules.filter(function (x) { return !lastIds[x.RiskId]; }).map(function (x) {
+    var seen = R.filter(function (r) { return ids(r)[x.RiskId]; });
+    var o = Object.assign({}, allRules[x.RiskId]); o.LastAppearance = seen[seen.length - 1].Label; return o;
+  });
+
+  // ---------- small render helpers ----------
+  var badge = function (l) { return l ? '<span class="lv lv' + l + '">L' + l + '</span>' : '<span class="lv">–</span>'; };
+  var delta = function (a, b, unit) {
+    unit = unit === undefined ? ' pts' : unit; var d = a - b;
+    if (d < 0) return '<span class="dn">▼ ' + (-d) + unit + '</span>';
+    if (d > 0) return '<span class="up">▲ ' + d + unit + '</span>';
+    return '<span class="eq">= 0</span>';
+  };
+  var arrow = function (cur, prev) {
+    if (prev === null) return '';
+    if (cur > prev) return '<span class="arrow up" title="Increased">↗</span>';
+    if (cur < prev) return '<span class="arrow dn" title="Decreased">↘</span>';
+    return '<span class="arrow eq" title="No change">→</span>';
+  };
+  var uid = 0; var nid = function (p) { uid++; return (p || 'id') + uid; };
+
+  function lineChart(series, o) {
+    o = o || {};
+    var w = o.w || 560, h = o.h || 210, labs = o.labels || labels;
+    var all = []; series.forEach(function (s) { all = all.concat(s.values); });
+    var lo = o.ymin != null ? o.ymin : 0, hi = o.ymax != null ? o.ymax : Math.max.apply(null, all.concat([0]));
+    if (hi <= lo) hi = lo + 1;
+    var pl = o.axis === false ? 6 : 40, pr = 12, pt = 14, pb = o.axis === false ? 8 : 28, W = w - pl - pr, H = h - pt - pb, n = labs.length;
+    var rev = !!o.reverse;
+    var X = function (i) { return n === 1 ? pl + W / 2 : pl + W * i / (n - 1); };
+    var Y = function (v) { var f = (v - lo) / (hi - lo); return rev ? pt + H * f : pt + H - H * f; };
+    var s = '<svg viewBox="0 0 ' + w + ' ' + h + '" width="100%" style="display:block;overflow:visible">';
+    if (o.axis !== false) {
+      for (var k = 0; k <= 4; k++) {
+        var v = lo + (hi - lo) * k / 4, y = Y(v);
+        s += '<line x1="' + pl + '" x2="' + (w - pr) + '" y1="' + y.toFixed(1) + '" y2="' + y.toFixed(1) + '" style="stroke:var(--grid)" />';
+        s += '<text x="' + (pl - 8) + '" y="' + (y + 4).toFixed(1) + '" text-anchor="end" font-size="10.5" style="fill:var(--muted)">' + (hi - lo > 8 ? Math.round(v) : Math.round(v * 10) / 10) + '</text>';
+      }
+      var every = Math.ceil(n / 12);
+      labs.forEach(function (d, i) { if (i % every === 0 || i === n - 1) s += '<text x="' + X(i).toFixed(1) + '" y="' + (h - 8) + '" text-anchor="middle" font-size="10.5" style="fill:var(--muted)">' + esc(d) + '</text>'; });
+    }
+    series.forEach(function (se) {
+      var pts = [];
+      se.values.forEach(function (v, i) {
+        if (o.step && i) pts.push(X(i).toFixed(1) + ',' + Y(se.values[i - 1]).toFixed(1));
+        pts.push(X(i).toFixed(1) + ',' + Y(v).toFixed(1));
+      });
+      if (series.length === 1 && o.area !== false) {
+        var gid = nid('g'), base = rev ? Y(hi) : Y(lo);
+        s += '<defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:' + se.col + ';stop-opacity:.28"/><stop offset="1" style="stop-color:' + se.col + ';stop-opacity:0"/></linearGradient></defs>';
+        s += '<polygon points="' + X(0).toFixed(1) + ',' + base.toFixed(1) + ' ' + pts.join(' ') + ' ' + X(n - 1).toFixed(1) + ',' + base.toFixed(1) + '" fill="url(#' + gid + ')"/>';
+      }
+      s += '<polyline points="' + pts.join(' ') + '" fill="none" style="stroke:' + se.col + '" stroke-width="' + (o.lw || 2.4) + '" stroke-linejoin="round" stroke-linecap="round"/>';
+      if (o.dots !== false) se.values.forEach(function (v, i) {
+        s += '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(v).toFixed(1) + '" r="3.4" style="fill:var(--surface);stroke:' + se.col + '" stroke-width="2"><title>' + esc(labs[i]) + ' · ' + esc(se.name || '') + ': ' + v + '</title></circle>';
+      });
+    });
+    return s + '</svg>';
+  }
+  function legend(items) { return '<div class="legend">' + items.map(function (i) { return '<span class="lg"><i style="background:' + i[1] + '"></i>' + esc(i[0]) + '</span>'; }).join('') + '</div>'; }
+
+  function gauge(v, label, sub) {
+    v = +v || 0; var r = 62, cx = 85, cy = 80, a = Math.PI * (1 - Math.min(Math.max(v, 0), 100) / 100);
+    var col = v >= 75 ? 'var(--lv1)' : v >= 50 ? 'var(--lv2)' : v >= 25 ? 'var(--lv3)' : 'var(--lv4)';
+    var ex = cx + r * Math.cos(a), ey = cy - r * Math.sin(a);
+    return '<div class="gauge"><svg viewBox="0 0 170 100" width="170">' +
+      '<path d="M' + (cx - r) + ',' + cy + ' A' + r + ',' + r + ' 0 0 1 ' + (cx + r) + ',' + cy + '" fill="none" style="stroke:var(--track)" stroke-width="13" stroke-linecap="round"/>' +
+      (v > 0 ? '<path d="M' + (cx - r) + ',' + cy + ' A' + r + ',' + r + ' 0 0 1 ' + ex.toFixed(1) + ',' + ey.toFixed(1) + '" fill="none" style="stroke:' + col + '" stroke-width="13" stroke-linecap="round"/>' : '') +
+      '<text x="' + cx + '" y="' + (cy - 6) + '" text-anchor="middle" font-size="30" font-weight="700" style="fill:var(--text);font-family:var(--numfont)">' + v + '</text>' +
+      '<text x="' + cx + '" y="' + (cy + 14) + '" text-anchor="middle" font-size="10" style="fill:var(--muted)">/ 100</text></svg>' +
+      '<div class="g-label">' + esc(label) + '</div><div class="g-sub">' + esc(sub) + '</div></div>';
+  }
+
+  function donut(parts, size) {
+    size = size || 170; var total = sum(parts.map(function (p) { return p.v; })), r = 60, c = 2 * Math.PI * r, off = 0;
+    var s = '<svg viewBox="0 0 170 170" width="' + size + '" style="display:block;margin:0 auto">';
+    s += '<circle cx="85" cy="85" r="' + r + '" fill="none" style="stroke:var(--track)" stroke-width="22"/>';
+    if (total) parts.forEach(function (p) {
+      if (!p.v) return; var len = c * p.v / total;
+      s += '<circle cx="85" cy="85" r="' + r + '" fill="none" style="stroke:' + p.col + '" stroke-width="22" stroke-dasharray="' + len.toFixed(2) + ' ' + (c - len).toFixed(2) + '" stroke-dashoffset="' + (-off).toFixed(2) + '" transform="rotate(-90 85 85)"><title>' + esc(p.name) + ': ' + p.v + '</title></circle>';
+      off += len;
+    });
+    s += '<text x="85" y="90" text-anchor="middle" font-size="24" font-weight="700" style="fill:var(--text);font-family:var(--numfont)">' + total + '</text></svg>';
+    return s;
+  }
+
+  function bars(items) {
+    var w = 300, h = 190, pl = 34, pb = 26, pt = 12, max = Math.max.apply(null, items.map(function (i) { return i.v; }).concat([1]));
+    var W = w - pl - 10, H = h - pt - pb, bw = Math.min(56, W / items.length * 0.55);
+    var s = '<svg viewBox="0 0 ' + w + ' ' + h + '" width="100%" style="display:block">';
+    for (var k = 0; k <= 4; k++) { var y = pt + H - H * k / 4; s += '<line x1="' + pl + '" x2="' + (w - 10) + '" y1="' + y + '" y2="' + y + '" style="stroke:var(--grid)"/><text x="' + (pl - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="10" style="fill:var(--muted)">' + Math.round(max * k / 4) + '</text>'; }
+    items.forEach(function (it, i) {
+      var cx = pl + W * (i + .5) / items.length, bh = H * it.v / max;
+      s += '<rect x="' + (cx - bw / 2) + '" y="' + (pt + H - bh) + '" width="' + bw + '" height="' + bh + '" rx="4" style="fill:' + it.col + '"><title>' + esc(it.name) + ': ' + it.v + '</title></rect>';
+      s += '<text x="' + cx + '" y="' + (pt + H - bh - 5) + '" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--text)">' + it.v + '</text>';
+      s += '<text x="' + cx + '" y="' + (h - 8) + '" text-anchor="middle" font-size="11" style="fill:var(--muted)">' + esc(it.name) + '</text>';
+    });
+    return s + '</svg>';
+  }
+
+  // ---------- tables (sort, search, csv) ----------
+  var TABLES = {};
+  function table(cols, rows, o) {
+    o = o || {}; var id = nid('t');
+    TABLES[id] = { cols: cols, rows: rows, o: o, sort: o.sort != null ? o.sort : null, dir: 1, q: '' };
+    var bar = o.tools === false ? '' : '<div class="tbar"><input type="search" placeholder="Search…" data-t="' + id + '"><button data-csv="' + id + '">Export CSV</button><span class="pill" id="' + id + '-n"></span></div>';
+    return bar + '<div class="tscroll"><table id="' + id + '"><thead></thead><tbody></tbody></table></div>';
+  }
+  function cellText(c, r) { var v = c.get ? c.get(r) : r[c.key]; return v == null ? '' : v; }
+  function drawTable(id) {
+    var T = TABLES[id], el = document.getElementById(id); if (!el) return;
+    var rows = T.rows.slice();
+    if (T.q) { var q = T.q.toLowerCase(); rows = rows.filter(function (r) { return T.cols.some(function (c) { return String(cellText(c, r)).toLowerCase().indexOf(q) >= 0; }); }); }
+    if (T.sort != null) {
+      var c = T.cols[T.sort];
+      rows.sort(function (a, b) {
+        var x = cellText(c, a), y = cellText(c, b);
+        if (x === '' && y !== '') return 1; if (y === '' && x !== '') return -1;
+        var nx = +x, ny = +y;
+        if (!isNaN(nx) && !isNaN(ny) && x !== '' && y !== '') return (nx - ny) * T.dir;
+        return String(x).localeCompare(String(y)) * T.dir;
+      });
+    }
+    el.tHead.innerHTML = '<tr>' + T.cols.map(function (c, i) { return '<th data-i="' + i + '" class="' + (T.sort === i ? (T.dir > 0 ? 's-asc' : 's-desc') : '') + '">' + c.title + '</th>'; }).join('') + '</tr>';
+    el.tBodies[0].innerHTML = rows.length ? rows.map(function (r) {
+      return '<tr class="' + (T.o.rowClass ? T.o.rowClass(r) : '') + '">' + T.cols.map(function (c) {
+        var v = cellText(c, r);
+        return '<td class="' + (c.cls ? (typeof c.cls === 'function' ? c.cls(v, r) : c.cls) : '') + '">' + (c.html ? c.html(v, r) : esc(v)) + '</td>';
+      }).join('') + '</tr>';
+    }).join('') : '<tr><td colspan="' + T.cols.length + '" class="nodata">No data</td></tr>';
+    var n = document.getElementById(id + '-n'); if (n) n.textContent = rows.length + ' / ' + T.rows.length + ' rows';
+  }
+  function exportCsv(id) {
+    var T = TABLES[id], q = function (v) { return '"' + String(v).replace(/"/g, '""') + '"'; };
+    var lines = [T.cols.map(function (c) { return q(c.title.replace(/<[^>]+>/g, '').trim()); }).join(';')].concat(T.rows.map(function (r) { return T.cols.map(function (c) { return q(cellText(c, r)); }).join(';'); }));
+    var blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv' }), a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = (D.domain + '_' + id + '.csv'); document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  var RULECOLS = function (withFix, extra) {
+    var c = [
+      { title: 'Points', key: 'Points', cls: 'num' },
+      { title: 'Level', key: 'Level', html: function (v) { return badge(v); } },
+      { title: 'Category', key: 'Category' },
+      { title: 'Model', key: 'Model' },
+      { title: 'RiskId', key: 'RiskId', cls: 'rid', html: function (v, r) { return esc(v) + (r._new ? '<span class="new">NEW</span>' : ''); } },
+      { title: 'Rationale', key: 'Rationale', cls: 'rat' }
+    ];
+    if (extra) c = c.concat(extra);
+    if (withFix) c.push({ title: 'How to fix <span class="tag">new</span>', get: function (r) { return (HD[r.RiskId] || {}).Fix || ''; }, cls: 'fix' });
+    return c;
+  };
+
+  // ---------- hardening card ----------
+  var planKey = function (rid) { return 'pcd-plan|' + D.domain + '|' + rid; };
+  function hzCard(x, i, wide) {
+    var h = HD[x.RiskId] || {}, done = store.get(planKey(x.RiskId)) === '1';
+    return '<div class="hz' + (done ? ' done' : '') + '"><div class="hz-h">' + (i ? '<span class="hz-n">' + i + '</span>' : '') + badge(x.Level) + '<b>' + esc(x.RiskId) + '</b><span class="hz-p">−' + x.Points + ' pts</span></div>' +
+      (wide ? '<div class="why">' + esc(x.Category) + ' · ' + esc(x.Model) + ' — ' + esc(x.Rationale) + '</div>' : '') +
+      (h.Fix ? '<p>' + esc(h.Fix) + '</p>' : '<p class="miss">No fix text yet for this rule. Add it to data\\hardening.csv or check the rule docs.</p>') +
+      (h.Check ? '<div class="code"><code>PS&gt; ' + esc(h.Check) + '</code><button data-copy="' + esc(h.Check) + '">Copy</button></div>' : '') +
+      '<div class="hz-l"><a href="https://www.pingcastle.com/PingCastleFiles/ad_hc_rules_list.html#' + encodeURIComponent(x.RiskId) + '" target="_blank" rel="noopener">Rule docs ↗</a>' +
+      '<label><input type="checkbox" data-plan="' + esc(x.RiskId) + '"' + (done ? ' checked' : '') + '> Planned</label></div></div>';
+  }
+  var byPriority = function (rules) { return rules.slice().sort(function (a, b) { return (a.Level || 9) - (b.Level || 9) || b.Points - a.Points; }); };
+
+  // ---------- HOME ----------
+  function home() {
+    var totalS = R.map(tot), matS = R.map(function (r) { return r.Maturity; });
+    var inv = !!D.invert;
+    var prevIds = prevOfLast ? ids(prevOfLast) : {};
+    var newCount = prevOfLast ? last.RiskRules.filter(function (x) { return !prevIds[x.RiskId]; }).length : 0;
+    var h = '';
+    // KPIs
+    h += '<div class="g g5 gwrap">' +
+      '<div class="kpi"><div class="k-t">Global score</div><div class="k-v">' + last.Scores.Global + '<small>/100</small></div><div class="k-s">The worst score out of the four items</div></div>' +
+      '<div class="kpi"><div class="k-t">Domain maturity</div><div class="k-v">' + last.Maturity + '<small>/5</small></div><div class="k-s">' + esc(last.DomainMode) + ' · forest ' + esc(last.ForestMode) + '</div></div>' +
+      '<div class="kpi hi"><div class="k-t">Uncapped total</div><div class="k-v">' + tot(last) + '<small>pts</small></div><div class="k-s">' + (prevOfLast ? delta(tot(last), tot(prevOfLast)) + ' vs previous · ' : '') + delta(tot(last), tot(first)) + ' since first</div></div>' +
+      '<div class="kpi"><div class="k-t">Active risk rules</div><div class="k-v">' + last.RiskRules.length + '</div><div class="k-s">' + newCount + ' new · ' + last.IgnoredRiskRules.length + ' ignored by exceptions</div></div>' +
+      '<div class="kpi"><div class="k-t">Risks solved</div><div class="k-v">' + solvedSince.length + '</div><div class="k-s">since ' + esc(first.Label) + '</div></div></div>';
+    h += '<div class="g g5 gwrap">' + LV.map(function (l) { return '<div class="cs"><div class="cs-v">' + critPts(last, l) + '<small> pts</small></div>' + badge(l) + ' <span class="cs-d">' + (prevOfLast ? delta(critPts(last, l), critPts(prevOfLast, l), '') : '') + '</span></div>'; }).join('') + '</div>';
+    // evolution of global score and criticity
+    h += '<div class="g g2 gwrap"><div class="card"><div class="c-h"><h3>Uncapped total of the four items score</h3><span class="pill">' + R.length + ' reports</span></div>' + lineChart([{ values: totalS, col: 'var(--accent)', name: 'Point(s)' }], { reverse: inv }) + '</div>' +
+      '<div class="card"><div class="c-h"><h3>Criticity level rule matching</h3></div>' + lineChart(LV.map(function (l) { return { values: R.map(function (r) { return critCount(r, l); }), col: 'var(--lv' + l + ')', name: 'Criticity ' + l }; }), { reverse: inv }) + legend(LV.map(function (l) { return ['Criticity ' + l, 'var(--lv' + l + ')']; })) + '</div></div>';
+    // per category + maturity
+    h += '<div class="g g5 gwrap">' + CATS.map(function (c) {
+      var s = R.map(function (r) { return catPts(r, c.key); });
+      return '<div class="card mini"><div class="m-h"><span>' + c.label + '</span><b>' + s[s.length - 1] + '<small> pts</small></b></div>' + lineChart([{ values: s, col: c.col, name: 'Point(s)' }], { w: 240, h: 70, axis: false, dots: false, lw: 2.2, reverse: inv }) + '<div class="m-f">' + (s.length > 1 ? delta(s[s.length - 1], s[s.length - 2]) + ' vs previous' : '&nbsp;') + '</div></div>';
+    }).join('') +
+      '<div class="card mini"><div class="m-h"><span>Domain maturity</span><b>' + last.Maturity + '<small> /5</small></b></div>' + lineChart([{ values: matS, col: 'var(--lv1)', name: 'Maturity' }], { w: 240, h: 70, axis: false, dots: false, step: true, area: false, ymin: 1, ymax: 4, reverse: true, lw: 2.2 }) + '<div class="m-f">Step line · 1 = lowest, top of the chart</div></div></div>';
+    // gauges + remediations chips
+    h += '<div class="g gwrap" style="grid-template-columns:1fr 1.2fr"><div class="card"><div class="c-h"><h3>Scores · ' + esc(last.Label) + '</h3><span class="pill">capped 0 to 100, lower is better</span></div><div class="gauges">' + CATS.map(function (c) { return gauge(last.Scores[c.score], c.label, c.sub); }).join('') + '</div></div>' +
+      '<div class="card"><div class="c-h"><h3>Remediations · all risks solved</h3><span class="pill good">' + solvedSince.length + ' solved</span></div>' +
+      (solvedSince.length ? '<div class="chips">' + byPriority(solvedSince).map(function (x) { return '<span class="chip">' + badge(x.Level) + ' ' + esc(x.RiskId) + ' <em>' + esc(x.LastAppearance) + '</em></span>'; }).join('') + '</div>' : '<div class="nodata">No risk solved yet since the first report.</div>') + '</div></div>';
+    // hardening plan
+    var pick = byPriority(last.RiskRules.filter(function (x) { return x.Level === 1 || x.Level === 2; })).sort(function (a, b) { return b.Points - a.Points; }).slice(0, 4);
+    if (pick.length) {
+      h += '<div class="card harden"><div class="c-h"><h3>🛡️ AD hardening plan <span class="tag">new</span></h3><span class="pill">fix these ' + pick.length + ' first · up to −' + sum(pick.map(function (x) { return x.Points; })) + ' pts</span></div>' +
+        '<p class="note">Critical rules (level 1 and 2) of the last report, sorted by points. Each one has a plain fix and a PowerShell check. The full list is in the Hardening guide tab.</p>' +
+        '<div class="hz-grid">' + pick.map(function (x, i) { return hzCard(x, i + 1); }).join('') + '</div></div>';
+    }
+    // remediations table
+    h += '<div class="card"><div class="c-h"><h3>Remediations · all risks solved (table)</h3></div>' + table(RULECOLS(false, [{ title: 'LastAppearance', key: 'LastAppearance' }]), solvedSince, { sort: 1 }) + '</div>';
+    // score & maturity evolution
+    var scoreRows = R.map(function (r) { return { Date: r.Label, Maturity: r.Maturity, 'Global score': r.Scores.Global, 'Total score': tot(r), Anomalies: catPts(r, 'Anomalies'), 'Privileged Accounts': catPts(r, 'PrivilegedAccounts'), 'Stale Objects': catPts(r, 'StaleObjects'), Trusts: catPts(r, 'Trusts') }; });
+    var scCls = function (v) { v = +v; return v >= 100 ? 'sc sc-highest' : v >= 75 ? 'sc sc-high' : v >= 50 ? 'sc sc-medium' : v >= 25 ? 'sc sc-low' : v > 0 ? 'sc sc-lowest' : ''; };
+    var sCols = [{ title: 'Date', key: 'Date' }, { title: 'Maturity', key: 'Maturity', html: function (v) { return badge(v); } }, { title: 'Global score', key: 'Global score', cls: scCls }, { title: 'Total score', key: 'Total score', cls: 'num' }];
+    ['Anomalies', 'Privileged Accounts', 'Stale Objects', 'Trusts'].forEach(function (k) { sCols.push({ title: k, key: k, cls: scCls }); });
+    h += '<div class="card"><div class="c-h"><h3>Score &amp; maturity evolution (uncapped)</h3></div>' + table(sCols, scoreRows, { sort: 0 }) + '</div>';
+    // risk rules evolution
+    var revDates = R.slice().reverse();
+    var evo = allOrder.map(function (rid) {
+      var b = allRules[rid], o = { Level: b.Level, Category: b.Category, Model: b.Model, RiskId: rid, Rationale: b.Rationale };
+      revDates.forEach(function (r) { var m = r.RiskRules.filter(function (x) { return x.RiskId === rid; })[0]; o['d:' + r.Label] = m ? m.Points : ''; });
+      return o;
+    });
+    var eCols = [{ title: 'Level', key: 'Level', html: function (v) { return badge(v); } }, { title: 'Category', key: 'Category' }, { title: 'Model', key: 'Model' }, { title: 'RiskId', key: 'RiskId', cls: 'rid' }, { title: 'Rationale', key: 'Rationale', cls: 'rat' }]
+      .concat(revDates.map(function (r) { return { title: esc(r.Label), key: 'd:' + r.Label, cls: function (v) { return v === '' ? 'empty c' : 'num c'; } }; }));
+    h += '<div class="card"><div class="c-h"><h3>Risk rules evolution</h3><span class="pill">grey rows are solved in the last report</span></div>' + table(eCols, evo, { sort: 0, rowClass: function (r) { return r['d:' + last.Label] === '' ? 'resolved' : ''; } }) + '</div>';
+    return h;
+  }
+
+  // ---------- one tab per report ----------
+  function reportTab(idx) {
+    var cur = R[idx], prev = idx > 0 ? R[idx - 1] : null, h = '';
+    var prevIds = prev ? ids(prev) : {}, curIds = ids(cur);
+    var solved = prev ? prev.RiskRules.filter(function (x) { return !curIds[x.RiskId]; }).map(function (x) { return allRules[x.RiskId]; }) : [];
+    var newer = prev ? cur.RiskRules.filter(function (x) { return !prevIds[x.RiskId]; }).map(function (x) { return allRules[x.RiskId]; }) : [];
+    // report & domain info
+    var info = [['PingCastle version', cur.Version], ['Generated on', cur.LongDate], ['Report age', cur.AgeDays + ' day(s)'], ['Domain maturity', cur.Maturity], ['Domain mode', cur.DomainMode], ['Forest mode', cur.ForestMode]];
+    h += '<div class="g g3 gwrap"><div class="card"><div class="c-h"><h3>Report information</h3></div><img class="pclogo" src="' + esc(D.pcLogo) + '" alt="PingCastle logo" onerror="this.style.display=\'none\'"><table class="info"><tbody>' + info.map(function (i) { return '<tr><td>' + i[0] + '</td><td><b>' + esc(i[1]) + '</b></td></tr>'; }).join('') + '</tbody></table></div>' +
+      '<div class="card center"><div class="c-h"><h3>Global score</h3></div>' + gauge(cur.Scores.Global, 'Global score', 'The worst score out of the four items') + '</div>' +
+      '<div class="card"><div class="c-h"><h3>Rules per criticity</h3></div>' + donut(LV.map(function (l) { return { v: critCount(cur, l), col: 'var(--lv' + l + ')', name: 'Criticity ' + l }; })) + legend(LV.map(function (l) { return ['Criticity ' + l + ' (' + critCount(cur, l) + ')', 'var(--lv' + l + ')']; })) + '</div></div>';
+    // total + criticity points
+    h += '<div class="g g6 gwrap"><div class="kpi hi center"><div class="k-t">Total score</div><div class="k-v">' + arrow(tot(cur), prev ? tot(prev) : null) + tot(cur) + '<small>pt(s)</small></div></div>' +
+      LV.map(function (l) { return '<div class="kpi center"><div class="k-t">' + badge(l) + ' Criticity ' + l + '</div><div class="k-v">' + arrow(critPts(cur, l), prev ? critPts(prev, l) : null) + critPts(cur, l) + '<small>pt(s)</small></div></div>'; }).join('') + '</div>';
+    // per model
+    var models = {}; cur.RiskRules.forEach(function (x) { var m = models[x.Model] || (models[x.Model] = { Category: x.Category, Model: x.Model, Points: 0, Count: 0 }); m.Points += x.Points; m.Count++; });
+    var perModel = Object.keys(models).map(function (k) { return models[k]; }).filter(function (m) { return m.Points !== 0; }).sort(function (a, b) { return b.Points - a.Points; });
+    var pal = ['var(--lv1)', 'var(--c1)', 'var(--c2)', 'var(--lv3)', 'var(--c3)', 'var(--lv4)', 'var(--lv5)', 'var(--c4)', 'var(--lv2)', 'var(--muted)'];
+    h += '<details class="card"><summary class="c-h"><h3>Scores per model</h3><span class="pill">' + perModel.length + ' models</span></summary><div class="g g2" style="margin-top:12px"><div>' +
+      table([{ title: 'Category', key: 'Category' }, { title: 'Model', key: 'Model' }, { title: 'Points', key: 'Points', cls: 'num' }, { title: 'Count', key: 'Count' }], perModel, { tools: false }) + '</div><div>' +
+      donut(perModel.map(function (m, i) { return { v: m.Points, col: pal[i % pal.length], name: m.Model }; }), 200) + legend(perModel.map(function (m, i) { return [m.Model + ' (' + m.Points + ')', pal[i % pal.length]]; })) + '</div></div></details>';
+    // 4 scores
+    h += '<div class="card"><div class="c-h"><h3>Scores</h3><span class="pill">capped 0 to 100, lower is better</span></div><div class="gauges row">' + CATS.map(function (c) { return gauge(cur.Scores[c.score], c.label, c.sub); }).join('') + '</div></div>';
+    // comparison
+    h += '<div class="card"><div class="c-h"><h3>Comparison with previous reports</h3></div><p class="note">The evolution of the uncapped score in each category. The score may vary from the normal PingCastle score (capped to 100), as some rules can be ignored using the exceptions.csv file. The list of ignored risk rules is available at the bottom of the page.</p><div class="g g4">' +
+      CATS.map(function (c) {
+        var it = [];
+        if (idx > 1) it.push({ name: 'Initial', v: catPts(R[0], c.key), col: 'var(--muted)' });
+        if (idx > 0) it.push({ name: 'Previous', v: catPts(prev, c.key), col: 'color-mix(in srgb,' + c.col + ' 55%,transparent)' });
+        it.push({ name: 'Current', v: catPts(cur, c.key), col: c.col });
+        return '<div><div class="m-h" style="margin-bottom:6px"><span>' + c.label + '</span></div>' + bars(it) + '</div>';
+      }).join('') + '</div></div>';
+    // improvement & deterioration
+    h += '<div class="g g2 gwrap"><div class="card"><div class="posh">✓ Risk rules resolved</div>' + table(RULECOLS(false), solved, { sort: 1, tools: false }) + '</div>' +
+      '<div class="card"><div class="negh">⚠ New risk rules triggered</div>' + table(RULECOLS(true), newer, { sort: 1, tools: false }) + '</div></div>';
+    // all current
+    var rows = cur.RiskRules.map(function (x) { var o = Object.assign({}, x); o._new = prev && !prevIds[x.RiskId]; return o; });
+    h += '<div class="card"><div class="c-h"><h3>All current risk rules</h3><span class="pill">' + rows.length + ' rules</span></div>' + table(RULECOLS(true), rows, { sort: 1 }) + '</div>';
+    if (cur.IgnoredRiskRules.length) h += '<div class="card"><div class="c-h"><h3>Ignored risk rules</h3></div><p class="note">The following rules have been excluded from the calculated scores using the "exceptions.csv" file.</p>' + table(RULECOLS(false), cur.IgnoredRiskRules, { sort: 1, tools: false }) + '</div>';
+    return h;
+  }
+
+  // ---------- hardening guide tab ----------
+  function guide() {
+    var rules = byPriority(last.RiskRules), h = '';
+    var covered = rules.filter(function (x) { return HD[x.RiskId] && HD[x.RiskId].Fix; }).length;
+    h += '<div class="card harden"><div class="c-h"><h3>🛡️ Hardening guide · ' + esc(last.Label) + ' <span class="tag">new</span></h3><span class="pill">' + rules.length + ' rules · ' + covered + ' with a fix text</span></div>' +
+      '<p class="note">All risk rules of the last report, most critical first. Run the PowerShell check, apply the fix, then tick "Planned" to track your work (saved in this browser only). Fix texts come from data\\hardening.csv, so you can edit or translate them.</p>';
+    LV.concat([null]).forEach(function (l) {
+      var g = rules.filter(function (x) { return x.Level === l; }); if (!g.length) return;
+      h += '<div class="lvl-h">' + badge(l) + ' <b style="color:var(--text)">' + (l ? 'Criticity ' + l : 'No criticity level') + '</b> · ' + g.length + ' rule(s) · ' + sum(g.map(function (x) { return x.Points; })) + ' pts</div>';
+      h += '<div class="hz-grid wide">' + g.map(function (x) { return hzCard(x, 0, true); }).join('') + '</div>';
+    });
+    return h + '</div>';
+  }
+
+  // ---------- layout ----------
+  var THEMES = [['midnight', 'Midnight', '#0b1020'], ['slate', 'Slate', '#f5f6fa'], ['report', 'Report', '#faf7f0']];
+  var tabs = [{ id: 'home', name: '⌂ Home', fn: home }].concat(R.map(function (r, i) { return { id: 'r' + i, name: r.Label, fn: function () { return reportTab(i); } }; })).concat([{ id: 'guide', name: '🛡 Hardening guide', fn: guide, cls: 'hz' }]);
+  var logo = D.logo ? '<img src="' + esc(D.logo) + '" alt="' + esc(D.author) + '" onerror="this.replaceWith(document.createTextNode(this.alt))">' : esc(D.author);
+  document.getElementById('app').innerHTML =
+    '<header><div class="wrap"><div class="top">' +
+    '<a class="brand" href="' + esc(D.uri) + '" target="_blank" rel="noopener">' + logo + '</a>' +
+    '<div><div class="kicker">PingCastle dashboard · Active Directory security review</div><h1>' + esc(D.domain) + '</h1>' +
+    '<div class="meta">' + R.length + ' healthcheck(s) · ' + esc(first.Label) + ' → ' + esc(last.Label) + ' · Engine ' + esc(last.Version) + '</div></div>' +
+    '<div class="right"><div class="themes" role="group" aria-label="Theme">' + THEMES.map(function (t) { return '<button data-theme-btn="' + t[0] + '"><i style="background:' + t[2] + '"></i>' + t[1] + '</button>'; }).join('') + '</div>' +
+    '<div class="pills"><span class="pill">' + esc(last.DomainMode) + '</span><span class="pill">Last scan ' + esc(last.Label) + '</span></div></div></div>' +
+    '<nav class="tabs">' + tabs.map(function (t) { return '<button data-tab="' + t.id + '" class="' + (t.cls || '') + '">' + esc(t.name) + '</button>'; }).join('') + '</nav></div></header>' +
+    '<main class="wrap">' + tabs.map(function (t) { return '<section class="pane" id="pane-' + t.id + '"></section>'; }).join('') + '</main>' +
+    '<footer class="wrap">Made with ❤️ by METSYS · Powered by PingCastle<br>Generated on ' + esc(D.generatedAt) + ' by ' + esc(D.author) + '</footer>';
+
+  var built = {};
+  function showTab(id) {
+    var t = tabs.filter(function (x) { return x.id === id; })[0] || tabs[0];
+    if (!built[t.id]) {
+      var before = uid, pane = document.getElementById('pane-' + t.id);
+      pane.innerHTML = t.fn();
+      Object.keys(TABLES).forEach(function (k) { if (+k.slice(1) > before) drawTable(k); });
+      built[t.id] = 1;
+    }
+    document.querySelectorAll('.pane').forEach(function (p) { p.classList.toggle('on', p.id === 'pane-' + t.id); });
+    document.querySelectorAll('[data-tab]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-tab') === t.id); });
+  }
+  function setTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    document.querySelectorAll('[data-theme-btn]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-theme-btn') === t); });
+    store.set('pcd-theme', t);
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-tab]'); if (b) { showTab(b.getAttribute('data-tab')); window.scrollTo(0, 0); return; }
+    var th = e.target.closest('[data-theme-btn]'); if (th) { setTheme(th.getAttribute('data-theme-btn')); return; }
+    var hd = e.target.closest('th[data-i]');
+    if (hd) { var id = hd.closest('table').id, T = TABLES[id], i = +hd.getAttribute('data-i'); T.dir = T.sort === i ? -T.dir : 1; T.sort = i; drawTable(id); return; }
+    var cv = e.target.closest('[data-csv]'); if (cv) { exportCsv(cv.getAttribute('data-csv')); return; }
+    var cp = e.target.closest('[data-copy]');
+    if (cp) { var txt = cp.getAttribute('data-copy'); try { navigator.clipboard.writeText(txt); cp.textContent = 'Copied'; } catch (err) { cp.textContent = 'Select'; } setTimeout(function () { cp.textContent = 'Copy'; }, 1200); }
+  });
+  document.addEventListener('input', function (e) { var id = e.target.getAttribute && e.target.getAttribute('data-t'); if (id) { TABLES[id].q = e.target.value; drawTable(id); } });
+  document.addEventListener('change', function (e) {
+    var rid = e.target.getAttribute && e.target.getAttribute('data-plan');
+    if (rid) {
+      store.set(planKey(rid), e.target.checked ? '1' : '0');
+      document.querySelectorAll('[data-plan="' + rid.replace(/"/g, '\\"') + '"]').forEach(function (c) { c.checked = e.target.checked; c.closest('.hz').classList.toggle('done', e.target.checked); });
+    }
+  });
+
+  var saved = store.get('pcd-theme');
+  setTheme(THEMES.some(function (t) { return t[0] === saved; }) ? saved : (D.theme || 'midnight'));
+  showTab('home');
+})();
+</script>
+</body>
+</html>

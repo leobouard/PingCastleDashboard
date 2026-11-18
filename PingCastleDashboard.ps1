@@ -1,5 +1,4 @@
 ﻿#Requires -Version 5.1
-#Requires -Modules @{ModuleName='PSWriteHTML';ModuleVersion='1.17.0'}
 
 param(
     [System.IO.DirectoryInfo]$XMLPath,
@@ -10,8 +9,17 @@ param(
     [string]$Author = 'METSYS',
     [int]$MaxWidth = 1400,
     [switch]$DoNotShow,
-    [switch]$InvertChartLine
+    [switch]$InvertChartLine,
+    # Default theme of the dashboard. The user can switch it at the top right of the page.
+    [ValidateSet('Midnight', 'Slate', 'Report')]
+    [string]$Theme = 'Midnight',
+    # Use the original PSWriteHTML dashboard instead of the new themed one
+    [switch]$Classic
 )
+
+if ($Classic.IsPresent -and -not (Get-Module -ListAvailable -Name PSWriteHTML | Where-Object { $_.Version -ge [version]'1.17.0' })) {
+    throw 'The -Classic dashboard requires the module PSWriteHTML 1.17.0 or later: Install-Module PSWriteHTML'
+}
 
 function Get-File {
     param (
@@ -133,6 +141,85 @@ $reports | ForEach-Object {
 }
 
 $reports = $reports | Sort-Object Date
+
+# ---------------------------------------------------------------------------
+# New themed dashboard (default). Self contained HTML, no module required.
+# All the values are computed from the same $reports object as the classic one.
+# ---------------------------------------------------------------------------
+if (-not $Classic.IsPresent) {
+
+    $template = [System.IO.File]::ReadAllText((Join-Path $PSScriptRoot 'data/dashboard.html'))
+
+    # Hardening help: RiskId;Fix;Check
+    $hardening = @{}
+    $hardeningFile = Join-Path $PSScriptRoot 'data/hardening.csv'
+    if (Test-Path -Path $hardeningFile) {
+        Import-Csv -Path $hardeningFile -Delimiter ';' -Encoding UTF8 | ForEach-Object {
+            $hardening[$_.RiskId] = [PSCustomObject]@{ Fix = $_.Fix; Check = $_.Check }
+        }
+    }
+
+    function ConvertTo-DashboardRule($rule) {
+        [PSCustomObject]@{
+            Points    = $rule.Points
+            Level     = if ($rule.Level) { [string](@($rule.Level)[0]) } else { $null }
+            Category  = $rule.Category
+            Model     = $rule.Model
+            RiskId    = $rule.RiskId
+            Rationale = $rule.Rationale
+        }
+    }
+
+    $reports.Domain | Sort-Object -Unique | ForEach-Object {
+
+        $domain = $_
+        $domainReports = @($reports | Where-Object { $_.Domain -eq $domain })
+
+        $data = [PSCustomObject]@{
+            domain      = $domain
+            author      = $Author
+            uri         = $URI
+            logo        = $Logo
+            theme       = $Theme.ToLower()
+            invert      = $InvertChartLine.IsPresent
+            generatedAt = Get-Date -Format 'dd/MM/yyyy HH:mm:ss'
+            pcLogo      = 'https://raw.githubusercontent.com/leobouard/PingCastleDashboard/refs/heads/main/data/ping-castle-logo.png'
+            hardening   = $hardening
+            reports     = @($domainReports | ForEach-Object {
+                    [PSCustomObject]@{
+                        Domain           = $_.Domain
+                        Label            = Get-Date $_.Date -Format $DateFormat
+                        Date             = Get-Date $_.Date -Format 'o'
+                        LongDate         = Get-Date $_.Date -Format D
+                        AgeDays          = [int]((New-TimeSpan -Start $_.Date).TotalDays)
+                        Version          = $_.Version
+                        Maturity         = [int]$_.Maturity
+                        DomainMode       = $_.DomainMode
+                        ForestMode       = $_.ForestMode
+                        Scores           = $_.Scores
+                        RiskRules        = @($_.RiskRules | Where-Object { $_ } | ForEach-Object { ConvertTo-DashboardRule $_ })
+                        IgnoredRiskRules = @($_.IgnoredRiskRules | Where-Object { $_ } | ForEach-Object { ConvertTo-DashboardRule $_ })
+                    }
+                })
+        }
+
+        # Escape "</" so the JSON can't close the <script> tag
+        $json = ($data | ConvertTo-Json -Depth 8 -Compress) -replace '</', '<\/'
+        $title = [System.Net.WebUtility]::HtmlEncode("$domain - PingCastle dashboard")
+        $content = $template.Replace('__TITLE__', $title).Replace('__MAXWIDTH__', [string]$MaxWidth).Replace('__DATA__', $json)
+
+        $file = Join-Path $OutputPath.FullName "dashboard_$domain.html"
+        [System.IO.File]::WriteAllText($file, $content, (New-Object System.Text.UTF8Encoding $false))
+        Write-Host "Dashboard created: $file"
+        if (!$DoNotShow.IsPresent) { Start-Process $file }
+    }
+
+    return
+}
+
+# ---------------------------------------------------------------------------
+# Classic PSWriteHTML dashboard (-Classic)
+# ---------------------------------------------------------------------------
 
 # Create one dashboard foreach domain
 $reports.Domain | Sort-Object -Unique | ForEach-Object {
