@@ -1,6 +1,10 @@
 New design of the PingCastle dashboard, with AD hardening help. Same data as the original dashboard: every table and chart value was checked against it.
 
-**What's new**
+**What's new in 2.1.0**
+- Every PingCastle rule (193) now has a fix, a PowerShell check, an effort level and a time estimate, in English and French. No more empty "How to fix" cells
+- The checks now also cover AD CS templates and web enrollment, DNS zones, dSHeuristics, RODC, delegations, SID History and trusts
+
+**Since 2.0.0**
 - 3 themes (Midnight, Slate, Report), switch at the top right
 - English and French, switch at the top left (`-Language EN|FR`)
 - AD hardening plan, a **How to fix** column, and a **Hardening guide** tab with a fix, a PowerShell check and a source link for every rule
@@ -17,4 +21,4 @@ New design of the PingCastle dashboard, with AD hardening help. Same data as the
 - `PingCastleDashboard-<version>.zip`: the scripts, data files, sample XML reports and tests
 - `sample-dashboard-en.html` / `sample-dashboard-fr.html`: the result on the sample reports. Download and open in a browser
 
-Every release is built and tested by the CI pipeline: PSScriptAnalyzer, Windows PowerShell 5.1 and PowerShell 7 builds, the classic PSWriteHTML mode, all checks validated against the real ActiveDirectory and GroupPolicy modules, and a browser test of every tab, theme and language.
+Every release is built and tested by the CI pipeline: PSScriptAnalyzer, Windows PowerShell 5.1 and PowerShell 7 builds, the classic PSWriteHTML mode, all checks validated against the real ActiveDirectory, GroupPolicy and DnsServer modules, and a browser test of every tab, theme and language.

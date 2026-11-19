@@ -11,7 +11,7 @@
 #>
 param([string]$Csv = (Join-Path $PSScriptRoot '..\data\hardening.csv'))
 
-$native = 'auditpol', 'repadmin', 'certutil', 'netdom', 'wbadmin'
+$native = 'auditpol', 'repadmin', 'certutil', 'netdom', 'wbadmin', 'dfsrmig'
 $problems = [System.Collections.Generic.List[string]]::new()
 $rows = Import-Csv -Path $Csv -Delimiter ';' -Encoding UTF8
 

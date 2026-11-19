@@ -36,7 +36,7 @@ $results = foreach ($row in $rows) {
         $errs = @($output | Where-Object { $_ -is [System.Management.Automation.ErrorRecord] })
         $output = @($output | Where-Object { $_ -isnot [System.Management.Automation.ErrorRecord] })
         if ($errs) { $status = 'ERROR'; $message = $errs[0].ToString() }
-        elseif ($LASTEXITCODE -and $row.Check -match '^(auditpol|repadmin|certutil)') { $status = 'ERROR'; $message = "Exit code $LASTEXITCODE" }
+        elseif ($LASTEXITCODE -and $row.Check -match '^(auditpol|repadmin|certutil|dfsrmig)') { $status = 'ERROR'; $message = "Exit code $LASTEXITCODE" }
     }
     catch { $status = 'ERROR'; $message = $_.Exception.Message }
     $watch.Stop()

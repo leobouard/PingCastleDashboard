@@ -73,7 +73,7 @@ jobs:
         run: |
           try { ./PingCastleDashboard.ps1 -XMLPath ./xml -Theme Pink -DoNotShow; throw 'Invalid theme was accepted' }
           catch { if ($_.Exception.Message -like '*Invalid theme was accepted*') { throw } else { 'Invalid theme refused: OK' } }
-      - name: Parse the 44 hardening checks
+      - name: Parse the hardening checks (one per PingCastle rule)
         run: |
           $bad = 0
           foreach ($row in Import-Csv ./data/hardening.csv -Delimiter ';' -Encoding UTF8) {
@@ -82,6 +82,8 @@ jobs:
             if ($errs) { $bad++; "$($row.RiskId): $($errs[0].Message)" }
           }
           if ($bad) { throw "$bad check(s) do not parse" } else { 'All checks parse' }
+          $n = @(Import-Csv ./data/hardening.csv -Delimiter ';' -Encoding UTF8 | Where-Object { $_.Fix -and $_.FixFR -and $_.Check }).Count
+          if ($n -lt 193) { throw "Only $n complete rows in hardening.csv, expected 193" } else { "$n rules have Fix, FixFR and Check" }
       - uses: actions/upload-artifact@v4
         with:
           name: dashboards-${{ matrix.shell }}
@@ -107,9 +109,9 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install RSAT (ActiveDirectory and GroupPolicy modules)
+      - name: Install RSAT (ActiveDirectory, GroupPolicy and DnsServer modules)
         shell: powershell
-        run: Install-WindowsFeature RSAT-AD-PowerShell, GPMC | Format-Table -AutoSize | Out-String -Width 200
+        run: Install-WindowsFeature RSAT-AD-PowerShell, GPMC, RSAT-DNS-Server | Format-Table -AutoSize | Out-String -Width 200
       - name: Validate every cmdlet and parameter (Windows PowerShell 5.1)
         shell: powershell
         run: ./tests/Test-CheckSyntax.ps1
