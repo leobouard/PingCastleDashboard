@@ -1,6 +1,10 @@
 New design of the PingCastle dashboard, with AD hardening help. Same data as the original dashboard: every table and chart value was checked against it.
 
-**What's new in 2.1.0**
+**What's new in 2.1.1**
+- Gauges, donuts and line charts now grow to fill their box, on every screen size and in expanded mode
+- The PingCastle logo is visible again in the Midnight theme
+
+**2.1.0**
 - Every PingCastle rule (193) now has a fix, a PowerShell check, an effort level and a time estimate, in English and French. No more empty "How to fix" cells
 - The checks now also cover AD CS templates and web enrollment, DNS zones, dSHeuristics, RODC, delegations, SID History and trusts
 

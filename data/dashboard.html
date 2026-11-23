@@ -104,7 +104,7 @@ main.wrap{padding-top:22px;padding-bottom:10px}
 .m-f{font-size:11.5px;color:var(--muted)}
 .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
 .lg{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:5px}.lg i{width:10px;height:10px;border-radius:3px;display:inline-block}
-.gauges{display:grid;grid-template-columns:1fr 1fr;gap:22px 10px;justify-items:center;padding-top:6px}
+.gauges{display:grid;grid-template-columns:1fr 1fr;gap:22px 10px;justify-items:stretch;padding-top:6px}
 .gauges.row{grid-template-columns:repeat(4,1fr)}
 .gauge{text-align:center}.g-label{font-weight:600;margin-top:2px}.g-sub{font-size:11.5px;color:var(--muted);max-width:190px;margin:0 auto}
 .lv{display:inline-block;min-width:26px;text-align:center;font-size:11px;font-weight:700;padding:2px 6px;border-radius:var(--br);color:#fff;background:var(--muted)}
@@ -189,6 +189,21 @@ svg .pt:hover{r:5.5;stroke-width:2.5}
 svg .ga{filter:drop-shadow(0 0 var(--glow) color-mix(in srgb,var(--gc) var(--glowa),transparent));stroke-dasharray:1;cursor:pointer}
 .gsvg{width:170px;max-width:100%;overflow:visible}
 svg.donut{display:block;margin:0 auto;max-width:100%;overflow:visible}
+/* charts fill their box: the .fill box grows with the card, the chart takes the biggest size that fits it */
+.fc{display:flex;flex-direction:column}
+.fc>.fill,.fc>.gauge,.fc>.gauges{flex:1 0 auto}
+.gauge{display:flex;flex-direction:column}
+.gauges{grid-auto-rows:1fr}
+.fill{flex:1 0 var(--fb,170px);min-height:var(--fb,170px);container-type:size;display:grid;place-items:center;min-width:0}
+.gauge>.fill{--fb:100px;align-items:end}
+.card:has(>.chart){display:flex;flex-direction:column}.card:has(>.chart)>.chart{flex:1 0 auto}
+.m-h .xwrap{display:flex;align-items:center;gap:6px;flex-shrink:0}.m-h>span:first-child{min-width:0}
+.gauges.row .gauge>.fill{--fb:150px}
+.fill.big{--fb:200px}
+@media (max-width:760px){.fill,.fill.big{--fb:240px}.fc>.gauge>.fill{--fb:150px}}
+.fill>svg.donut{width:170px;width:min(100cqw,100cqh);height:auto;max-width:none}
+.fill>.gsvg{width:170px;width:min(100cqw,calc(100cqh * 1.7));height:auto;max-width:none}
+[data-theme="midnight"] .pclogo{filter:invert(1) hue-rotate(180deg) brightness(1.15)}
 svg .seg{transition:stroke-width .2s;cursor:pointer}
 svg .seg:hover{stroke-width:28}
 svg .barg{cursor:pointer;transition:filter .2s}
@@ -224,17 +239,16 @@ svg .barg:hover{filter:brightness(1.08)}
 .card.max{display:flex;flex-direction:column}
 .card.max>*{flex-shrink:0}
 .card.max>.chart{flex:1 1 0;min-height:160px}
-.card.max>.gauges{flex:1 1 0;align-content:space-evenly}
+.card.max>.gauges{flex:1 1 0}
 .card.max>.g{flex:1 1 0;min-height:0;grid-auto-rows:1fr}
+details.card.max>.g{min-height:calc(94vh - 104px)}
 .card.max>.g>div{display:flex;flex-direction:column;min-height:0}
 .card.max>.g>div>.chart{flex:1 1 0;min-height:120px}
-.card.max .gauges .gsvg{width:min(34vw,calc((94vh - 330px) / 2 * 1.7))}
 .card.max .gauges.row{grid-template-columns:1fr 1fr}
-.card.max>.gauge{flex:1 1 0;display:flex;flex-direction:column;justify-content:center}
-.card.max>.gauge .gsvg{width:min(70vw,calc((94vh - 260px) * 1.7));margin:0 auto}
+.card.max>.gauge,.card.max>.fill,.card.max .gauge>.fill,.card.max .fc>.fill{flex:1 1 0}
+.card.max .fill>svg.donut{width:min(100cqw,100cqh)}
+.card.max .fill>.gsvg{width:min(100cqw,calc(100cqh * 1.7))}
 .card.max .g-label{font-size:17px}.card.max .g-sub{font-size:13px;max-width:none}
-.card.max>svg.donut{width:min(80vw,calc(94vh - 240px))!important;flex:1 1 0}
-.card.max .g2 svg.donut{width:min(40vw,calc(94vh - 300px))!important}
 .card.max .legend{justify-content:center;font-size:13px}
 .card.max .gauges{gap:40px}
 .card.max .xbtn{opacity:1}
@@ -390,24 +404,24 @@ body.has-max{overflow:hidden}
     v = +v || 0; var r = 62, cx = 85, cy = 80, a = Math.PI * (1 - Math.min(Math.max(v, 0), 100) / 100);
     var col = v >= 75 ? 'var(--lv1)' : v >= 50 ? 'var(--lv2)' : v >= 25 ? 'var(--lv3)' : 'var(--lv4)';
     var ex = cx + r * Math.cos(a), ey = cy - r * Math.sin(a);
-    return '<div class="gauge"><svg viewBox="0 0 170 100" class="gsvg">' +
+    return '<div class="gauge"><div class="fill"><svg viewBox="0 0 170 100" class="gsvg">' +
       '<path d="M' + (cx - r) + ',' + cy + ' A' + r + ',' + r + ' 0 0 1 ' + (cx + r) + ',' + cy + '" fill="none" style="stroke:var(--track)" stroke-width="13" stroke-linecap="round"/>' +
       (v > 0 ? '<path class="ga" pathLength="1" d="M' + (cx - r) + ',' + cy + ' A' + r + ',' + r + ' 0 0 1 ' + ex.toFixed(1) + ',' + ey.toFixed(1) + '" fill="none" style="stroke:' + col + ';--gc:' + col + '" stroke-width="13" stroke-linecap="round" data-tip="' + esc(esc(label)) + ': <b>' + v + '</b> / 100"/>' : '') +
       '<text x="' + cx + '" y="' + (cy - 6) + '" text-anchor="middle" font-size="30" font-weight="700" class="cnt" style="fill:var(--text);font-family:var(--numfont)">' + v + '</text>' +
-      '<text x="' + cx + '" y="' + (cy + 14) + '" text-anchor="middle" font-size="10" style="fill:var(--muted)">/ 100</text></svg>' +
+      '<text x="' + cx + '" y="' + (cy + 14) + '" text-anchor="middle" font-size="10" style="fill:var(--muted)">/ 100</text></svg></div>' +
       '<div class="g-label">' + esc(label) + '</div><div class="g-sub">' + esc(sub) + '</div></div>';
   }
 
   function donut(parts, size) {
     size = size || 170; var total = sum(parts.map(function (p) { return p.v; })), r = 60, c = 2 * Math.PI * r, off = 0;
-    var s = '<svg viewBox="0 0 170 170" class="donut" style="width:' + size + 'px">';
+    var s = '<div class="fill' + (size > 170 ? ' big' : '') + '"><svg viewBox="0 0 170 170" class="donut">';
     s += '<circle cx="85" cy="85" r="' + r + '" fill="none" style="stroke:var(--track)" stroke-width="22"/>';
     if (total) parts.forEach(function (p) {
       if (!p.v) return; var len = c * p.v / total;
       s += '<circle cx="85" cy="85" r="' + r + '" fill="none" style="stroke:' + p.col + '" stroke-width="22" stroke-dasharray="' + len.toFixed(2) + ' ' + (c - len).toFixed(2) + '" stroke-dashoffset="' + (-off).toFixed(2) + '" transform="rotate(-90 85 85)" class="seg" style="stroke:' + p.col + ';--gc:' + p.col + '" data-tip="<b>' + esc(esc(p.name)) + '</b><br>' + p.v + ' (' + Math.round(100 * p.v / total) + '%)"></circle>';
       off += len;
     });
-    s += '<text x="85" y="90" text-anchor="middle" font-size="24" font-weight="700" class="cnt" style="fill:var(--text);font-family:var(--numfont)">' + total + '</text></svg>';
+    s += '<text x="85" y="90" text-anchor="middle" font-size="24" font-weight="700" class="cnt" style="fill:var(--text);font-family:var(--numfont)">' + total + '</text></svg></div>';
     return s;
   }
 
@@ -560,7 +574,7 @@ body.has-max{overflow:hidden}
     }).join('') +
       '<div class="card mini"><div class="m-h"><span>' + t('Domain maturity') + '</span><b>' + last.Maturity + '<small> /5</small></b></div>' + lineChart([{ values: matS, col: 'var(--lv1)', name: t('Maturity') }], { w: 240, h: 70, axis: false, dots: false, step: true, area: false, ymin: 1, ymax: 4, reverse: true, lw: 2.2 }) + '<div class="m-f">' + t('Step line · 1 = lowest, top of the chart') + '</div></div></div>';
     // gauges + remediations chips
-    h += '<div class="g gwrap g-gr"><div class="card"><div class="c-h"><h3>' + t('Scores') + ' · ' + esc(last.Label) + '</h3><span class="pill">' + t('capped 0 to 100, lower is better') + '</span></div><div class="gauges">' + CATS.map(function (c) { return gauge(last.Scores[c.score], t(c.label), t(c.sub)); }).join('') + '</div></div>' +
+    h += '<div class="g gwrap g-gr"><div class="card fc"><div class="c-h"><h3>' + t('Scores') + ' · ' + esc(last.Label) + '</h3><span class="pill">' + t('capped 0 to 100, lower is better') + '</span></div><div class="gauges">' + CATS.map(function (c) { return gauge(last.Scores[c.score], t(c.label), t(c.sub)); }).join('') + '</div></div>' +
       '<div class="card"><div class="c-h"><h3>' + t('Remediations · all risks solved') + '</h3><span class="pill good">' + f('{0} solved', solvedSince.length) + '</span></div>' +
       (solvedSince.length ? '<div class="chips">' + byPriority(solvedSince).map(function (x) { return '<span class="chip">' + badge(x.Level) + ' ' + esc(x.RiskId) + ' <em>' + esc(x.LastAppearance) + '</em></span>'; }).join('') + '</div>' : '<div class="nodata">' + t('No risk solved yet since the first report.') + '</div>') + '</div></div>';
     // hardening plan
@@ -601,8 +615,8 @@ body.has-max{overflow:hidden}
     // report & domain info
     var info = [[t('PingCastle version'), cur.Version], [t('Generated on'), cur.LongDate], [t('Report age'), f('{0} day(s)', cur.AgeDays)], [t('Domain maturity'), cur.Maturity], [t('Domain mode'), cur.DomainMode], [t('Forest mode'), cur.ForestMode]];
     h += '<div class="g g3 gwrap"><div class="card"><div class="c-h"><h3>' + t('Report information') + '</h3></div><img class="pclogo" src="' + esc(D.pcLogo) + '" alt="PingCastle logo" onerror="this.style.display=\'none\'"><table class="info"><tbody>' + info.map(function (i) { return '<tr><td>' + i[0] + '</td><td><b>' + esc(i[1]) + '</b></td></tr>'; }).join('') + '</tbody></table></div>' +
-      '<div class="card center"><div class="c-h"><h3>' + t('Global score') + '</h3></div>' + gauge(cur.Scores.Global, t('Global score'), t('The worst score out of the four items')) + '</div>' +
-      '<div class="card"><div class="c-h"><h3>' + t('Rules per criticity') + '</h3></div>' + donut(LV.map(function (l) { return { v: critCount(cur, l), col: 'var(--lv' + l + ')', name: t('Criticity') + ' ' + l }; })) + legend(LV.map(function (l) { return [t('Criticity') + ' ' + l + ' (' + critCount(cur, l) + ')', 'var(--lv' + l + ')']; })) + '</div></div>';
+      '<div class="card center fc"><div class="c-h"><h3>' + t('Global score') + '</h3></div>' + gauge(cur.Scores.Global, t('Global score'), t('The worst score out of the four items')) + '</div>' +
+      '<div class="card fc"><div class="c-h"><h3>' + t('Rules per criticity') + '</h3></div>' + donut(LV.map(function (l) { return { v: critCount(cur, l), col: 'var(--lv' + l + ')', name: t('Criticity') + ' ' + l }; })) + legend(LV.map(function (l) { return [t('Criticity') + ' ' + l + ' (' + critCount(cur, l) + ')', 'var(--lv' + l + ')']; })) + '</div></div>';
     // total + criticity points
     h += '<div class="g g6 gwrap"><div class="kpi hi center"><div class="k-t">' + t('Total score') + '</div><div class="k-v">' + arrow(tot(cur), prev ? tot(prev) : null) + tot(cur) + '<small>pt(s)</small></div></div>' +
       LV.map(function (l) { return '<div class="kpi center"><div class="k-t">' + badge(l) + ' ' + t('Criticity') + ' ' + l + '</div><div class="k-v">' + arrow(critPts(cur, l), prev ? critPts(prev, l) : null) + critPts(cur, l) + '<small>pt(s)</small></div></div>'; }).join('') + '</div>';
@@ -611,10 +625,10 @@ body.has-max{overflow:hidden}
     var perModel = Object.keys(models).map(function (k) { return models[k]; }).filter(function (m) { return m.Points !== 0; }).sort(function (a, b) { return b.Points - a.Points; });
     var pal = ['var(--lv1)', 'var(--c1)', 'var(--c2)', 'var(--lv3)', 'var(--c3)', 'var(--lv4)', 'var(--lv5)', 'var(--c4)', 'var(--lv2)', 'var(--muted)'];
     h += '<details class="card"><summary class="c-h"><h3>' + t('Scores per model') + '</h3><span class="pill">' + f('{0} models', perModel.length) + '</span></summary><div class="g g2" style="margin-top:12px"><div>' +
-      table([{ title: t('Category'), key: 'Category' }, { title: t('Model'), key: 'Model' }, { title: t('Points'), key: 'Points', cls: 'num' }, { title: t('Count'), key: 'Count' }], perModel, { tools: false }) + '</div><div>' +
+      table([{ title: t('Category'), key: 'Category' }, { title: t('Model'), key: 'Model' }, { title: t('Points'), key: 'Points', cls: 'num' }, { title: t('Count'), key: 'Count' }], perModel, { tools: false }) + '</div><div class="fc">' +
       donut(perModel.map(function (m, i) { return { v: m.Points, col: pal[i % pal.length], name: m.Model }; }), 200) + legend(perModel.map(function (m, i) { return [m.Model + ' (' + m.Points + ')', pal[i % pal.length]]; })) + '</div></div></details>';
     // 4 scores
-    h += '<div class="card"><div class="c-h"><h3>' + t('Scores') + '</h3><span class="pill">' + t('capped 0 to 100, lower is better') + '</span></div><div class="gauges row">' + CATS.map(function (c) { return gauge(cur.Scores[c.score], t(c.label), t(c.sub)); }).join('') + '</div></div>';
+    h += '<div class="card fc"><div class="c-h"><h3>' + t('Scores') + '</h3><span class="pill">' + t('capped 0 to 100, lower is better') + '</span></div><div class="gauges row">' + CATS.map(function (c) { return gauge(cur.Scores[c.score], t(c.label), t(c.sub)); }).join('') + '</div></div>';
     // comparison
     h += '<div class="card"><div class="c-h"><h3>' + t('Comparison with previous reports') + '</h3></div><p class="note">' + t('The evolution of the uncapped score in each category. The score may vary from the normal PingCastle score (capped to 100), as some rules can be ignored using the exceptions.csv file. The list of ignored risk rules is available at the bottom of the page.') + '</p><div class="g g4">' +
       CATS.map(function (c) {
@@ -684,20 +698,34 @@ body.has-max{overflow:hidden}
     });
   }
   // redraw line charts at their real pixel size: text stays the same size, the chart grows with its window
+  function drawChart(el, C, W, h, max) {
+    if (C.type === 'bars') { el.innerHTML = barsSvg(C.items, W, h, max ? 13 : 11); return; }
+    var o2 = Object.assign({}, C.o, { w: W, h: h, fs: max ? 12.5 : 10.5 });
+    if (max && C.o.axis === false) { o2.axis = true; o2.dots = true; }
+    el.innerHTML = lineSvg(C.series, o2);
+  }
   function refreshCharts(root) {
+    var grow = [];
     root.querySelectorAll('.chart').forEach(function (el) {
       var C = CHARTS[el.getAttribute('data-chart')], W = Math.floor(el.clientWidth); if (!C || W < 50) return;
       var max = el.closest('.card.max'), h, room = Math.floor(el.clientHeight);
-      if (C.type === 'bars') {
-        h = max && room > 120 ? room : Math.round(Math.min(Math.max(W * 0.6, 170), 240));
-        el.innerHTML = barsSvg(C.items, W, h, max ? 13 : 11); return;
-      }
       if (max && room > 120) h = room;
+      else if (C.type === 'bars') h = Math.round(Math.min(Math.max(W * 0.6, 170), 240));
       else if (C.o.axis === false) h = C.o.h || 70;
       else h = Math.round(Math.min(Math.max(W * 0.37, 190), 300));
-      var o2 = Object.assign({}, C.o, { w: W, h: h, fs: max ? 12.5 : 10.5 });
-      if (max && C.o.axis === false) { o2.axis = true; o2.dots = true; }
-      el.innerHTML = lineSvg(C.series, o2);
+      drawChart(el, C, W, h, max);
+      if (!max) grow.push([el, C, W, h]);
+    });
+    // second pass, once every chart is back to its normal size: a chart in a card taller than its content takes the free space
+    grow.forEach(function (x) { var room = Math.floor(x[0].clientHeight); if (room > x[3] + 6) drawChart(x[0], x[1], x[2], room, false); });
+    fitGauges(root);
+  }
+  // a gauge that is limited by its width keeps its label close: the free space is shared above and below
+  function fitGauges(root) {
+    root.querySelectorAll('.gauge').forEach(function (g) { g.style.paddingBottom = ''; });
+    root.querySelectorAll('.gauge>.fill').forEach(function (fl) {
+      var s = fl.firstElementChild, sh = s && (s.clientHeight || s.getBoundingClientRect().height); if (!sh) return;
+      var left = fl.clientHeight - sh; if (left > 8) fl.parentNode.style.paddingBottom = Math.floor(left / 2) + 'px';
     });
   }
   function animatePane(pane) {
